@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/credits_fragment"
+    android:label="@string/credits"
+    app:startDestination="@id/creditsFragment">
+
+    <fragment
+        android:id="@+id/creditsFragment"
+        android:name="com.example.fintech75.ui.fragments.CreditsFragment"
+        android:label="@string/credits"
+        tools:layout="@layout/fragment_credits" >
+        <action
+            android:id="@+id/action_creditsFragment_to_loginFragment"
+            app:popUpTo="@id/creditsFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_fingerprintRegisterFragment"
+            app:destination="@id/fingerprintRegisterFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_logoutDialogFragment"
+            app:destination="@id/logoutDialogFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_paymentsFragment"
+            app:destination="@id/paymentsFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_creditDetailFragment"
+            app:destination="@id/creditDetailFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_creditsFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/add_fragment"
+        android:name="com.example.fintech75.ui.fragments.AddElementFragment"
+        android:label="@string/add"
+        tools:layout="@layout/fragment_add_element" >
+        <action
+            android:id="@+id/action_add_fragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_add_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movements_fragment"
+        android:name="com.example.fintech75.ui.fragments.MovementOptionsFragment"
+        android:label="@string/movements"
+        tools:layout="@layout/fragment_movement_options" >
+        <action
+            android:id="@+id/action_movements_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_market_fragment"
+        android:name="com.example.fintech75.ui.fragments.ProfileMarketFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile_market" >
+        <action
+            android:id="@+id/action_profile_market_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/markets_fragment"
+        android:name="com.example.fintech75.ui.fragments.MarketsFragment"
+        android:label="@string/markets"
+        tools:layout="@layout/fragment_markets" >
+        <action
+            android:id="@+id/action_markets_fragment_to_marketDetailFragment"
+            app:destination="@id/marketDetailFragment" />
+        <action
+            android:id="@+id/action_markets_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profile_client_fragment"
+        android:name="com.example.fintech75.ui.fragments.ProfileClientFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile_client" >
+        <action
+            android:id="@+id/action_profile_client_fragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.fintech75.ui.fragments.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
+            app:destination="@id/forgotPasswordFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_creditsFragment"
+            app:destination="@id/creditsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.example.fintech75.ui.fragments.SignUpFragment"
+        android:label="fragment_sign_up"
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_fingerprintRegisterFragment"
+            app:destination="@id/fingerprintRegisterFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fingerprintRegisterFragment"
+        android:name="com.example.fintech75.ui.fragments.FingerprintRegisterFragment"
+        android:label="fragment_fingerprint_register"
+        tools:layout="@layout/fragment_fingerprint_register" >
+        <action
+            android:id="@+id/action_fingerprintRegisterFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+        <action
+            android:id="@+id/action_fingerprintRegisterFragment_to_pairedDevicesFragment"
+            app:destination="@id/pairedDevicesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movementFinishedFragment"
+        android:name="com.example.fintech75.ui.fragments.MovementFinishedFragment"
+        android:label="fragment_movement_finished"
+        tools:layout="@layout/fragment_movement_finished" >
+        <action
+            android:id="@+id/action_movementFinishedFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_movementFinishedFragment_to_creditsFragment"
+            app:destination="@id/creditsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordFragment"
+        android:name="com.example.fintech75.ui.fragments.ForgotPasswordFragment"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_forgotPasswordFragment_to_validatePasswordFragment"
+            app:destination="@id/validatePasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/validatePasswordFragment"
+        android:name="com.example.fintech75.ui.fragments.ValidatePasswordFragment"
+        android:label="fragment_validate_password"
+        tools:layout="@layout/fragment_validate_password" >
+        <action
+            android:id="@+id/action_validatePasswordFragment_to_recoverPasswordFragment"
+            app:destination="@id/recoverPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/recoverPasswordFragment"
+        android:name="com.example.fintech75.ui.fragments.RecoverPasswordFragment"
+        android:label="fragment_recover_password"
+        tools:layout="@layout/fragment_recover_password" >
+        <action
+            android:id="@+id/action_recoverPasswordFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/logoutDialogFragment"
+        android:name="com.example.fintech75.ui.fragments.LogoutDialogFragment"
+        android:label="fragment_logout_dialog"
+        tools:layout="@layout/fragment_logout_dialog" />
+    <fragment
+        android:id="@+id/marketDetailFragment"
+        android:name="com.example.fintech75.ui.fragments.MarketDetailFragment"
+        android:label="fragment_market_detail"
+        tools:layout="@layout/fragment_market_detail" />
+    <fragment
+        android:id="@+id/pairedDevicesFragment"
+        android:name="com.example.fintech75.ui.fragments.PairedDevicesFragment"
+        android:label="fragment_paired_devices"
+        tools:layout="@layout/fragment_paired_devices" />
+    <fragment
+        android:id="@+id/paymentsFragment"
+        android:name="com.example.fintech75.ui.fragments.PaymentsFragment"
+        android:label="fragment_payments"
+        tools:layout="@layout/fragment_payments" />
+    <fragment
+        android:id="@+id/creditDetailFragment"
+        android:name="com.example.fintech75.ui.fragments.CreditDetailFragment"
+        android:label="fragment_credit_detail"
+        tools:layout="@layout/fragment_credit_detail" />
+    <dialog
+        android:id="@+id/notificationDialogFragment"
+        android:name="com.example.fintech75.ui.fragments.NotificationDialogFragment"
+        android:label="fragment_notification_dialog"
+        tools:layout="@layout/fragment_notification_dialog" >
+        <argument
+            android:name="title"
+            app:argType="string"
+            android:defaultValue="Notificación" />
+        <argument
+            android:name="msg"
+            app:argType="string"
+            android:defaultValue="Mensaje de notificación" />
+        <argument
+            android:name="bOkAction"
+            app:argType="string"
+            android:defaultValue="ok" />
+        <argument
+            android:name="bOkText"
+            app:argType="string"
+            android:defaultValue="Enterado" />
+        <argument
+            android:name="bOkAvailable"
+            app:argType="boolean"
+            android:defaultValue="true" />
+        <argument
+            android:name="bCancelAction"
+            app:argType="string"
+            android:defaultValue="cancel" />
+        <argument
+            android:name="bCancelText"
+            app:argType="string"
+            android:defaultValue="Cerrar" />
+        <argument
+            android:name="bCancelAvailable"
+            app:argType="boolean"
+            android:defaultValue="true" />
+    </dialog>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fintech75.ui.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+</navigation>

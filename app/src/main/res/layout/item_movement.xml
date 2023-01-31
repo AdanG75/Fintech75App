@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        app:cardCornerRadius="@dimen/small_round_corner"
+        app:cardElevation="@dimen/middle_elevation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_card">
+
+            <TextView
+                android:id="@+id/tv_item_movement_type"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@id/tv_item_movement_amount"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/type_movement"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_item_movement_date"
+                android:layout_width="@dimen/middle_text_width"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_item_movement_type"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/hint_date"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/h2_text">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_item_movement_amount"
+                android:layout_width="@dimen/small_text_width"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/amount_field"
+                android:textAlignment="center"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_item_movement_extra"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_item_movement_type"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:layout_toEndOf="@+id/tv_item_movement_date"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/extra_information_example"
+                android:textAlignment="textEnd"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/h2_text">
+
+            </TextView>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

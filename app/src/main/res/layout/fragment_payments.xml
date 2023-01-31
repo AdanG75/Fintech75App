@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.PaymentsFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_payments_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/payments"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/middle_margin" >
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_without_payments"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_margin="@dimen/small_margin"
+                app:cardCornerRadius="@dimen/small_round_corner"
+                app:cardElevation="@dimen/middle_elevation">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_card"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:lines="1"
+                    android:text="@string/without_payments"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/h1_text"
+                    android:textStyle="bold" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_payments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_payments_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/pb_payments_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_payments_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

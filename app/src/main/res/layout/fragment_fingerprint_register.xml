@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_background"
+    tools:context=".ui.fragments.FingerprintRegisterFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_fingerprint_register_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/fingerprint_registration"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/sv_fingerprint_register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/middle_margin"
+        android:layout_marginBottom="@dimen/middle_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_fingerprint_register_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_fingerprint_register_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/middle_margin"
+                android:elevation="@dimen/middle_elevation"
+                app:cardCornerRadius="@dimen/small_round_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_card"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:text="@string/fingerprints_title"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/highlight_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:text="@string/fingerprint_name"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/et_fingerprint_register_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/height_edit_text"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:autofillHints="name"
+                        android:background="@drawable/shape_edit_text"
+                        android:hint="@string/hint_fingerprint_name"
+                        android:inputType="text"
+                        android:paddingStart="@dimen/middle_padding"
+                        android:paddingEnd="@dimen/middle_padding"
+                        android:selectAllOnFocus="true"
+                        android:textColor="@color/text_color_dark"
+                        android:textColorHint="@color/text_color"
+                        android:textSize="@dimen/edit_text_size" />
+
+                    <Button
+                        android:id="@+id/b_fingerprint_register_connect"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_height_button"
+                        android:layout_marginStart="@dimen/very_big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/very_big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@drawable/shape_secondary_button"
+                        android:drawableStart="@drawable/ic_bluetooth_32"
+                        android:enabled="false"
+                        android:paddingStart="@dimen/middle_padding"
+                        android:paddingEnd="@dimen/middle_padding"
+                        android:text="@string/connect_sensor"
+                        android:textColor="@color/mate_white"
+                        android:textSize="@dimen/h3_text"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_fingerprint_register_capture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/middle_margin"
+                android:elevation="@dimen/middle_elevation"
+                app:cardCornerRadius="@dimen/small_round_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_card"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:text="@string/fingerprint_capture_title"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/highlight_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:text="@string/catch_number"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/b_fingerprint_register_capture"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_height_button"
+                        android:layout_marginStart="@dimen/very_big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/very_big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@drawable/shape_secondary_button"
+                        android:drawableStart="@drawable/ic_fingerprint_32"
+                        android:enabled="false"
+                        android:paddingStart="@dimen/middle_padding"
+                        android:paddingEnd="@dimen/middle_padding"
+                        android:text="@string/capture_fingerprint"
+                        android:textColor="@color/mate_white"
+                        android:textSize="@dimen/h3_text"
+                        android:textStyle="bold"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_fingerprint_register_one"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/middle_height_icon"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/a_number"
+                            android:src="@drawable/ic_one_24"
+                            app:tint="@color/background" />
+
+                        <ImageView
+                            android:id="@+id/iv_fingerprint_register_two"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/middle_height_icon"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/a_number"
+                            android:src="@drawable/ic_two_24"
+                            app:tint="@color/background" />
+
+                        <ImageView
+                            android:id="@+id/iv_fingerprint_register_three"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/middle_height_icon"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/a_number"
+                            android:src="@drawable/ic_three_24"
+                            app:tint="@color/background" />
+
+                        <ImageView
+                            android:id="@+id/iv_fingerprint_register_four"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/middle_height_icon"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/a_number"
+                            android:src="@drawable/ic_four_24"
+                            app:tint="@color/background" />
+
+                        <ImageView
+                            android:id="@+id/iv_fingerprint_register_five"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/middle_height_icon"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_weight="1"
+                            android:contentDescription="@string/a_number"
+                            android:src="@drawable/ic_five_24"
+                            app:tint="@color/background" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/b_fingerprint_register_save"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/very_big_margin"
+                android:layout_marginEnd="@dimen/very_big_margin"
+                android:layout_marginBottom="@dimen/extreme_margin"
+                android:background="@drawable/shape_main_button"
+                android:enabled="false"
+                android:text="@string/save"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/highlight_text"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/rl_fingerprint_register_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/pb_fingerprint_register_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_fingerprint_register_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

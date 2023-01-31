@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.SettingsFragment">
+
+    <RelativeLayout
+        android:id="@+id/rl_settings_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/setting"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/middle_margin"
+        android:layout_marginTop="@dimen/middle_small_margin"
+        android:layout_marginEnd="@dimen/middle_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:elevation="@dimen/middle_elevation"
+        app:cardCornerRadius="@dimen/small_round_corner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_card"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/middle_big_margin"
+                android:layout_marginTop="@dimen/middle_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="@string/session"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/big_highlight_text"
+                android:textStyle="bold" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/s_notifications"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_edit_text"
+                android:layout_marginStart="@dimen/middle_small_margin"
+                android:layout_marginTop="@dimen/middle_big_margin"
+                android:layout_marginEnd="@dimen/middle_small_margin"
+                android:checked="true"
+                android:enabled="true"
+                android:gravity="start"
+                android:text="@string/notifications"
+                android:textColor="@color/text_color"
+                android:textOff="@string/no"
+                android:textOn="@string/yes"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold"
+                android:visibility="visible"/>
+
+
+            <Button
+                android:id="@+id/b_withdraw"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/middle_margin"
+                android:background="@drawable/shape_secondary_button"
+                android:drawableStart="@drawable/ic_logout_48"
+                android:enabled="false"
+                android:paddingStart="@dimen/middle_padding"
+                android:paddingEnd="@dimen/middle_padding"
+                android:text="@string/logout"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

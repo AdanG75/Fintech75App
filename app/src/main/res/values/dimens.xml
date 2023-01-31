@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Margins -->
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="middle_small_margin">8dp</dimen>
+    <dimen name="middle_margin">16dp</dimen>
+    <dimen name="middle_big_margin">24dp</dimen>
+    <dimen name="big_small_margin">32dp</dimen>
+    <dimen name="big_margin">48dp</dimen>
+    <dimen name="very_big_margin">72dp</dimen>
+    <dimen name="extreme_margin">92dp</dimen>
+
+    <!-- Paddings -->
+    <dimen name="small_padding">2dp</dimen>
+    <dimen name="middle_padding">4dp</dimen>
+    <dimen name="big_padding">8dp</dimen>
+
+    <!-- Elevations -->
+    <dimen name="small_elevation">4dp</dimen>
+    <dimen name="middle_elevation">6dp</dimen>
+    <dimen name="big_elevation">8dp</dimen>
+
+    <!-- Radius -->
+    <dimen name="small_round_corner">6dp</dimen>
+
+    <!-- Items Sizes -->
+    <dimen name="height_edit_text">48dp</dimen>
+    <dimen name="big_height_button">72dp</dimen>
+    <dimen name="middle_width_button">196dp</dimen>
+    <dimen name="middle_height_button">64dp</dimen>
+    <dimen name="small_height_button">52dp</dimen>
+    <dimen name="middle_height_icon">36dp</dimen>
+    <dimen name="big_height_icon">48dp</dimen>
+    <dimen name="small_width">2dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="very_big_highlight_text">48sp</dimen>
+    <dimen name="big_highlight_text">36sp</dimen>
+    <dimen name="highlight_text">32sp</dimen>
+    <dimen name="small_highlight_text">28sp</dimen>
+    <dimen name="h1_text">24sp</dimen>
+    <dimen name="h2_text">20sp</dimen>
+    <dimen name="edit_text_size">18sp</dimen>
+    <dimen name="h3_text">16sp</dimen>
+
+    <!-- Text width sizes -->
+    <dimen name="small_text_width">120dp</dimen>
+    <dimen name="middle_small_text_width">150dp</dimen>
+    <dimen name="middle_text_width">180dp</dimen>
+    <dimen name="big_text_width">280dp</dimen>
+
+</resources>

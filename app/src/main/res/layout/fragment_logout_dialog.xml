@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.LogoutDialogFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="@dimen/middle_elevation"
+        app:cardCornerRadius="@dimen/small_round_corner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_card"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:gravity="center"
+                android:text="@string/logout"
+                android:textColor="@color/dark_blue"
+                android:textSize="@dimen/small_highlight_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_dialog_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:gravity="center"
+                android:text="@string/close_session_question"
+                android:textColor="@color/text_color"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/b_dialog_cancel"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_close_button"
+                    android:text="@string/cancel"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/b_dialog_finish"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_ok_button"
+                    android:text="@string/finish"
+                    android:textColor="@color/light_blue"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

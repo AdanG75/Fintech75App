@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/credits_fragment"
+        android:title="@string/credits"
+        android:icon="@drawable/ic_money_24" />
+    <item
+        android:id="@+id/markets_fragment"
+        android:title="@string/markets"
+        android:icon="@drawable/ic_store_24" />
+    <item
+        android:id="@+id/profile_client_fragment"
+        android:title="@string/profile"
+        android:icon="@drawable/ic_person_24" />
+</menu>
