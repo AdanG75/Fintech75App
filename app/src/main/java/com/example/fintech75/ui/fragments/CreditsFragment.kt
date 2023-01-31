@@ -16,6 +16,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fintech75.R
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
+import com.example.fintech75.data.model.BasicResponse
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.data.remote.RetrofitClient
@@ -98,7 +99,6 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
             goToLogin()
         } else {
             Log.d(fragmentName, "Beginning ${user.typeUser}'s session.")
-            userSetup()
         }
     }
 
@@ -165,19 +165,22 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
 
     private fun getStatusStartSetup() {
         startViewModel.getStartSetupState().observe(viewLifecycleOwner) { state ->
-            Log.d(fragmentName, state)
+            Log.d(fragmentName, "Status of system's setup $state")
             when(state) {
                 AppConstants.MESSAGE_STATE_NONE -> startSetup()
-                AppConstants.MESSAGE_STATE_SUCCESS -> Log.d(fragmentName, "Start has finished")
+                AppConstants.MESSAGE_STATE_SUCCESS -> {
+                    Log.d(fragmentName, "Start has finished")
+                    getStatusUserSetup()
+                }
                 AppConstants.MESSAGE_STATE_TRY_AGAIN -> {
-                    Log.d(fragmentName, "Try to charge the server's public keys again")
+                    Log.d(fragmentName, "Try to charge the server's setup again")
                     showTryAgainFetchServerKeyDialog()
                 }
                 AppConstants.MESSAGE_STATE_FAILURE -> {
                     Log.d(fragmentName, "Couldn't fetch server's public key")
                     showTryAgainFetchServerKeyDialog()
                 }
-                AppConstants.MESSAGE_STATE_LOADING -> return@observe
+                AppConstants.MESSAGE_STATE_LOADING -> Log.d(fragmentName, "Loading system's credentials")
                 else -> Log.d(fragmentName, "Unexpected state")
             }
         }
@@ -195,46 +198,57 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                     Log.w(fragmentName, "An unexpected error occurs. Try to fetch the server's public keys again.")
                     showTryAgainFetchServerKeyDialog()
                 }
-                is Resource.Failure -> {
-                    Log.e(fragmentName, "An error occurs when fetching the server's public keys")
-                    showTryAgainFetchServerKeyDialog()
+                is Resource.Failure -> Log.e(fragmentName, "An error occurs when fetching the server's public keys")
+            }
+        }
+    }
+
+    private fun getStatusUserSetup() {
+        userViewModel.getUserSetupStatus().observe(viewLifecycleOwner) { status ->
+            Log.d(fragmentName, "Status of user's setup $status")
+            when(status) {
+                AppConstants.MESSAGE_STATE_NONE -> userSetup()
+                AppConstants.MESSAGE_STATE_SUCCESS -> Log.d(fragmentName, "User's setup has finished")
+                AppConstants.MESSAGE_STATE_TRY_AGAIN -> {
+                    Log.d(fragmentName, "Try to load the user's setup again")
+                    showTryAgainUserSetupDialog()
                 }
+                AppConstants.MESSAGE_STATE_FAILURE -> {
+                    Log.d(fragmentName, "Couldn't set up the user's credentials")
+                    showTryAgainUserSetupDialog()
+                }
+                AppConstants.MESSAGE_STATE_LOADING -> {
+                    Log.d(fragmentName, "Loading user's credentials")
+                    screenLoading.visibility = View.VISIBLE
+                }
+                AppConstants.MESSAGE_STATE_FATAL_FAILURE -> {
+                    Log.d(fragmentName, "Bad credentials")
+                    showInvalidCredentialsDialog()
+                }
+                else -> Log.d(fragmentName, "Unexpected state")
             }
         }
     }
 
     private fun userSetup() {
-        return Unit
+        userViewModel
+            .userSetup(currentUser.token, currentUser.userID, currentUser.typeUser)
+            .observe(viewLifecycleOwner) {result: Resource<*> ->
+                when(result) {
+                    is Resource.Loading -> {
+                        Log.d(fragmentName, "Loading user's setup...")
+                        screenLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Success -> {
+                        Log.d(fragmentName, "User's setup has finished")
+                        val resulOperation = (result.data as BasicResponse).operation
+                        Log.d(fragmentName, resulOperation)
+                    }
+                    is Resource.TryAgain -> Log.w(fragmentName, "An unexpected error occurs. Try to set up the user's credentials again.")
+                    is Resource.Failure -> Log.e(fragmentName, "An error occurs when set up the user's credentials")
+                }
+            }
     }
-
-
-    private fun showNotificationDialog(
-        title: String, message: String, bOkAction: String, bOkText: String, bOkAvailable: Boolean,
-        bCancelAction: String, bCancelText: String, bCancelAvailable: Boolean
-    ) {
-        val action = CreditsFragmentDirections.actionCreditsFragmentToNotificationDialogFragment(
-            title = title,
-            msg = message,
-            bOkAction = bOkAction,
-            bOkText = bOkText,
-            bOkAvailable = bOkAvailable,
-            bCancelAction = bCancelAction,
-            bCancelText = bCancelText,
-            bCancelAvailable = bCancelAvailable
-        )
-        findNavController().navigate(action)
-    }
-
-    private fun showTryAgainFetchServerKeyDialog() = showNotificationDialog(
-        title = "Error",
-        message = "No se pudo cargar las credenciales del sistema",
-        bOkAction = "startSetup",
-        bOkText = getString(R.string.try_again),
-        bOkAvailable = true,
-        bCancelAction = AppConstants.ACTION_CLOSE_APP,
-        bCancelText = getString(R.string.close_app),
-        bCancelAvailable = true
-    )
 
     private fun catchResultFromDialogs() {
         findNavController()
@@ -257,8 +271,22 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                     "logout" -> logout()
                     "startSetup" -> startSetup()
                     "userSetup" -> userSetup()
+                    "finishSession" -> goToLogin()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
+                    else -> return@observe
+                }
+            }
+
+        findNavController()
+            .currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<String>("closed")
+            ?.observe(viewLifecycleOwner) { closed ->
+                when(closed) {
+                    "none" -> return@observe
+                    "close" -> activity?.finish()
+                    "endSession" -> goToLogin()
                     else -> return@observe
                 }
             }
@@ -279,4 +307,56 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
             }
         })
     }
+
+    private fun showNotificationDialog(
+        title: String, message: String, bOkAction: String, bOkText: String, bOkAvailable: Boolean,
+        bCancelAction: String, bCancelText: String, bCancelAvailable: Boolean, closeAction: String = "none"
+    ) {
+        val action = CreditsFragmentDirections.actionCreditsFragmentToNotificationDialogFragment(
+            title = title,
+            msg = message,
+            bOkAction = bOkAction,
+            bOkText = bOkText,
+            bOkAvailable = bOkAvailable,
+            bCancelAction = bCancelAction,
+            bCancelText = bCancelText,
+            bCancelAvailable = bCancelAvailable,
+            closeAction = closeAction
+        )
+        findNavController().navigate(action)
+    }
+
+    private fun showTryAgainFetchServerKeyDialog() = showNotificationDialog(
+        title = "Error",
+        message = "No se pudo cargar las credenciales del sistema",
+        bOkAction = "startSetup",
+        bOkText = getString(R.string.try_again),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_APP,
+        bCancelText = getString(R.string.close_app),
+        bCancelAvailable = true
+    )
+
+    private fun showTryAgainUserSetupDialog() = showNotificationDialog(
+        title = "Error",
+        message = "No se pudo cargar las credenciales del usuario",
+        bOkAction = "userSetup",
+        bOkText = getString(R.string.try_again),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = true
+    )
+
+    private fun showInvalidCredentialsDialog() = showNotificationDialog(
+        title = "Credenciales invalidas",
+        message = "Las credenciales han expirado",
+        bOkAction = "dismiss",
+        bOkText = getString(R.string.try_again),
+        bOkAvailable = false,
+        bCancelAction = "finishSession",
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = true,
+        closeAction = "endSession"
+    )
 }

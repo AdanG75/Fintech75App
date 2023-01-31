@@ -54,10 +54,10 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         emit(Resource.Loading<Unit>())
         try {
             val result = Resource.Success<BasicResponse>(repo.logout(token))
-            _currentUser.value = defaultUser
+
             _userPrivateKey.value = null
             _userPublicKey.value = null
-            _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
+            setDefaultUser()
 
             emit(result)
         } catch (e: HttpException) {
@@ -91,8 +91,48 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         }
     }
 
+    fun userSetup(
+        token: String, idUser: Int, typeUser: String
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+
+        _userSetupStatus.value = AppConstants.MESSAGE_STATE_LOADING
+        emit(Resource.Loading<Unit>())
+
+        try{
+            lateinit var publicKey: PublicKey
+            lateinit var privateKey: PrivateKey
+            val userKeys = RSASecure.generatePublicAndPrivateKey()
+
+            userKeys["privateKey"]?.let {
+                privateKey = it as PrivateKey
+                _userPrivateKey.value = privateKey
+            }
+            userKeys["publicKey"]?.let {
+                publicKey = it as PublicKey
+                _userPublicKey.value = publicKey
+            }
+
+            val result = Resource.Success<BasicResponse>(repo.sendUserPublicKey(token, idUser, publicKey, privateKey))
+            _userSetupStatus.value = AppConstants.MESSAGE_STATE_SUCCESS
+
+            emit(result)
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
+                _userSetupStatus.value = AppConstants.MESSAGE_STATE_FATAL_FAILURE
+                emit(Resource.Failure(e))
+            } else {
+                _userSetupStatus.value = AppConstants.MESSAGE_STATE_TRY_AGAIN
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            _userSetupStatus.value = AppConstants.MESSAGE_STATE_FAILURE
+            emit(Resource.Failure(e))
+        }
+    }
+
     fun setDefaultUser() {
         _currentUser.value = defaultUser
+        _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
     }
 }
 

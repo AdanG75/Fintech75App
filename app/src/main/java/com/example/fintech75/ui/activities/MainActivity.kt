@@ -13,16 +13,12 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.fintech75.R
 import com.example.fintech75.core.GlobalSettings
-import com.example.fintech75.core.Resource
-import com.example.fintech75.data.model.PEMData
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.data.remote.RetrofitClient
 import com.example.fintech75.databinding.ActivityMainBinding
 import com.example.fintech75.presentation.*
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
-import java.security.Key
 
 class MainActivity : AppCompatActivity() {
     private val activityName = this::class.java.toString()
@@ -93,11 +89,6 @@ class MainActivity : AppCompatActivity() {
 
     fun hideBottomNavigation() {
         bottomNavigation.visibility = View.GONE
-    }
-
-    fun showMessage(origin: String, msg: String) {
-        Log.d(origin, msg)
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
     }
 
     override fun onDestroy() {

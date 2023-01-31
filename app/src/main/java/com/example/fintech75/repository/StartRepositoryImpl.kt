@@ -13,6 +13,7 @@ import okhttp3.MediaType
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
+import java.security.PrivateKey
 import java.security.PublicKey
 
 class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): StartRepository {
@@ -71,6 +72,31 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
 
             if(thereIsInternetConnection){
                 remoteDataSource.logout(accessToken)
+            } else {
+                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
+            }
+        }
+
+        return response
+    }
+
+    override suspend fun sendUserPublicKey(
+        accessToken: String,
+        userId: Int,
+        userPublicKey: PublicKey,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response: BasicResponse = withContext(Dispatchers.IO) {
+            val thereIsInternetConnection: Boolean = withContext(Dispatchers.Default){
+                InternetCheck.isNetworkAvailable()
+            }
+
+            if(thereIsInternetConnection){
+                val publicPEMValue = RSASecure.generateRSAPEMFormat(userPublicKey, "public")
+                val publicPEM = PEMData(pem = publicPEMValue)
+
+                remoteDataSource.sendUserPublicKey(accessToken, userId, GlobalSettings.secure, publicPEM, userPrivateKey)
             } else {
                 val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))

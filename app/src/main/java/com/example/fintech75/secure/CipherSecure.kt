@@ -14,7 +14,7 @@ import javax.crypto.SecretKey
 
 class CipherSecure {
     companion object {
-        fun <T> packAndEncryptData(classToEncrypt: T, userPem: String? = null): SecureRequest {
+        fun <T> packAndEncryptData(classToEncrypt: T, userPem: String): SecureRequest {
             val (dataEncrypted, secureEncrypted) = doPackAndEncrypt(classToEncrypt, false, null)
 
             return SecureRequest(data = dataEncrypted, secure = secureEncrypted, publicPem = userPem)
@@ -78,6 +78,19 @@ class CipherSecure {
             privateKey: PrivateKey? = null,
             privatePem: String? = null
         ): T {
+            val secureData = SecureBase(data = data.data, secure = data.secure)
+            return doUnpackAndDecrypt<T>(secureData, privateKey, privatePem)
+        }
+
+        inline fun <reified T> unpackAndDecryptData(
+            data: SecureBase,
+            privateKey: PrivateKey? = null,
+            privatePem: String? = null
+        ): T {
+            return doUnpackAndDecrypt<T>(data, privateKey, privatePem)
+        }
+
+        inline fun <reified T> doUnpackAndDecrypt(data: SecureBase, privateKey: PrivateKey? = null, privatePem: String? = null): T {
             // Load private key
             lateinit var pKey: PrivateKey
             if (privateKey == null) {

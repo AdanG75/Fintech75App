@@ -7,6 +7,7 @@ object AppConstants {
     const val MESSAGE_STATE_LOADING = "LOAD"
     const val MESSAGE_STATE_TRY_AGAIN = "TRY"
     const val MESSAGE_STATE_FAILURE = "FAIL"
+    const val MESSAGE_STATE_FATAL_FAILURE = "FF"
     const val MESSAGE_STATE_SUCCESS = "OK"
 
     const val ACTION_CLOSE_SESSION = "CS"

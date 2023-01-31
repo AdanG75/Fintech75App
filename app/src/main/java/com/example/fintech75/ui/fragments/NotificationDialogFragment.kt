@@ -1,5 +1,6 @@
 package com.example.fintech75.ui.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -43,7 +44,7 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
             }
         } else {
             acceptButton.isEnabled = false
-            acceptButton.visibility = View.GONE
+            acceptButton.visibility = View.INVISIBLE
         }
 
         if (args.bCancelAvailable) {
@@ -56,12 +57,17 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
             }
         } else {
             cancelButton.isEnabled = false
-            cancelButton.visibility = View.GONE
+            cancelButton.visibility = View.INVISIBLE
         }
     }
 
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("closed", args.closeAction)
     }
 }

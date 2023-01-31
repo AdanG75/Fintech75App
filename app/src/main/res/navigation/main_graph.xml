@@ -229,6 +229,10 @@
             android:name="bCancelAvailable"
             app:argType="boolean"
             android:defaultValue="true" />
+        <argument
+            android:name="closeAction"
+            app:argType="string"
+            android:defaultValue="none" />
     </dialog>
     <fragment
         android:id="@+id/settingsFragment"

@@ -3,10 +3,10 @@ package com.example.fintech75.data.remote
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.data.model.BasicResponse
 import com.example.fintech75.data.model.PEMData
+import com.example.fintech75.data.model.SecureBase
 import com.example.fintech75.data.model.TokenBase
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
@@ -28,6 +28,22 @@ interface WebService {
     suspend fun logout(
         @Header("Authorization") auth: String
     ): BasicResponse
+
+    @PUT("/public-key/{id_user}")
+    suspend fun sendUserPublicKey(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false,
+        @Body pemData: PEMData
+    ): BasicResponse
+
+    @PUT("/public-key/{id_user}")
+    suspend fun secureSendUserPublicKey(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true,
+        @Body securePEMData: SecureBase
+    ): SecureBase
 }
 
 object RetrofitClient {
