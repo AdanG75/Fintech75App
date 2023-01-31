@@ -13,5 +13,17 @@ interface StartRepository {
 
     suspend fun logout(accessToken: String): BasicResponse
 
-    suspend fun sendUserPublicKey(accessToken: String, userId: Int, userPublicKey: PublicKey, userPrivateKey: PrivateKey): BasicResponse
+    suspend fun sendUserPublicKey(
+        accessToken: String,
+        userId: Int,
+        userPublicKey: PublicKey,
+        userPrivateKey: PrivateKey
+    ): BasicResponse
+
+    suspend fun haveUserRegisteredFingerprint(
+        accessToken: String,
+        userId: Int,
+        userType: String,
+        userPrivateKey: PrivateKey
+    ): BasicResponse
 }

@@ -112,10 +112,25 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
                 _userPublicKey.value = publicKey
             }
 
-            val result = Resource.Success<BasicResponse>(repo.sendUserPublicKey(token, idUser, publicKey, privateKey))
-            _userSetupStatus.value = AppConstants.MESSAGE_STATE_SUCCESS
+            val result = Resource.Success<Pair<BasicResponse, BasicResponse>>(
+                Pair(
+                    repo.sendUserPublicKey(token, idUser, publicKey, privateKey),
+                    repo.haveUserRegisteredFingerprint(token, idUser, typeUser, privateKey)
+                )
+            )
 
-            emit(result)
+            val (receiveServerPublicKey, userHaveFingerprint) = result.data
+            if (receiveServerPublicKey.successful && userHaveFingerprint.successful) {
+                _userSetupStatus.value = AppConstants.MESSAGE_STATE_SUCCESS
+                emit(result)
+            } else if (!userHaveFingerprint.successful) {
+                _userSetupStatus.value = AppConstants.MESSAGE_STATE_SUCCESS
+                emit(Resource.Success<Boolean>(false))
+            } else {
+                _userSetupStatus.value = AppConstants.MESSAGE_STATE_TRY_AGAIN
+                emit(Resource.TryAgain<Unit>())
+            }
+
         } catch (e: HttpException) {
             if (e.code() == 401 || e.code() == 403) {
                 _userSetupStatus.value = AppConstants.MESSAGE_STATE_FATAL_FAILURE

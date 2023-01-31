@@ -44,6 +44,20 @@ interface WebService {
         @Query("secure") secure: Boolean = true,
         @Body securePEMData: SecureBase
     ): SecureBase
+
+    @GET("/fingerprint/{id_user}/have")
+    suspend fun userHaveFingerprintRegistered(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @GET("/fingerprint/{id_user}/have")
+    suspend fun secureUserHaveFingerprintRegistered(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
 }
 
 object RetrofitClient {

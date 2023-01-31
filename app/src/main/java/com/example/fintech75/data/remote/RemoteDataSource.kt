@@ -30,4 +30,15 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun haveUserRegisteredFingerprint(accessToken: String, userId: Int, secure: Boolean, userPrivateKey: PrivateKey): BasicResponse {
+        val response = if (secure) {
+            val secureResponse = webService.secureUserHaveFingerprintRegistered(accessToken, userId, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.userHaveFingerprintRegistered(accessToken, userId, secure)
+        }
+
+        return response
+    }
 }

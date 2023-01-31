@@ -23,6 +23,8 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
     private lateinit var titleText: TextView
     private lateinit var msgText: TextView
 
+    private var clicked: Boolean = false
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNotificationDialogBinding.bind(view)
@@ -39,6 +41,7 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
             acceptButton.text = args.bOkText
             Log.d(fragmentName, "Action: ${args.bOkAction}")
             acceptButton.setOnClickListener {
+                clicked = true
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("action", args.bOkAction)
                 dismiss()
             }
@@ -52,6 +55,7 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
             cancelButton.text = args.bCancelText
             Log.d(fragmentName, "Action: ${args.bCancelAction}")
             cancelButton.setOnClickListener {
+                clicked = true
                 findNavController().previousBackStackEntry?.savedStateHandle?.set("action", args.bCancelAction)
                 dismiss()
             }
@@ -68,6 +72,11 @@ class NotificationDialogFragment : DialogFragment(R.layout.fragment_notification
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        findNavController().previousBackStackEntry?.savedStateHandle?.set("closed", args.closeAction)
+        val closeAction = if (clicked) {
+            "none"
+        } else {
+            args.closeAction
+        }
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("closed", closeAction)
     }
 }

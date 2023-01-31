@@ -127,6 +127,10 @@
         <action
             android:id="@+id/action_fingerprintRegisterFragment_to_pairedDevicesFragment"
             app:destination="@id/pairedDevicesFragment" />
+        <argument
+            android:name="idClient"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
     </fragment>
     <fragment
         android:id="@+id/movementFinishedFragment"

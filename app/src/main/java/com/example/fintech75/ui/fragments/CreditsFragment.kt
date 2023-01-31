@@ -16,7 +16,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fintech75.R
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
-import com.example.fintech75.data.model.BasicResponse
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.data.remote.RetrofitClient
@@ -241,13 +240,25 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                     }
                     is Resource.Success -> {
                         Log.d(fragmentName, "User's setup has finished")
-                        val resulOperation = (result.data as BasicResponse).operation
-                        Log.d(fragmentName, resulOperation)
+                        if (result.data is Boolean) {
+                            if (!result.data) {
+                                screenLoading.visibility = View.GONE
+                                goToRegisterFingerprint()
+                            } else {
+                                return@observe
+                            }
+                        }
                     }
                     is Resource.TryAgain -> Log.w(fragmentName, "An unexpected error occurs. Try to set up the user's credentials again.")
                     is Resource.Failure -> Log.e(fragmentName, "An error occurs when set up the user's credentials")
                 }
             }
+    }
+
+    private fun goToRegisterFingerprint() {
+        Log.d(fragmentName, "Go to register fingerprint fragment")
+        val action = CreditsFragmentDirections.actionCreditsFragmentToFingerprintRegisterFragment(idClient = currentUser.idType)
+        findNavController().navigate(action)
     }
 
     private fun catchResultFromDialogs() {
