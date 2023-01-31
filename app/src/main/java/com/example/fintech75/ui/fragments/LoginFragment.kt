@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.fintech75.R
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.EditTextResource
+import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.TokenBase
 import com.example.fintech75.data.model.UserCredential
@@ -82,10 +83,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         validateLoginField()
 
         signInButton.setOnClickListener {
+            closeKeyboard()
             login()
         }
 
         signUpButton.setOnClickListener {
+            closeKeyboard()
             val action = LoginFragmentDirections.actionLoginFragmentToSignUpFragment()
             findNavController().navigate(action)
         }
@@ -152,11 +155,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun setForgotTextAction(enable: Boolean = true) {
         if (enable){
             forgotText.setOnClickListener{
+                closeKeyboard()
                 val action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment()
                 findNavController().navigate(action)
             }
         } else {
             forgotText.setOnClickListener {
+                closeKeyboard()
                 return@setOnClickListener
             }
         }
@@ -269,6 +274,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         setButtonDisable(signInButton)
         setButtonDisable(signUpButton)
         setForgotTextAction(enable = false)
+    }
+
+    private fun closeKeyboard() {
+        GlobalSettings.inputMethodManager?.let {
+            it.hideSoftInputFromWindow(binding.root.windowToken, 0)
+        }
     }
 
     private fun doLogin(token: TokenBase) {

@@ -1,6 +1,7 @@
 package com.example.fintech75.presentation
 
 import androidx.lifecycle.*
+import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.BasicResponse
 import com.example.fintech75.data.model.UserCredential
@@ -16,7 +17,7 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
     private val _currentUser = MutableLiveData<UserCredential>()
     private val _userPrivateKey = MutableLiveData<PrivateKey?>()
     private val _userPublicKey = MutableLiveData<PublicKey?>()
-    private val _finishedSetup = MutableLiveData<Boolean>()
+    private val _userSetupStatus = MutableLiveData<String>()
 
     private val defaultUser: UserCredential = UserCredential(
         token = "N/A",
@@ -37,6 +38,14 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         return _currentUser
     }
 
+    fun getUserSetupStatus(): LiveData<String> {
+        if (_userSetupStatus.value == null) {
+            _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
+        }
+
+        return _userSetupStatus
+    }
+
     fun getUserPrivateKey(): LiveData<PrivateKey?> = _userPrivateKey
 
     fun getUserPublicKey(): LiveData<PublicKey?> = _userPublicKey
@@ -48,6 +57,7 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
             _currentUser.value = defaultUser
             _userPrivateKey.value = null
             _userPublicKey.value = null
+            _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
 
             emit(result)
         } catch (e: HttpException) {
