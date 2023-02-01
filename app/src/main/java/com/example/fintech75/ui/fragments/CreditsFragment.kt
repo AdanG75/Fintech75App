@@ -28,6 +28,7 @@ import com.example.fintech75.repository.StartRepositoryImpl
 import com.example.fintech75.ui.activities.MainActivity
 import java.security.PrivateKey
 import java.security.PublicKey
+import kotlin.properties.Delegates
 
 class CreditsFragment : Fragment(R.layout.fragment_credits) {
     private val fragmentName = this::class.java.toString()
@@ -49,6 +50,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
     private lateinit var refreshItem: SwipeRefreshLayout
     private lateinit var withoutCreditsCard: CardView
     private lateinit var rvCredits: RecyclerView
+    private var fragmentDestinationID by Delegates.notNull<Int>()
 
     private lateinit var currentUser: UserCredential
     private var userPrivateKey: PrivateKey? = null
@@ -65,6 +67,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
         refreshItem = binding.srlRefresh
         withoutCreditsCard = binding.cvWithoutCredits
         rvCredits = binding.rvCredits
+        fragmentDestinationID = findNavController().currentDestination?.id ?: 0
 
         creditsFragmentSetup()
     }
@@ -102,11 +105,19 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
     }
 
     private fun goToLogin() {
-        userViewModel.setDefaultUser()
         screenLoading.visibility = View.GONE
-        // Log.d(fragmentName, findNavController().currentDestination?.displayName ?: "None")
-        val action = CreditsFragmentDirections.actionCreditsFragmentToLoginFragment()
-        findNavController().navigate(action)
+        Log.d(fragmentName, "Go to Login...")
+        val currentDestination = findNavController().currentDestination?.id ?: -1
+        Log.d(fragmentName, "Current destination: $currentDestination, credits fragment destination: $fragmentDestinationID")
+
+        if (fragmentDestinationID == 0 || currentDestination == -1) {
+            findNavController().navigate(R.id.loginFragment)
+        } else if (fragmentDestinationID == currentDestination) {
+            val action = CreditsFragmentDirections.actionCreditsFragmentToLoginFragment()
+            findNavController().navigate(action)
+        } else {
+            findNavController().popBackStack(R.id.loginFragment, true)
+        }
     }
 
     private fun logout() {

@@ -57,7 +57,6 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
 
             _userPrivateKey.value = null
             _userPublicKey.value = null
-            setDefaultUser()
 
             emit(result)
         } catch (e: HttpException) {
