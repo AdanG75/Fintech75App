@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.BasicResponse
+import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.repository.StartRepository
 import com.example.fintech75.secure.RSASecure
@@ -141,6 +142,26 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         } catch (e: Exception) {
             _userSetupStatus.value = AppConstants.MESSAGE_STATE_FAILURE
             emit(Resource.Failure(e))
+        }
+    }
+
+    fun fetchCreditsUser(
+        token: String, idUser: Int, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<CreditBase>(repo.fetchCreditsUser(
+                token, idUser, userPrivateKey
+            )))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
+                emit(Resource.Failure(e))
+            } else {
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            emit(Resource.TryAgain<Unit>())
         }
     }
 

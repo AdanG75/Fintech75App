@@ -1,10 +1,7 @@
 package com.example.fintech75.data.remote
 
 import com.example.fintech75.application.AppConstants
-import com.example.fintech75.data.model.BasicResponse
-import com.example.fintech75.data.model.PEMData
-import com.example.fintech75.data.model.SecureBase
-import com.example.fintech75.data.model.TokenBase
+import com.example.fintech75.data.model.*
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -54,6 +51,20 @@ interface WebService {
 
     @GET("/fingerprint/{id_user}/have")
     suspend fun secureUserHaveFingerprintRegistered(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @GET("/credit/user/{id_user}")
+    suspend fun fetchUserCredits(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): CreditBase
+
+    @GET("/credit/user/{id_user}")
+    suspend fun secureFetchUserCredits(
         @Header("Authorization") auth: String,
         @Path("id_user") idUser: Int,
         @Query("secure") secure: Boolean = true

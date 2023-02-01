@@ -3,6 +3,7 @@ package com.example.fintech75.repository
 import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.InternetCheck
 import com.example.fintech75.data.model.BasicResponse
+import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.data.model.PEMData
 import com.example.fintech75.data.model.TokenBase
 import com.example.fintech75.data.remote.RemoteDataSource
@@ -126,6 +127,27 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
 
             if(thereIsInternetConnection){
                 remoteDataSource.haveUserRegisteredFingerprint(accessToken, userId, GlobalSettings.secure, userPrivateKey)
+            } else {
+                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
+            }
+        }
+
+        return response
+    }
+
+    override suspend fun fetchCreditsUser(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): CreditBase {
+        val response: CreditBase = withContext(Dispatchers.IO) {
+            val thereIsInternetConnection: Boolean = withContext(Dispatchers.Default){
+                InternetCheck.isNetworkAvailable()
+            }
+
+            if(thereIsInternetConnection){
+                remoteDataSource.fetchCreditsUser(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
                 val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))

@@ -1,6 +1,7 @@
 package com.example.fintech75.repository
 
 import com.example.fintech75.data.model.BasicResponse
+import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.data.model.PEMData
 import com.example.fintech75.data.model.TokenBase
 import java.security.PrivateKey
@@ -26,4 +27,10 @@ interface StartRepository {
         userType: String,
         userPrivateKey: PrivateKey
     ): BasicResponse
+
+    suspend fun fetchCreditsUser(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): CreditBase
 }

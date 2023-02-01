@@ -1,6 +1,7 @@
 package com.example.fintech75.data.remote
 
 import com.example.fintech75.data.model.BasicResponse
+import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.data.model.PEMData
 import com.example.fintech75.data.model.TokenBase
 import com.example.fintech75.secure.CipherSecure
@@ -37,6 +38,17 @@ class RemoteDataSource(private val webService: WebService) {
             CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
         } else {
             webService.userHaveFingerprintRegistered(accessToken, userId, secure)
+        }
+
+        return response
+    }
+
+    suspend fun fetchCreditsUser(accessToken: String, userId: Int, secure: Boolean, userPrivateKey: PrivateKey): CreditBase {
+        val response = if (secure) {
+            val secureResponse = webService.secureFetchUserCredits(accessToken, userId, secure)
+            CipherSecure.unpackAndDecryptData<CreditBase>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.fetchUserCredits(accessToken, userId, secure)
         }
 
         return response
