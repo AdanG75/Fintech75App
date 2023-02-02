@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.BasicResponse
+import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.data.model.CreditList
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.repository.StartRepository
@@ -19,6 +20,7 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
     private val _userPrivateKey = MutableLiveData<PrivateKey?>()
     private val _userPublicKey = MutableLiveData<PublicKey?>()
     private val _userSetupStatus = MutableLiveData<String>()
+    private val _userGlobalCredit = MutableLiveData<Int?>()
 
     private val defaultUser: UserCredential = UserCredential(
         token = "N/A",
@@ -50,6 +52,8 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
     fun getUserPrivateKey(): LiveData<PrivateKey?> = _userPrivateKey
 
     fun getUserPublicKey(): LiveData<PublicKey?> = _userPublicKey
+
+    fun getUserGlobalCredit(): LiveData<Int?> = _userGlobalCredit
 
     fun logout(token: String) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
         emit(Resource.Loading<Unit>())
@@ -165,8 +169,34 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         }
     }
 
+    fun extractGlobalCreditId(
+        credits: List<CreditBase>, typeUser: String
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            if (typeUser != "client") {
+                _userGlobalCredit.value = null
+            } else {
+                for (credit in credits) {
+                    if (credit.typeCredit == "global") {
+                        _userGlobalCredit.value = credit.idCredit
+                        break
+                    } else {
+                        continue
+                    }
+                }
+            }
+
+            emit(Resource.Success<Boolean>(true))
+        } catch (e: Exception) {
+            emit(Resource.Failure(e))
+        }
+    }
+
     fun setDefaultUser() {
         _currentUser.value = defaultUser
+        _userGlobalCredit.value = null
         _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
     }
 }

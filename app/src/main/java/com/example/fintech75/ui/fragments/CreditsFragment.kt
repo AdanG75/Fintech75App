@@ -167,8 +167,6 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         }
     }
 
-
-
     private fun userPrivateKeyListener() {
         userViewModel.getUserPrivateKey().observe(viewLifecycleOwner) { privateKey ->
             userPrivateKey = privateKey
@@ -302,6 +300,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                                 rvCredits.visibility = View.GONE
                                 withoutCreditsCard.visibility = View.VISIBLE
                             } else {
+                                extractUserGlobalCredit(creditsUser.credits)
                                 rvCredits.visibility = View.VISIBLE
                                 withoutCreditsCard.visibility = View.GONE
                             }
@@ -309,7 +308,6 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                             screenLoading.visibility = View.GONE
                             setStatePaymentButton(true)
                             setStateSettingsButton(true)
-                            // enableButtons
                         }
                         is Resource.TryAgain -> {
                             Log.d(fragmentName, "An error occurs when fetching the user's credits. Please, try again")
@@ -323,6 +321,19 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                 }
         }
 
+    }
+
+    private fun extractUserGlobalCredit(credits: List<CreditBase>) {
+        userViewModel.extractGlobalCreditId(credits, currentUser.typeUser).observe(viewLifecycleOwner) { result ->
+            when(result) {
+                is Resource.Loading -> Log.d(fragmentName, "Extracting user's global credit...")
+                is Resource.Success -> {
+                    val globalCredit : Int? = userViewModel.getUserGlobalCredit().value
+                    Log.d(fragmentName, "Finish user's global credit extraction with ID: $globalCredit")
+                }
+                else -> Log.d(fragmentName, "An error occurs whe extracting user's global credit")
+            }
+        }
     }
 
     private fun goToRegisterFingerprint() {
