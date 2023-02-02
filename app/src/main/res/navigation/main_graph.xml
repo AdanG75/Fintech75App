@@ -195,7 +195,11 @@
         android:id="@+id/creditDetailFragment"
         android:name="com.example.fintech75.ui.fragments.CreditDetailFragment"
         android:label="fragment_credit_detail"
-        tools:layout="@layout/fragment_credit_detail" />
+        tools:layout="@layout/fragment_credit_detail" >
+        <argument
+            android:name="credit"
+            app:argType="com.example.fintech75.data.model.CreditBase" />
+    </fragment>
     <dialog
         android:id="@+id/notificationDialogFragment"
         android:name="com.example.fintech75.ui.fragments.NotificationDialogFragment"

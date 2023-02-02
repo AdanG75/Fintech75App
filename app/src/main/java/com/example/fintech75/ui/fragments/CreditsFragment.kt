@@ -15,7 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.fintech75.R
 import com.example.fintech75.application.AppConstants
+import com.example.fintech75.application.ItemClickListener
 import com.example.fintech75.core.Resource
+import com.example.fintech75.data.model.CreditBase
+import com.example.fintech75.data.model.CreditList
+import com.example.fintech75.data.model.MarketFull
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.data.remote.RetrofitClient
@@ -26,11 +30,12 @@ import com.example.fintech75.presentation.UserViewModel
 import com.example.fintech75.presentation.UserViewModelFactory
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.example.fintech75.ui.activities.MainActivity
+import com.example.fintech75.ui.adapters.CreditAdapter
 import java.security.PrivateKey
 import java.security.PublicKey
 import kotlin.properties.Delegates
 
-class CreditsFragment : Fragment(R.layout.fragment_credits) {
+class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
     private val fragmentName = this::class.java.toString()
     private val userViewModel: UserViewModel by activityViewModels {
         UserViewModelFactory( StartRepositoryImpl(
@@ -75,7 +80,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
     private fun creditsFragmentSetup() {
         currentUserListener()
 
-        (activity as MainActivity).showBottomNavigation()
+        (activity as MainActivity).hideBottomNavigation()
         getStatusStartSetup()
         catchResultFromDialogs()
         backPressedListener()
@@ -218,7 +223,11 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
             Log.d(fragmentName, "Status of user's setup $status")
             when(status) {
                 AppConstants.MESSAGE_STATE_NONE -> userSetup()
-                AppConstants.MESSAGE_STATE_SUCCESS -> Log.d(fragmentName, "User's setup has finished")
+                AppConstants.MESSAGE_STATE_SUCCESS -> {
+                    Log.d(fragmentName, "User's setup has finished")
+                    (activity as MainActivity).showBottomNavigation()
+                    getCreditsUser()
+                }
                 AppConstants.MESSAGE_STATE_TRY_AGAIN -> {
                     Log.d(fragmentName, "Try to load the user's setup again")
                     showTryAgainUserSetupDialog()
@@ -255,8 +264,6 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                             if (!result.data) {
                                 screenLoading.visibility = View.GONE
                                 goToRegisterFingerprint()
-                            } else {
-                                return@observe
                             }
                         }
                     }
@@ -264,6 +271,47 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                     is Resource.Failure -> Log.e(fragmentName, "An error occurs when set up the user's credentials")
                 }
             }
+    }
+
+    private fun getCreditsUser() {
+        userPrivateKey?.let { privateKey ->
+            userViewModel
+                .fetchCreditsUser(currentUser.token, currentUser.userID, privateKey)
+                .observe(viewLifecycleOwner) { result: Resource<*> ->
+                    Log.d(fragmentName, "Credit status: ${result.javaClass.name}")
+                    when(result) {
+                        is Resource.Loading -> {
+                            screenLoading.visibility = View.VISIBLE
+                            Log.d(fragmentName, "Loading user's credits...")
+                        }
+                        is Resource.Success -> {
+                            Log.d(fragmentName, "Successfully obtaining user's credits")
+                            val creditsUser: CreditList = result.data as CreditList
+                            rvCredits.adapter = CreditAdapter(creditsUser.credits, this)
+
+                            if (creditsUser.credits.isEmpty()) {
+                                rvCredits.visibility = View.GONE
+                                withoutCreditsCard.visibility = View.VISIBLE
+                            } else {
+                                rvCredits.visibility = View.VISIBLE
+                                withoutCreditsCard.visibility = View.GONE
+                            }
+                            screenLoading.visibility = View.GONE
+                            // enableButtons
+                        }
+                        is Resource.TryAgain -> {
+                            Log.d(fragmentName, "An error occurs when fetching the user's credits. Please, try again")
+                            showTryAgainFetchUserCreditsDialog()
+                        }
+                        is Resource.Failure -> {
+                            Log.d(fragmentName, "Bad credentials")
+                            showInvalidCredentialsDialog()
+                        }
+                    }
+
+                }
+        }
+
     }
 
     private fun goToRegisterFingerprint() {
@@ -294,6 +342,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
                     "startSetup" -> startSetup()
                     "userSetup" -> userSetup()
                     "finishSession" -> goToLogin()
+                    "userCredits" -> getCreditsUser()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
                     else -> return@observe
@@ -370,6 +419,17 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
         bCancelAvailable = true
     )
 
+    private fun showTryAgainFetchUserCreditsDialog() = showNotificationDialog(
+        title = "Créditos no cargados",
+        message = "No se pudo cargar los créditos del usuario",
+        bOkAction = "userCredits",
+        bOkText = getString(R.string.try_again),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = true
+    )
+
     private fun showInvalidCredentialsDialog() = showNotificationDialog(
         title = "Credenciales invalidas",
         message = "Las credenciales han expirado",
@@ -381,4 +441,14 @@ class CreditsFragment : Fragment(R.layout.fragment_credits) {
         bCancelAvailable = true,
         closeAction = "endSession"
     )
+
+    override fun onCreditClick(credit: CreditBase) {
+        Log.d(fragmentName, "Go to credit details")
+        val action = CreditsFragmentDirections.actionCreditsFragmentToCreditDetailFragment(credit)
+        findNavController().navigate(action)
+    }
+
+    override fun onMarketClick(market: MarketFull) {
+        return Unit
+    }
 }

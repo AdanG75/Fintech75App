@@ -2,10 +2,7 @@ package com.example.fintech75.repository
 
 import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.InternetCheck
-import com.example.fintech75.data.model.BasicResponse
-import com.example.fintech75.data.model.CreditBase
-import com.example.fintech75.data.model.PEMData
-import com.example.fintech75.data.model.TokenBase
+import com.example.fintech75.data.model.*
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.secure.RSASecure
 import kotlinx.coroutines.Dispatchers
@@ -140,8 +137,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
         accessToken: String,
         userId: Int,
         userPrivateKey: PrivateKey
-    ): CreditBase {
-        val response: CreditBase = withContext(Dispatchers.IO) {
+    ): CreditList {
+        val response: CreditList = withContext(Dispatchers.IO) {
             val thereIsInternetConnection: Boolean = withContext(Dispatchers.Default){
                 InternetCheck.isNetworkAvailable()
             }

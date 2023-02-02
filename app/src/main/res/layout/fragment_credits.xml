@@ -116,7 +116,7 @@
         android:alpha="0.9"
         android:background="@drawable/shape_backgroud_progress_bar"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/pb_credits_bar"

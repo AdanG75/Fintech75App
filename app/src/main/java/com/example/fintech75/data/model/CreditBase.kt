@@ -1,7 +1,10 @@
 package com.example.fintech75.data.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class CreditBase(
     @SerializedName("id_client")
     val idClient: String,
@@ -22,7 +25,7 @@ data class CreditBase(
     val inProcess: Boolean,
     @SerializedName("created_time")
     val createdTime: String
-)
+): Parcelable
 
 
 data class CreditList(

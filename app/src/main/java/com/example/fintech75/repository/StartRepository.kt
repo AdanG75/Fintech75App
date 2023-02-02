@@ -1,9 +1,6 @@
 package com.example.fintech75.repository
 
-import com.example.fintech75.data.model.BasicResponse
-import com.example.fintech75.data.model.CreditBase
-import com.example.fintech75.data.model.PEMData
-import com.example.fintech75.data.model.TokenBase
+import com.example.fintech75.data.model.*
 import java.security.PrivateKey
 import java.security.PublicKey
 
@@ -32,5 +29,5 @@ interface StartRepository {
         accessToken: String,
         userId: Int,
         userPrivateKey: PrivateKey
-    ): CreditBase
+    ): CreditList
 }

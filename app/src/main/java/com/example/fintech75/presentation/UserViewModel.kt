@@ -4,7 +4,7 @@ import androidx.lifecycle.*
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.BasicResponse
-import com.example.fintech75.data.model.CreditBase
+import com.example.fintech75.data.model.CreditList
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.repository.StartRepository
 import com.example.fintech75.secure.RSASecure
@@ -151,7 +151,7 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         emit(Resource.Loading<Unit>())
 
         try {
-            emit(Resource.Success<CreditBase>(repo.fetchCreditsUser(
+            emit(Resource.Success<CreditList>(repo.fetchCreditsUser(
                 token, idUser, userPrivateKey
             )))
         } catch (e: HttpException) {

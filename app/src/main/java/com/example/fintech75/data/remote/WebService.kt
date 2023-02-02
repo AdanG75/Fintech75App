@@ -61,7 +61,7 @@ interface WebService {
         @Header("Authorization") auth: String,
         @Path("id_user") idUser: Int,
         @Query("secure") secure: Boolean = false
-    ): CreditBase
+    ): CreditList
 
     @GET("/credit/user/{id_user}")
     suspend fun secureFetchUserCredits(
