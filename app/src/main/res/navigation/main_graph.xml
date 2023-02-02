@@ -85,6 +85,9 @@
         <action
             android:id="@+id/action_profile_client_fragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profile_client_fragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

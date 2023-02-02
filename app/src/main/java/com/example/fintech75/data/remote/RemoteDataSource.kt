@@ -50,4 +50,26 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun fetchClientProfile(accessToken: String, userId: Int, secure: Boolean, userPrivateKey: PrivateKey): ClientProfile {
+        val response = if (secure) {
+            val secureResponse = webService.secureFetchClientProfile(accessToken, userId, secure)
+            CipherSecure.unpackAndDecryptData<ClientProfile>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.fetchClientProfile(accessToken, userId, secure)
+        }
+
+        return response
+    }
+
+    suspend fun fetchMarketProfile(accessToken: String, userId: Int, secure: Boolean, userPrivateKey: PrivateKey): MarketProfile {
+        val response = if (secure) {
+            val secureResponse = webService.secureFetchMarketProfile(accessToken, userId, secure)
+            CipherSecure.unpackAndDecryptData<MarketProfile>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.fetchMarketProfile(accessToken, userId, secure)
+        }
+
+        return response
+    }
 }

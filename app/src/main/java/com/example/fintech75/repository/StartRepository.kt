@@ -30,4 +30,16 @@ interface StartRepository {
         userId: Int,
         userPrivateKey: PrivateKey
     ): CreditList
+
+    suspend fun fetchClientProfile(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): ClientProfile
+
+    suspend fun fetchMarketProfile(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): MarketProfile
 }

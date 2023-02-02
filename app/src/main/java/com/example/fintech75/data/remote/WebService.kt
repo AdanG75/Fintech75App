@@ -69,6 +69,35 @@ interface WebService {
         @Path("id_user") idUser: Int,
         @Query("secure") secure: Boolean = true
     ): SecureBase
+
+    @GET("/user/{id_user}")
+    suspend fun fetchClientProfile(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): ClientProfile
+
+    @GET("/user/{id_user}")
+    suspend fun secureFetchClientProfile(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @GET("/user/{id_user}")
+    suspend fun fetchMarketProfile(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): MarketProfile
+
+    @GET("/user/{id_user}")
+    suspend fun secureFetchMarketProfile(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
 }
 
 object RetrofitClient {

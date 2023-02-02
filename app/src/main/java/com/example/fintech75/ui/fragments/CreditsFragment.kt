@@ -281,6 +281,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
     }
 
     private fun getCreditsUser() {
+        val pkMessage: String = userPrivateKey?.toString() ?: "null"
+        Log.d(fragmentName, "Private key: $pkMessage")
         userPrivateKey?.let { privateKey ->
             userViewModel
                 .fetchCreditsUser(currentUser.token, currentUser.userID, privateKey)

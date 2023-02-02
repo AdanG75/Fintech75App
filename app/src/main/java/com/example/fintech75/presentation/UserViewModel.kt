@@ -3,11 +3,9 @@ package com.example.fintech75.presentation
 import androidx.lifecycle.*
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.GlobalSettings
+import com.example.fintech75.core.IncompatibleValueException
 import com.example.fintech75.core.Resource
-import com.example.fintech75.data.model.BasicResponse
-import com.example.fintech75.data.model.CreditBase
-import com.example.fintech75.data.model.CreditList
-import com.example.fintech75.data.model.UserCredential
+import com.example.fintech75.data.model.*
 import com.example.fintech75.repository.StartRepository
 import com.example.fintech75.secure.RSASecure
 import kotlinx.coroutines.Dispatchers
@@ -146,6 +144,26 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
             }
         } catch (e: Exception) {
             _userSetupStatus.value = AppConstants.MESSAGE_STATE_FAILURE
+            emit(Resource.Failure(e))
+        }
+    }
+
+    fun fetchClientProfile(
+        token: String, idUser: Int, typeUser: String, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+        if (typeUser != "client") {
+            emit(Resource.Failure(IncompatibleValueException()))
+        }
+        try {
+            emit(Resource.Success<ClientProfile>(repo.fetchClientProfile(token, idUser, userPrivateKey)))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
+                emit(Resource.Failure(e))
+            } else {
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
             emit(Resource.Failure(e))
         }
     }
