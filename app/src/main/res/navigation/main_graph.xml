@@ -190,7 +190,12 @@
         android:id="@+id/paymentsFragment"
         android:name="com.example.fintech75.ui.fragments.PaymentsFragment"
         android:label="fragment_payments"
-        tools:layout="@layout/fragment_payments" />
+        tools:layout="@layout/fragment_payments" >
+        <argument
+            android:name="idUser"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
     <fragment
         android:id="@+id/creditDetailFragment"
         android:name="com.example.fintech75.ui.fragments.CreditDetailFragment"

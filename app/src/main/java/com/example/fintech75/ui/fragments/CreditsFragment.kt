@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -81,6 +82,9 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         currentUserListener()
 
         (activity as MainActivity).hideBottomNavigation()
+        setStatePaymentButton(false)
+        setStateSettingsButton(false)
+
         getStatusStartSetup()
         catchResultFromDialogs()
         backPressedListener()
@@ -133,6 +137,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         userViewModel.logout(currentUser.token).observe(viewLifecycleOwner){ result ->
             when(result) {
                 is Resource.Loading -> {
+                    setStateSettingsButton(false)
+                    setStatePaymentButton(false)
                     screenLoading.visibility = View.VISIBLE
                     binding.tvCreditsMsg.text = getString(R.string.closing_session)
                 }
@@ -142,6 +148,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                 }
                 is Resource.TryAgain -> {
                     screenLoading.visibility = View.GONE
+                    setStateSettingsButton(true)
+                    setStatePaymentButton(true)
                     Log.d(fragmentName, "Un error ocurrió, favor de intentarlo de nuevo")
                     showNotificationDialog(
                         title = "Error",
@@ -299,6 +307,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                             }
                             refreshItem.isRefreshing = false
                             screenLoading.visibility = View.GONE
+                            setStatePaymentButton(true)
+                            setStateSettingsButton(true)
                             // enableButtons
                         }
                         is Resource.TryAgain -> {
@@ -310,7 +320,6 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                             showInvalidCredentialsDialog()
                         }
                     }
-
                 }
         }
 
@@ -320,6 +329,36 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         Log.d(fragmentName, "Go to register fingerprint fragment")
         val action = CreditsFragmentDirections.actionCreditsFragmentToFingerprintRegisterFragment(idClient = currentUser.idType)
         findNavController().navigate(action)
+    }
+
+    private fun setStatePaymentButton(isEnable: Boolean) {
+        buttonPayments.isEnabled = isEnable
+
+        if (isEnable) {
+            buttonPayments.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_secondary_button, context?.theme)
+            buttonPayments.setOnClickListener {
+                val action = CreditsFragmentDirections.actionCreditsFragmentToPaymentsFragment(currentUser.userID)
+                findNavController().navigate(action)
+            }
+        } else {
+            buttonPayments.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
+            buttonPayments.setOnClickListener {
+                return@setOnClickListener
+            }
+        }
+    }
+
+    private fun setStateSettingsButton(isEnable: Boolean) {
+        if (isEnable) {
+            buttonSettings.setOnClickListener {
+                val action = CreditsFragmentDirections.actionCreditsFragmentToSettingsFragment()
+                findNavController().navigate(action)
+            }
+        } else {
+            buttonSettings.setOnClickListener {
+                return@setOnClickListener
+            }
+        }
     }
 
     private fun refreshListener() {
