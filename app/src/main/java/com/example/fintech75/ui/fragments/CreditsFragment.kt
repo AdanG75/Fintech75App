@@ -362,7 +362,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
     private fun setStateSettingsButton(isEnable: Boolean) {
         if (isEnable) {
             buttonSettings.setOnClickListener {
-                val action = CreditsFragmentDirections.actionCreditsFragmentToSettingsFragment()
+                val action = CreditsFragmentDirections
+                    .actionCreditsFragmentToSettingsFragment(currentUser.typeUser, currentUser.token)
                 findNavController().navigate(action)
             }
         } else {

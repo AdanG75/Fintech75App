@@ -2,6 +2,7 @@ package com.example.fintech75.presentation
 
 import androidx.lifecycle.*
 import com.example.fintech75.application.AppConstants
+import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.BasicResponse
 import com.example.fintech75.data.model.CreditBase
@@ -198,6 +199,7 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         _currentUser.value = defaultUser
         _userGlobalCredit.value = null
         _userSetupStatus.value = AppConstants.MESSAGE_STATE_NONE
+        GlobalSettings.notify = true
     }
 }
 

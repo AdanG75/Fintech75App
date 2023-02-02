@@ -400,9 +400,4 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         bCancelText = getString(R.string.close_app),
         bCancelAvailable = true
     )
-
-    override fun onDetach() {
-        super.onDetach()
-        (activity as MainActivity).showBottomNavigation()
-    }
 }
