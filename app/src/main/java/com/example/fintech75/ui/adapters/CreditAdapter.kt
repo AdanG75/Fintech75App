@@ -9,7 +9,7 @@ import com.example.fintech75.data.model.CreditBase
 import com.example.fintech75.databinding.ItemCreditBinding
 
 class CreditAdapter(
-    private var credits: List<CreditBase>,
+    private val credits: List<CreditBase>,
     private val itemClickListener: ItemClickListener
 ): RecyclerView.Adapter<CreditAdapter.CreditViewHolder>() {
 
@@ -33,11 +33,6 @@ class CreditAdapter(
     }
 
     override fun getItemCount(): Int = credits.size
-
-    fun updateCredits(newCredits: List<CreditBase>){
-        credits = newCredits
-        notifyDataSetChanged()
-    }
 
     inner class CreditViewHolder(private val binding: ItemCreditBinding): RecyclerView.ViewHolder(binding.root) {
         fun binding(credit: CreditBase) {

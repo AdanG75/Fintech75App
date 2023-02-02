@@ -84,6 +84,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         getStatusStartSetup()
         catchResultFromDialogs()
         backPressedListener()
+        refreshListener()
 
         userPublicKeyListener()
         userPrivateKeyListener()
@@ -296,6 +297,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
                                 rvCredits.visibility = View.VISIBLE
                                 withoutCreditsCard.visibility = View.GONE
                             }
+                            refreshItem.isRefreshing = false
                             screenLoading.visibility = View.GONE
                             // enableButtons
                         }
@@ -318,6 +320,13 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         Log.d(fragmentName, "Go to register fingerprint fragment")
         val action = CreditsFragmentDirections.actionCreditsFragmentToFingerprintRegisterFragment(idClient = currentUser.idType)
         findNavController().navigate(action)
+    }
+
+    private fun refreshListener() {
+        Log.d(fragmentName, "Refreshing credits...")
+        refreshItem.setOnRefreshListener {
+            getCreditsUser()
+        }
     }
 
     private fun catchResultFromDialogs() {
