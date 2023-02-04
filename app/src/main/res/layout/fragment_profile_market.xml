@@ -9,7 +9,39 @@
     tools:context=".ui.fragments.ProfileMarketFragment">
 
     <RelativeLayout
-        android:id="@+id/rl_signup_title"
+        android:id="@+id/rl_market_profile_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:gravity="center"
+        android:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/pb_market_profile_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_market_profile_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_profile_market_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/small_height_button"
         android:layout_margin="@dimen/middle_margin"
@@ -38,799 +70,808 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_market_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/market_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_market_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_user_text"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_market_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_user_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_user_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_id_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/name_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_id_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_name_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_name"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_user_email_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_name_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/email_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_name_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_email_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_email"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_user_phone_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_email_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/phone_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_phone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_email_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_phone_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_phone"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_user_web_page_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_phone_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/web_page_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_web_page"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_phone_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_web_page_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_web_page"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_user_market_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_web_page_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_market_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_user_market_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_web_page_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_user_market_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/maket_id"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                </RelativeLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
-
-                    <TextView
-                        android:id="@+id/tv_branch_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/branch_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/name_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_branch_name_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_name"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_hours_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_name_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/work_hours_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_hours"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_name_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_branch_hours_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_work_hours"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_phone_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_hours_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/phone_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tv_branch_phone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_branch_hours_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_branch_phone_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_phone"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
-
-                    <View
-                        android:id="@+id/v_branch_separator"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/small_width"
-                        android:background="@color/light_blue"
-                        android:layout_below="@id/tv_branch_phone_text"
-                        android:layout_marginTop="@dimen/middle_small_margin"
-                        android:layout_marginStart="@dimen/middle_big_margin"
-                        android:layout_marginEnd="@dimen/middle_big_margin" />
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_address_zip_code_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/v_branch_separator"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/zip_code_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_market_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/market_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_zip_code"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/v_branch_separator"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_zip_code_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/zip_code_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_market_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_user_text"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_state_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_zip_code_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/state_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_market_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_user_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_state"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_zip_code_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_state_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_state"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_name_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_id_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/name_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_city_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_state_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/city_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_id_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_name_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_city"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_state_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_city_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_city"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_email_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_name_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/email_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_neighborhood_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_city_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/neighborhood_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_name_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_email_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_email"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_neighborhood"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_city_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_city_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_neighborhood"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_phone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_email_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/phone_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_street_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_neighborhood_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/street_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_phone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_email_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_phone_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_phone"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_street"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_neighborhood_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_street_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_street"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_web_page_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_phone_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/web_page_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_out_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_street_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/ext_number_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_web_page"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_phone_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_web_page_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_web_page"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_out"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_street_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_out_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_ext_num"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_market_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_web_page_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_market_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_inner_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_out_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/inner_num_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_market_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_web_page_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_user_market_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/maket_id"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_inner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_out_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_address_inner_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_inner_num"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                    </RelativeLayout>
 
-                </RelativeLayout>
+                </androidx.cardview.widget.CardView>
 
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
-
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_branch"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_account_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/account_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_account_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/alias_account_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_branch_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/branch_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_account_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_account_name_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_account_name"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_branch_name_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/name_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_account_email_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_name_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/email_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_branch_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_branch_name_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_account_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_name_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_account_email_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/account_email"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_branch_hours_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_name_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/work_hours_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_account_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_email_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_account_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_branch_hours"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_name_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_branch_hours_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_work_hours"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_account_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_account_email_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_account_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_user_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_branch_phone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_hours_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/phone_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_branch_phone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_branch_hours_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_branch_phone_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_phone"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-            </androidx.cardview.widget.CardView>
+                        <View
+                            android:id="@+id/v_branch_separator"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/small_width"
+                            android:layout_below="@id/tv_branch_phone_text"
+                            android:layout_marginStart="@dimen/middle_big_margin"
+                            android:layout_marginTop="@dimen/middle_small_margin"
+                            android:layout_marginEnd="@dimen/middle_big_margin"
+                            android:background="@color/light_blue" />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                android:layout_marginBottom="@dimen/middle_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
+                        <TextView
+                            android:id="@+id/tv_address_zip_code_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/v_branch_separator"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/zip_code_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                <RelativeLayout
+                        <TextView
+                            android:id="@+id/tv_address_zip_code"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/v_branch_separator"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_zip_code_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/zip_code_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_state_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_zip_code_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/state_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_state"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_zip_code_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_state_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_state"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_city_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_state_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/city_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_city"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_state_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_city_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_city"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_neighborhood_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_city_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/neighborhood_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_neighborhood"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_city_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_city_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_neighborhood"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_street_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_neighborhood_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/street_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_street"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_neighborhood_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_street_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_street"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_out_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_street_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/ext_number_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_out"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_street_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_out_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_ext_num"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_address_inner_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_out_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/inner_num_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_address_inner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_out_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_address_inner_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_inner_num"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_account"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/outstanding_payments_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/outstanding_id_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_account_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/account_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_outstanding_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_user_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_account_name_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/alias_account_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_amount_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_id_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/amount_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_account_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_account_name_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_account_name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_amount"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_id_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_outstanding_amount_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/amount_field"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_account_email_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_name_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/email_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_last_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_amount_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/last_cash_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_account_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_name_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_account_email_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/account_email"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_outstanding_last"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_outstanding_amount_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_outstanding_last_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_date"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_account_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_email_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_account_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_account_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_account_email_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_account_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_user_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-        </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-    </ScrollView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/outstanding_payments_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/outstanding_id_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_outstanding_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_user_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_amount_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_id_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/amount_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_amount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_id_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_outstanding_amount_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/amount_field"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_last_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_amount_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/last_cash_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_outstanding_last"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_outstanding_amount_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_outstanding_last_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_date"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

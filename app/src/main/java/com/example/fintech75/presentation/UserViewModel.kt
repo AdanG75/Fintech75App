@@ -168,6 +168,26 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         }
     }
 
+    fun fetchMarketProfile(
+        token: String, idUser: Int, typeUser: String, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+        if (typeUser != "market") {
+            emit(Resource.Failure(IncompatibleValueException()))
+        }
+        try {
+            emit(Resource.Success<MarketProfile>(repo.fetchMarketProfile(token, idUser, userPrivateKey)))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
+                emit(Resource.Failure(e))
+            } else {
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            emit(Resource.Failure(e))
+        }
+    }
+
     fun fetchCreditsUser(
         token: String, idUser: Int, userPrivateKey: PrivateKey
     ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {

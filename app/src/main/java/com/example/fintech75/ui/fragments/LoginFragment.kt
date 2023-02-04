@@ -76,6 +76,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun setupFragment() {
         userViewModel.setDefaultUser()
         screenLoading.visibility = View.VISIBLE
+
         setButtonDisable(signInButton)
         addEditTextListener()
         catchResultFromDialogs()

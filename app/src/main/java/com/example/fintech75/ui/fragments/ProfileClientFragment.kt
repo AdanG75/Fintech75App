@@ -81,8 +81,8 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
     }
 
     private fun getClientProfile() {
-        val pkMessage: String = userPrivateKey?.toString() ?: "null"
-        Log.d(fragmentName, "Private Key: $pkMessage")
+        // val pkMessage: String = userPrivateKey?.toString() ?: "null"
+        // Log.d(fragmentName, "Private Key: $pkMessage")
         userPrivateKey?.let { privateKey ->
             userViewModel.fetchClientProfile(
                 currentUser.token, currentUser.userID, currentUser.typeUser, privateKey
@@ -268,7 +268,7 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
         title: String, message: String, bOkAction: String, bOkText: String, bOkAvailable: Boolean,
         bCancelAction: String, bCancelText: String, bCancelAvailable: Boolean, closeAction: String = "none"
     ) {
-        val action = CreditsFragmentDirections.actionCreditsFragmentToNotificationDialogFragment(
+        val action = ProfileClientFragmentDirections.actionProfileClientFragmentToNotificationDialogFragment(
             title = title,
             msg = message,
             bOkAction = bOkAction,

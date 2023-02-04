@@ -13,9 +13,9 @@
         tools:layout="@layout/fragment_credits" >
         <action
             android:id="@+id/action_creditsFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
             app:popUpTo="@id/creditsFragment"
-            app:popUpToInclusive="true"
-            app:destination="@id/loginFragment" />
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_creditsFragment_to_fingerprintRegisterFragment"
             app:destination="@id/fingerprintRegisterFragment" />
@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_profile_market_fragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_profile_market_fragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/markets_fragment"

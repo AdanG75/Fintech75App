@@ -122,7 +122,7 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
 
         if (fragmentDestinationID == 0 || currentDestination == -1) {
             findNavController().navigate(R.id.loginFragment)
-        } else if (fragmentDestinationID == currentDestination) {
+        } else if (currentUser.userID == -1) {
             val action = CreditsFragmentDirections.actionCreditsFragmentToLoginFragment()
             findNavController().navigate(action)
         } else {
@@ -281,8 +281,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
     }
 
     private fun getCreditsUser() {
-        val pkMessage: String = userPrivateKey?.toString() ?: "null"
-        Log.d(fragmentName, "Private key: $pkMessage")
+        // val pkMessage: String = userPrivateKey?.toString() ?: "null"
+        // Log.d(fragmentName, "Private key: $pkMessage")
         userPrivateKey?.let { privateKey ->
             userViewModel
                 .fetchCreditsUser(currentUser.token, currentUser.userID, privateKey)
