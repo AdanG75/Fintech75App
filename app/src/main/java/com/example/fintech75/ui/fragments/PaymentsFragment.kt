@@ -21,6 +21,7 @@ import com.example.fintech75.presentation.UserViewModel
 import com.example.fintech75.presentation.UserViewModelFactory
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.example.fintech75.ui.activities.MainActivity
+import com.example.fintech75.ui.adapters.MovementAdapter
 import java.security.PrivateKey
 
 class PaymentsFragment : Fragment(R.layout.fragment_payments) {
@@ -107,7 +108,7 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
                     is Resource.Success -> {
                         Log.d(fragmentName, "Getting user's payments have finished successfully")
                         val userPayments: Payments = result.data as Payments
-                        // binding.rvPayments.adapter = MovementAdapter(userPayments.payments, this)
+                        binding.rvPayments.adapter = MovementAdapter(userPayments.payments)
 
                         if (userPayments.payments.isEmpty()) {
                             binding.rvPayments.visibility = View.GONE
