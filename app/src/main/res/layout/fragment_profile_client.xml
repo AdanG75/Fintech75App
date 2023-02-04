@@ -70,611 +70,619 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
+                android:orientation="vertical">
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_client_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/client_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_user_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_client_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_user_text"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_client_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/client_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_client_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_user_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_client_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_user_text"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_id_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/name_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_client_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_user_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_id_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_name_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_nombre_s"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_name_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_id_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/name_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_email_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_name_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/email_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_id_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_name_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_nombre_s"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_user_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_name_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_email_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_email"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_email_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_name_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/email_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_phone_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_email_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/phone_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_name_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_email_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_email"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_user_phone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_email_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_phone_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_phone"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_phone_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_email_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/phone_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_birthdate_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_phone_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/birthdate_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_phone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_email_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_phone_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_phone"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_user_birthdate"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_phone_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_user_birthdate_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_date"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_birthdate_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_phone_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/birthdate_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_user_client_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_birthdate_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_client_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_user_birthdate"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_phone_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_user_birthdate_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_date"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_user_client_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_user_birthdate_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_user_client_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_client_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_user_client_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_birthdate_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_client_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_user_client_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_user_birthdate_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_user_client_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_client_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
+                </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_address"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_address_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/address_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_address_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_address_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/address_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_user_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_address_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_zip_code_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_id_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/zip_code_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_user_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_zip_code"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_id_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_zip_code_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/zip_code_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_zip_code_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_id_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/zip_code_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_state_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_zip_code_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/state_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_zip_code"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_id_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_zip_code_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/zip_code_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_state"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_zip_code_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_state_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_state"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_state_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_zip_code_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/state_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_city_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_state_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/city_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_state"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_zip_code_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_state_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_state"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_city"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_state_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_city_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_city"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_city_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_state_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/city_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_neighborhood_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_city_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/neighborhood_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_city"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_state_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_city_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_city"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_neighborhood"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_city_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_city_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_neighborhood"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_neighborhood_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_city_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/neighborhood_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_street_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_neighborhood_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/street_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_neighborhood"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_city_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_city_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_neighborhood"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_street"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_neighborhood_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_street_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_street"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_street_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_neighborhood_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/street_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_out_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_street_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/ext_number_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_street"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_neighborhood_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_street_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_street"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_out"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_street_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_address_out_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_ext_num"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_out_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_street_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/ext_number_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_address_inner_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_out_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/inner_num_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_address_out"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_street_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_address_out_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_ext_num"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_address_inner"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_address_out_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_address_inner_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_inner_num"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_address_inner_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_out_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/inner_num_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_address_inner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_address_out_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_address_inner_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_inner_num"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_fingerprint"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small_margin"
-                android:layout_marginTop="@dimen/middle_margin"
-                android:layout_marginEnd="@dimen/small_margin"
-                android:layout_marginBottom="@dimen/middle_margin"
-                app:cardCornerRadius="@dimen/small_round_corner"
-                app:cardElevation="@dimen/middle_elevation">
+                </androidx.cardview.widget.CardView>
 
-                <RelativeLayout
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_fingerprint"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_card">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    app:cardCornerRadius="@dimen/small_round_corner"
+                    app:cardElevation="@dimen/middle_elevation">
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/small_margin"
-                        android:text="@string/fingerprints_title"
-                        android:textColor="@color/dark_blue"
-                        android:textSize="@dimen/small_highlight_text"
-                        android:textStyle="bold" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_card">
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_title"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/fingerprint_name_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/small_margin"
+                            android:text="@string/fingerprints_title"
+                            android:textColor="@color/dark_blue"
+                            android:textSize="@dimen/small_highlight_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_title"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_fingerprint_name_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_fingerprint_name"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_name_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_title"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/fingerprint_name_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_date_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_name_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/date_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_title"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_fingerprint_name_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_fingerprint_name"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_name_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_toEndOf="@id/tv_fingerprint_date_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/hint_date"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_date_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_name_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/date_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_id_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_date_text"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="@dimen/middle_small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:text="@string/id_fingerprint_ref"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_name_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_toEndOf="@id/tv_fingerprint_date_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/hint_date"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-                    <TextView
-                        android:id="@+id/tv_fingerprint_id"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_fingerprint_date_text"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginStart="@dimen/small_margin"
-                        android:layout_marginTop="@dimen/small_margin"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:layout_toEndOf="@id/tv_fingerprint_id_text"
-                        android:ellipsize="end"
-                        android:lines="1"
-                        android:text="@string/id_fingerprint_example"
-                        android:textColor="@color/text_color"
-                        android:textSize="@dimen/h2_text" />
+                        <TextView
+                            android:id="@+id/tv_fingerprint_id_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_date_text"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="@dimen/middle_small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:text="@string/id_fingerprint_ref"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text"
+                            android:textStyle="bold" />
 
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/tv_fingerprint_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_fingerprint_date_text"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:layout_marginTop="@dimen/small_margin"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_marginBottom="@dimen/middle_margin"
+                            android:layout_toEndOf="@id/tv_fingerprint_id_text"
+                            android:ellipsize="end"
+                            android:lines="1"
+                            android:text="@string/id_fingerprint_example"
+                            android:textColor="@color/text_color"
+                            android:textSize="@dimen/h2_text" />
 
-            </androidx.cardview.widget.CardView>
+                    </RelativeLayout>
 
-        </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
-    </ScrollView>
+            </LinearLayout>
+
+        </ScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

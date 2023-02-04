@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.ImageButton
 import android.widget.RelativeLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -30,9 +31,10 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
         ))
     }
 
-    lateinit var currentUser: UserCredential
-    lateinit var binding: FragmentProfileClientBinding
-    lateinit var screenLoading: RelativeLayout
+    private lateinit var currentUser: UserCredential
+    private lateinit var binding: FragmentProfileClientBinding
+    private lateinit var screenLoading: RelativeLayout
+    private lateinit var buttonSettings: ImageButton
 
     private var userPrivateKey: PrivateKey? = null
 
@@ -46,16 +48,20 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
 
         binding = FragmentProfileClientBinding.bind(view)
         screenLoading = binding.rlClientProfileLoading
+        buttonSettings = binding.bSettings
 
         setup()
     }
 
     private fun setup() {
         screenLoading.visibility = View.VISIBLE
+        (activity as MainActivity).showBottomNavigation()
 
         currentUserListener()
         userPrivateKeyListener()
+        refreshListener()
         catchResultFromDialogs()
+        setStateSettingsButton(true)
 
         getClientProfile()
     }
@@ -85,20 +91,24 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
                     is Resource.Loading -> {
                         Log.d(fragmentName, "Loading client's profile...")
                         screenLoading.visibility = View.VISIBLE
+                        setStateSettingsButton(false)
                     }
                     is Resource.Success -> {
                         Log.d(fragmentName, "Getting client's profile has finished successfully")
                         val clientProfile: ClientProfile = result.data as ClientProfile
-                        Log.d(fragmentName, "Client name: ${clientProfile.user.name}")
-                        // bind values function
+                        bindClientProfile(clientProfile)
+                        setStateSettingsButton(true)
+                        binding.srlRefresh.isRefreshing = false
                         screenLoading.visibility = View.GONE
                     }
                     is Resource.TryAgain -> {
                         Log.d(fragmentName, "An error occurs when fetching client's profile. Please try again")
+                        binding.srlRefresh.isRefreshing = false
                         showTryAgainFetchClientProfileDialog()
                     }
                     is Resource.Failure -> {
                         Log.d(fragmentName, "Bad credentials")
+                        binding.srlRefresh.isRefreshing = false
                         showInvalidCredentialsDialog()
                     }
                 }
@@ -106,9 +116,65 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
         }
     }
 
+    private fun bindClientProfile(client: ClientProfile) {
+        binding.tvUserId.text = client.user.idUser.toString()
+        "${client.user.name} ${client.client.lastName}".also {
+            binding.tvUserName.text = it
+        }
+        binding.tvUserEmail.text = client.user.email
+        binding.tvUserPhone.text = client.user.phone
+        binding.tvUserBirthdate.text = client.client.birthDate
+        binding.tvUserClientId.text = client.client.birthDate
+
+        if (client.client.addresses.isEmpty()) {
+            binding.cvAddress.visibility = View.GONE
+        } else {
+            val baseAddress = client.client.addresses[0]
+
+            binding.tvAddressId.text = baseAddress.idAddress.toString()
+            binding.tvAddressZipCode.text = baseAddress.zipCode
+            binding.tvAddressState.text = baseAddress.state
+            binding.tvAddressCity.text = baseAddress.city ?: "N/P"
+            binding.tvAddressNeighborhood.text = baseAddress.neighborhood ?: "N/P"
+            binding.tvAddressStreet.text = baseAddress.street ?: "N/P"
+            binding.tvAddressOut.text = baseAddress.extNumber
+            binding.tvAddressInner.text = baseAddress.innerNumber ?: "N/P"
+        }
+
+        if (client.client.fingerprints.isEmpty()) {
+            binding.cvFingerprint.visibility = View.GONE
+        } else {
+            val baseFingerprint = client.client.fingerprints[0]
+            binding.tvFingerprintName.text = baseFingerprint.aliasFingerprint
+            binding.tvFingerprintDate.text = baseFingerprint.createdTime.substring(0, 10)
+            binding.tvFingerprintId.text = baseFingerprint.idFingerprint
+        }
+    }
+
     private fun goToLogin() {
         Log.d(fragmentName, "Go to Login...")
         findNavController().popBackStack(R.id.loginFragment, true)
+    }
+
+    private fun setStateSettingsButton(isEnable: Boolean) {
+        if (isEnable) {
+            buttonSettings.setOnClickListener {
+                val action = ProfileClientFragmentDirections
+                    .actionProfileClientFragmentToSettingsFragment(currentUser.typeUser, currentUser.token)
+                findNavController().navigate(action)
+            }
+        } else {
+            buttonSettings.setOnClickListener {
+                return@setOnClickListener
+            }
+        }
+    }
+
+    private fun refreshListener() {
+        Log.d(fragmentName, "Refreshing credits...")
+        binding.srlRefresh.setOnRefreshListener {
+            getClientProfile()
+        }
     }
 
     private fun logout() {
