@@ -201,6 +201,9 @@
             android:name="idUser"
             app:argType="integer"
             android:defaultValue="-1" />
+        <action
+            android:id="@+id/action_paymentsFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/creditDetailFragment"

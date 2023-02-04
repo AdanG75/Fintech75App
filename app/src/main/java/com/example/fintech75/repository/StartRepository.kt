@@ -42,4 +42,10 @@ interface StartRepository {
         userId: Int,
         userPrivateKey: PrivateKey
     ): MarketProfile
+
+    suspend fun fetchUserPayments(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): Payments
 }

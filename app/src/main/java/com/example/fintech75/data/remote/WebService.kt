@@ -98,6 +98,20 @@ interface WebService {
         @Query("secure") secure: Boolean = true
     ): SecureBase
 
+    @GET("/movement/user/{id_user}/payments")
+    suspend fun fetchUserPayments(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): Payments
+
+    @GET("/movement/user/{id_user}/payments")
+    suspend fun secureFetchUserPayments(
+        @Header("Authorization") auth: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
 }
 
 object RetrofitClient {

@@ -195,4 +195,25 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
 
         return response
     }
+
+    override suspend fun fetchUserPayments(
+        accessToken: String,
+        userId: Int,
+        userPrivateKey: PrivateKey
+    ): Payments {
+        val response: Payments = withContext(Dispatchers.IO) {
+            val thereIsInternetConnection: Boolean = withContext(Dispatchers.Default){
+                InternetCheck.isNetworkAvailable()
+            }
+
+            if(thereIsInternetConnection){
+                remoteDataSource.fetchUserPayments(accessToken, userId, GlobalSettings.secure, userPrivateKey)
+            } else {
+                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
+            }
+        }
+
+        return response
+    }
 }

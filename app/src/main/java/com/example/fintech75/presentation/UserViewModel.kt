@@ -208,6 +208,26 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         }
     }
 
+    fun fetchPaymentsUser(
+        token: String, idUser: Int, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<Payments>(repo.fetchUserPayments(
+                token, idUser, userPrivateKey
+            )))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403) {
+                emit(Resource.Failure(e))
+            } else {
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
     fun extractGlobalCreditId(
         credits: List<CreditBase>, typeUser: String
     ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {

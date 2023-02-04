@@ -124,7 +124,7 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
         binding.tvUserEmail.text = client.user.email
         binding.tvUserPhone.text = client.user.phone
         binding.tvUserBirthdate.text = client.client.birthDate
-        binding.tvUserClientId.text = client.client.birthDate
+        binding.tvUserClientId.text = client.client.idClient
 
         if (client.client.addresses.isEmpty()) {
             binding.cvAddress.visibility = View.GONE
