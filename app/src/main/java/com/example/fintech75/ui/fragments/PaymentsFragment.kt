@@ -92,7 +92,7 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
 
     private fun goToLogin() {
         Log.d(fragmentName, "Go to Login...")
-        findNavController().popBackStack(R.id.loginFragment, true)
+        findNavController().popBackStack(R.id.loginFragment, false)
     }
 
     private fun getUserPayments() {
@@ -169,6 +169,7 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
                 when(action) {
                     "finishSession" -> goToLogin()
                     "paymentsUser" -> getUserPayments()
+                    "logout" -> logout()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
                     else -> return@observe

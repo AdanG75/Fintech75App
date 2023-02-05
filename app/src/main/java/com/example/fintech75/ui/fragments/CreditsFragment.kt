@@ -118,15 +118,17 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
         screenLoading.visibility = View.GONE
         Log.d(fragmentName, "Go to Login...")
         val currentDestination = findNavController().currentDestination?.id ?: -1
-        Log.d(fragmentName, "Current destination: $currentDestination, credits fragment destination: $fragmentDestinationID")
+        // Log.d(fragmentName, "Current destination: $currentDestination, credits fragment destination: $fragmentDestinationID")
 
         if (fragmentDestinationID == 0 || currentDestination == -1) {
             findNavController().navigate(R.id.loginFragment)
         } else if (currentUser.userID == -1) {
+            Log.d(fragmentName, "Without logged user")
             val action = CreditsFragmentDirections.actionCreditsFragmentToLoginFragment()
             findNavController().navigate(action)
         } else {
-            findNavController().popBackStack(R.id.loginFragment, true)
+            Log.d(fragmentName, "With logged user")
+            findNavController().popBackStack(R.id.loginFragment, false)
         }
     }
 

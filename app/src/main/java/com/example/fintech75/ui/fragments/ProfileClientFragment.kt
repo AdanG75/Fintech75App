@@ -153,7 +153,7 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
 
     private fun goToLogin() {
         Log.d(fragmentName, "Go to Login...")
-        findNavController().popBackStack(R.id.loginFragment, true)
+        findNavController().popBackStack(R.id.loginFragment, false)
     }
 
     private fun setStateSettingsButton(isEnable: Boolean) {
@@ -210,6 +210,7 @@ class ProfileClientFragment : Fragment(R.layout.fragment_profile_client) {
                 when(action) {
                     "finishSession" -> goToLogin()
                     "clientProfile" -> getClientProfile()
+                    "logout" -> logout()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
                     else -> return@observe

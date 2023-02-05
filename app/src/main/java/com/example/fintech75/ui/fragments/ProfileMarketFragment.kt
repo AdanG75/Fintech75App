@@ -156,7 +156,7 @@ class ProfileMarketFragment : Fragment(R.layout.fragment_profile_market) {
 
     private fun goToLogin() {
         Log.d(fragmentName, "Go to Login...")
-        findNavController().popBackStack(R.id.loginFragment, true)
+        findNavController().popBackStack(R.id.loginFragment, false)
     }
 
     private fun setStateSettingsButton(isEnable: Boolean) {
@@ -213,6 +213,7 @@ class ProfileMarketFragment : Fragment(R.layout.fragment_profile_market) {
                 when(action) {
                     "finishSession" -> goToLogin()
                     "marketProfile" -> getMarketProfile()
+                    "logout" -> logout()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
                     else -> return@observe

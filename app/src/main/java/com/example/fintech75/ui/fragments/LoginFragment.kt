@@ -71,6 +71,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         screenLoading = binding.rlLoginLoading
 
         setupFragment()
+        // Log.d(fragmentName, findNavController().currentDestination?.displayName ?: "Without")
     }
 
     private fun setupFragment() {
