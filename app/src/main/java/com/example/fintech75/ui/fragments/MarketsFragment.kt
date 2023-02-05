@@ -12,7 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fintech75.R
 import com.example.fintech75.application.AppConstants
+import com.example.fintech75.application.ItemClickListener
 import com.example.fintech75.core.Resource
+import com.example.fintech75.data.model.CreditBase
+import com.example.fintech75.data.model.MarketFull
 import com.example.fintech75.data.model.MarketsList
 import com.example.fintech75.data.model.UserCredential
 import com.example.fintech75.data.remote.RemoteDataSource
@@ -25,9 +28,10 @@ import com.example.fintech75.presentation.UserViewModelFactory
 import com.example.fintech75.repository.MarketRepositoryImpl
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.example.fintech75.ui.activities.MainActivity
+import com.example.fintech75.ui.adapters.MarketAdapter
 import java.security.PrivateKey
 
-class MarketsFragment : Fragment(R.layout.fragment_markets) {
+class MarketsFragment : Fragment(R.layout.fragment_markets), ItemClickListener {
     private val fragmentName = this::class.java.toString()
     private val userViewModel: UserViewModel by activityViewModels {
         UserViewModelFactory( StartRepositoryImpl(
@@ -128,8 +132,8 @@ class MarketsFragment : Fragment(R.layout.fragment_markets) {
                     is Resource.Success -> {
                         Log.d(fragmentName, "Getting markets have finished successfully")
                         val marketList: MarketsList = result.data as MarketsList
-                        // set adapter
-                        Log.d(fragmentName, marketList.markets[0].user.name)
+                        binding.rvMarkets.adapter = MarketAdapter(marketList.markets, this)
+                        // Log.d(fragmentName, marketList.markets[0].user.name)
 
                         if (marketList.markets.isEmpty()) {
                             binding.rvMarkets.visibility = View.GONE
@@ -260,6 +264,20 @@ class MarketsFragment : Fragment(R.layout.fragment_markets) {
             bCancelText = bCancelText,
             bCancelAvailable = bCancelAvailable,
             closeAction = closeAction
+        )
+        findNavController().navigate(action)
+    }
+
+    override fun onCreditClick(credit: CreditBase) {
+        return Unit
+    }
+
+    override fun onMarketClick(market: MarketFull) {
+        Log.d(fragmentName, "Go to market detail")
+        val action = MarketsFragmentDirections.actionMarketsFragmentToMarketDetailFragment(
+            marketName = market.user.name,
+            marketEmail = market.user.email,
+            marketPhone = market.user.phone
         )
         findNavController().navigate(action)
     }

@@ -189,7 +189,20 @@
         android:id="@+id/marketDetailFragment"
         android:name="com.example.fintech75.ui.fragments.MarketDetailFragment"
         android:label="fragment_market_detail"
-        tools:layout="@layout/fragment_market_detail" />
+        tools:layout="@layout/fragment_market_detail" >
+        <argument
+            android:name="marketName"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <argument
+            android:name="marketEmail"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <argument
+            android:name="marketPhone"
+            app:argType="string"
+            android:defaultValue="N/A" />
+    </fragment>
     <fragment
         android:id="@+id/pairedDevicesFragment"
         android:name="com.example.fintech75.ui.fragments.PairedDevicesFragment"
