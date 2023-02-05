@@ -112,6 +112,19 @@ interface WebService {
         @Query("secure") secure: Boolean = true
     ): SecureBase
 
+    @GET("/market")
+    suspend fun fetchAllMarkets(
+        @Header("Authorization") auth: String,
+        @Query("secure") secure: Boolean = false,
+        @Query("exc_system") excludeSystem: Boolean = true
+    ): MarketsList
+
+    @GET("/market")
+    suspend fun secureFetchAllMarkets(
+        @Header("Authorization") auth: String,
+        @Query("secure") secure: Boolean = true,
+        @Query("exc_system") excludeSystem: Boolean = true
+    ): SecureBase
 }
 
 object RetrofitClient {
