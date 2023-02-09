@@ -69,18 +69,18 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
 
     private fun setup() {
         screenLoading.visibility = View.VISIBLE
+        catchResultFromDialogs()
 
         if (args.marketId == "N/A") {
             showNoMarketPassedDialog()
+        } else {
+            currentUserListener()
+            userPrivateKeyListener()
+            refreshListener()
+            setStatePayButton(false)
+
+            getMarketDetail()
         }
-
-        currentUserListener()
-        userPrivateKeyListener()
-        refreshListener()
-        catchResultFromDialogs()
-        setStatePayButton(false)
-
-        getMarketDetail()
     }
 
     private fun currentUserListener() {
@@ -225,6 +225,11 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
         findNavController().popBackStack(R.id.loginFragment, false)
     }
 
+    private fun goToCredits() {
+        Log.d(fragmentName, "Go to Credits...")
+        findNavController().popBackStack(R.id.creditsFragment, false)
+    }
+
     private fun logout() {
         if (currentUser.token == "N/A") {
             goToLogin()
@@ -259,7 +264,7 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
                     "finishSession" -> goToLogin()
                     "getMarketDetail" -> getMarketDetail()
                     "logout" -> logout()
-                    "return" -> findNavController().popBackStack(R.id.markets_fragment, false)
+                    "return" -> goToCredits()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
                     AppConstants.ACTION_CLOSE_SESSION -> logout()
                     else -> return@observe
@@ -275,6 +280,7 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
                     "none" -> return@observe
                     "close" -> activity?.finish()
                     "endSession" -> goToLogin()
+                    "closeFragment" -> goToCredits()
                     else -> return@observe
                 }
             }
@@ -322,14 +328,15 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
         bOkAvailable = true,
         bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
         bCancelText = getString(R.string.close_session),
-        bCancelAvailable = false
+        bCancelAvailable = false,
+        closeAction = "closeFragment"
     )
 
     private fun showNotificationDialog(
         title: String, message: String, bOkAction: String, bOkText: String, bOkAvailable: Boolean,
         bCancelAction: String, bCancelText: String, bCancelAvailable: Boolean, closeAction: String = "none"
     ) {
-        val action = MarketsFragmentDirections.actionMarketsFragmentToNotificationDialogFragment(
+        val action = MarketDetailFragmentDirections.actionMarketDetailFragmentToNotificationDialogFragment(
             title = title,
             msg = message,
             bOkAction = bOkAction,
