@@ -202,6 +202,13 @@
             android:name="marketPhone"
             app:argType="string"
             android:defaultValue="N/A" />
+        <argument
+            android:name="marketId"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <action
+            android:id="@+id/action_marketDetailFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/pairedDevicesFragment"

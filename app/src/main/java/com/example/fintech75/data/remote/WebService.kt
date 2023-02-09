@@ -125,6 +125,22 @@ interface WebService {
         @Query("secure") secure: Boolean = true,
         @Query("exc_system") excludeSystem: Boolean = true
     ): SecureBase
+
+    @GET("/market/{id_market}/client/{id_user}")
+    suspend fun fetchDetailMarket(
+        @Header("Authorization") auth: String,
+        @Path("id_market") idMarket: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = false
+    ): CreditMarketClient
+
+    @GET("/market/{id_market}/client/{id_user}")
+    suspend fun secureFetchDetailMarket(
+        @Header("Authorization") auth: String,
+        @Path("id_market") idMarket: String,
+        @Path("id_user") idUser: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
 }
 
 object RetrofitClient {

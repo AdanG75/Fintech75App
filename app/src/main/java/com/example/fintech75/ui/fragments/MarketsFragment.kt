@@ -144,6 +144,7 @@ class MarketsFragment : Fragment(R.layout.fragment_markets), ItemClickListener {
                         }
 
                         setStateSettingsButton(true)
+                        (activity as MainActivity).showBottomNavigation()
                         binding.srlRefresh.isRefreshing = false
                         screenLoading.visibility = View.GONE
                     }
@@ -277,7 +278,8 @@ class MarketsFragment : Fragment(R.layout.fragment_markets), ItemClickListener {
         val action = MarketsFragmentDirections.actionMarketsFragmentToMarketDetailFragment(
             marketName = market.user.name,
             marketEmail = market.user.email,
-            marketPhone = market.user.phone
+            marketPhone = market.user.phone,
+            marketId = market.market.idMarket
         )
         findNavController().navigate(action)
     }

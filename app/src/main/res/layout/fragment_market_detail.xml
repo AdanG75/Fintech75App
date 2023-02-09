@@ -132,12 +132,13 @@
                         <TextView
                             android:id="@+id/tv_market_email"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/height_edit_text"
                             android:layout_marginStart="@dimen/middle_small_margin"
                             android:layout_marginEnd="@dimen/middle_small_margin"
                             android:layout_marginBottom="@dimen/small_margin"
                             android:drawablePadding="@dimen/big_padding"
                             android:ellipsize="end"
+                            android:gravity="center_vertical"
                             android:lines="1"
                             android:paddingStart="@dimen/middle_padding"
                             android:paddingEnd="@dimen/middle_padding"
@@ -159,12 +160,13 @@
                         <TextView
                             android:id="@+id/tv_market_phone"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/height_edit_text"
                             android:layout_marginStart="@dimen/middle_small_margin"
                             android:layout_marginEnd="@dimen/middle_small_margin"
                             android:layout_marginBottom="@dimen/small_margin"
                             android:drawablePadding="@dimen/big_padding"
                             android:ellipsize="end"
+                            android:gravity="center_vertical"
                             android:lines="1"
                             android:paddingStart="@dimen/middle_padding"
                             android:paddingEnd="@dimen/middle_padding"
@@ -186,12 +188,13 @@
                         <TextView
                             android:id="@+id/tv_market_web"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/height_edit_text"
                             android:layout_marginStart="@dimen/middle_small_margin"
                             android:layout_marginEnd="@dimen/middle_small_margin"
                             android:layout_marginBottom="@dimen/small_margin"
                             android:drawablePadding="@dimen/big_padding"
                             android:ellipsize="end"
+                            android:gravity="center_vertical"
                             android:lines="1"
                             android:paddingStart="@dimen/middle_padding"
                             android:paddingEnd="@dimen/middle_padding"
@@ -224,6 +227,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_branch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/middle_margin"
