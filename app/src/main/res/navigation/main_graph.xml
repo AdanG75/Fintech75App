@@ -338,15 +338,23 @@
             android:defaultValue='"N/A"' />
         <action
             android:id="@+id/action_movementOptionsDialogFragment_to_depositFragment"
+            app:popUpTo="@id/creditDetailFragment"
+            app:popUpToInclusive="false"
             app:destination="@id/depositFragment" />
         <action
             android:id="@+id/action_movementOptionsDialogFragment_to_payFragment"
+            app:popUpTo="@id/creditDetailFragment"
+            app:popUpToInclusive="false"
             app:destination="@id/payFragment" />
         <action
             android:id="@+id/action_movementOptionsDialogFragment_to_transferFragment"
+            app:popUpTo="@id/creditDetailFragment"
+            app:popUpToInclusive="false"
             app:destination="@id/transferFragment" />
         <action
             android:id="@+id/action_movementOptionsDialogFragment_to_withdrawFragment"
+            app:popUpTo="@id/creditDetailFragment"
+            app:popUpToInclusive="false"
             app:destination="@id/withdrawFragment" />
     </dialog>
     <fragment
