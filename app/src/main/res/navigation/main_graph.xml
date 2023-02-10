@@ -254,6 +254,9 @@
         <action
             android:id="@+id/action_creditDetailFragment_to_movementOptionsDialogFragment"
             app:destination="@id/movementOptionsDialogFragment" />
+        <action
+            android:id="@+id/action_creditDetailFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <dialog
         android:id="@+id/notificationDialogFragment"

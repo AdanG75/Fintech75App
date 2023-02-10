@@ -105,4 +105,15 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun fetchCreditDetail(accessToken: String, idCredit: Int, secure: Boolean, userPrivateKey: PrivateKey): CreditDetail {
+        val response = if (secure) {
+            val secureResponse = webService.secureFetchCreditDetail(accessToken, idCredit, secure)
+            CipherSecure.unpackAndDecryptData<CreditDetail>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.fetchCreditDetail(accessToken, idCredit, secure)
+        }
+
+        return response
+    }
 }

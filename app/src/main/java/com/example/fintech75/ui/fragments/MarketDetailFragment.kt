@@ -143,7 +143,7 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
                     is Resource.Success -> {
                         Log.d(fragmentName, "Getting market's detail have finished successfully")
                         val marketBasedClient: CreditMarketClient = result.data as CreditMarketClient
-                        Log.d(fragmentName, "Market type: ${marketBasedClient.market.typeMarket}")
+                        // Log.d(fragmentName, "Market type: ${marketBasedClient.market.typeMarket}")
 
                         bind(marketBasedClient)
 

@@ -141,6 +141,20 @@ interface WebService {
         @Path("id_user") idUser: Int,
         @Query("secure") secure: Boolean = true
     ): SecureBase
+
+    @GET("/credit/{id_credit}")
+    suspend fun fetchCreditDetail(
+        @Header("Authorization") auth: String,
+        @Path("id_credit") idCredit: Int,
+        @Query("secure") secure: Boolean = false
+    ): CreditDetail
+
+    @GET("/credit/{id_credit}")
+    suspend fun secureFetchCreditDetail(
+        @Header("Authorization") auth: String,
+        @Path("id_credit") idCredit: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
 }
 
 object RetrofitClient {
