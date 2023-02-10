@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".ui.fragments.MovementOptionsDialogFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_small_margin"
+        android:elevation="@dimen/middle_elevation"
+        app:cardCornerRadius="@dimen/small_round_corner" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_card"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/middle_big_margin"
+                android:layout_marginTop="@dimen/middle_big_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="@string/options_ref"
+                android:textColor="@color/light_blue"
+                android:textSize="@dimen/big_highlight_text"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_deposit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:background="@drawable/shape_secondary_button"
+                android:drawableStart="@drawable/ic_deposit_48"
+                android:enabled="false"
+                android:paddingStart="@dimen/middle_padding"
+                android:paddingEnd="@dimen/middle_padding"
+                android:text="@string/deposit"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_pay"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/middle_big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:background="@drawable/shape_secondary_button"
+                android:drawableStart="@drawable/ic_pay_48"
+                android:enabled="false"
+                android:paddingStart="@dimen/middle_padding"
+                android:paddingEnd="@dimen/middle_padding"
+                android:text="@string/pay"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_transfer"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/middle_big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:background="@drawable/shape_secondary_button"
+                android:drawableStart="@drawable/ic_transfer_48"
+                android:enabled="false"
+                android:paddingStart="@dimen/middle_padding"
+                android:paddingEnd="@dimen/middle_padding"
+                android:text="@string/transfer"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/b_withdraw"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/middle_height_button"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/middle_big_margin"
+                android:layout_marginEnd="@dimen/big_margin"
+                android:layout_marginBottom="@dimen/big_margin"
+                android:background="@drawable/shape_secondary_button"
+                android:drawableStart="@drawable/ic_withdraw_48"
+                android:enabled="false"
+                android:paddingStart="@dimen/middle_padding"
+                android:paddingEnd="@dimen/middle_padding"
+                android:text="@string/withdraw"
+                android:textColor="@color/mate_white"
+                android:textSize="@dimen/h2_text"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</ScrollView>

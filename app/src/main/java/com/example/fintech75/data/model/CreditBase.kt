@@ -46,9 +46,9 @@ data class CreditClient(
     @SerializedName("have_credit")
     val haveCredit: Boolean,
     @SerializedName("id_credit")
-    val idCredit: Int,
+    val idCredit: Int? = null,
     @SerializedName("type_credit")
-    val typeCredit: String
+    val typeCredit: String? = null
 )
 
 

@@ -104,15 +104,23 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
         }
     }
 
-    private fun setStatePayButton(isEnable: Boolean) {
+    private fun setStatePayButton(isEnable: Boolean, marketBasedClient: CreditMarketClient? = null) {
         payButton.isEnabled = isEnable
 
         if (isEnable) {
             payButton.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_main_button, context?.theme)
-            payButton.setOnClickListener {
-                // val action = MarketDetailFragmentDirections.
-                // findNavController().navigate(action)
+
+            marketBasedClient?.let { data ->
+                payButton.setOnClickListener {
+                    val action = MarketDetailFragmentDirections.actionMarketDetailFragmentToPayFragment(
+                        currentCreditId = data.creditClient.idCredit ?: -1,
+                        currentCreditType = data.creditClient.typeCredit ?: "N/A",
+                        marketId = data.market.idMarket
+                    )
+                    findNavController().navigate(action)
+                }
             }
+
         } else {
             payButton.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
             payButton.setOnClickListener {
@@ -139,7 +147,7 @@ class MarketDetailFragment : Fragment(R.layout.fragment_market_detail) {
 
                         bind(marketBasedClient)
 
-                        setStatePayButton(true)
+                        setStatePayButton(true, marketBasedClient)
                         binding.srlRefresh.isRefreshing = false
                         screenLoading.visibility = View.GONE
                     }

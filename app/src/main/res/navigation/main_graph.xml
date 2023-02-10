@@ -55,6 +55,18 @@
         <action
             android:id="@+id/action_movements_fragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_movements_fragment_to_withdrawFragment"
+            app:destination="@id/withdrawFragment" />
+        <action
+            android:id="@+id/action_movements_fragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_movements_fragment_to_payFragment"
+            app:destination="@id/payFragment" />
+        <action
+            android:id="@+id/action_movements_fragment_to_depositFragment"
+            app:destination="@id/depositFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile_market_fragment"
@@ -209,6 +221,9 @@
         <action
             android:id="@+id/action_marketDetailFragment_to_notificationDialogFragment"
             app:destination="@id/notificationDialogFragment" />
+        <action
+            android:id="@+id/action_marketDetailFragment_to_payFragment"
+            app:destination="@id/payFragment" />
     </fragment>
     <fragment
         android:id="@+id/pairedDevicesFragment"
@@ -236,6 +251,9 @@
         <argument
             android:name="credit"
             app:argType="com.example.fintech75.data.model.CreditBase" />
+        <action
+            android:id="@+id/action_creditDetailFragment_to_movementOptionsDialogFragment"
+            app:destination="@id/movementOptionsDialogFragment" />
     </fragment>
     <dialog
         android:id="@+id/notificationDialogFragment"
@@ -297,5 +315,116 @@
             android:name="token"
             app:argType="string"
             android:defaultValue="N/A" />
+    </fragment>
+    <dialog
+        android:id="@+id/movementOptionsDialogFragment"
+        android:name="com.example.fintech75.ui.fragments.MovementOptionsDialogFragment"
+        android:label="fragment_movement_options_dialog"
+        tools:layout="@layout/fragment_movement_options_dialog" >
+        <argument
+            android:name="userType"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="creditId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="creditType"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <action
+            android:id="@+id/action_movementOptionsDialogFragment_to_depositFragment"
+            app:destination="@id/depositFragment" />
+        <action
+            android:id="@+id/action_movementOptionsDialogFragment_to_payFragment"
+            app:destination="@id/payFragment" />
+        <action
+            android:id="@+id/action_movementOptionsDialogFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_movementOptionsDialogFragment_to_withdrawFragment"
+            app:destination="@id/withdrawFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/depositFragment"
+        android:name="com.example.fintech75.ui.fragments.DepositFragment"
+        android:label="fragment_deposit"
+        tools:layout="@layout/fragment_deposit" >
+        <argument
+            android:name="destinationCreditId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="destinationCreditType"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <action
+            android:id="@+id/action_depositFragment_to_movementSummaryFragment"
+            app:destination="@id/movementSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/payFragment"
+        android:name="com.example.fintech75.ui.fragments.PayFragment"
+        android:label="fragment_pay"
+        tools:layout="@layout/fragment_pay" >
+        <argument
+            android:name="currentCreditId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="currentCreditType"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <argument
+            android:name="marketId"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <action
+            android:id="@+id/action_payFragment_to_movementSummaryFragment"
+            app:destination="@id/movementSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transferFragment"
+        android:name="com.example.fintech75.ui.fragments.TransferFragment"
+        android:label="fragment_transfer"
+        tools:layout="@layout/fragment_transfer" >
+        <argument
+            android:name="originCreditId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="originCreditType"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <action
+            android:id="@+id/action_transferFragment_to_movementSummaryFragment"
+            app:destination="@id/movementSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/withdrawFragment"
+        android:name="com.example.fintech75.ui.fragments.WithdrawFragment"
+        android:label="fragment_withdraw"
+        tools:layout="@layout/fragment_withdraw" >
+        <argument
+            android:name="originCreditId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="originCreditType"
+            app:argType="string"
+            android:defaultValue="N/A" />
+        <action
+            android:id="@+id/action_withdrawFragment_to_movementSummaryFragment"
+            app:destination="@id/movementSummaryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movementSummaryFragment"
+        android:name="com.example.fintech75.ui.fragments.MovementSummaryFragment"
+        android:label="fragment_movement_summary"
+        tools:layout="@layout/fragment_movement_summary" >
+        <argument
+            android:name="movementSummary"
+            app:argType="com.example.fintech75.data.model.MovementExtraRequest" />
     </fragment>
 </navigation>
