@@ -116,4 +116,40 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun generateMovementSummary(
+        accessToken: String,
+        movementForm: MovementTypeRequest,
+        typeMovement: String,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): MovementExtraRequest {
+        val response = if (secure) {
+            val secureData = CipherSecure.packAndEncryptData(movementForm, false, null)
+            val secureResponse = webService.secureGenerateMovementSummary(accessToken, secureData, typeMovement, secure)
+            CipherSecure.unpackAndDecryptData<MovementExtraRequest>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.generateMovementSummary(accessToken, movementForm, typeMovement, secure)
+        }
+
+        return response
+    }
+
+    suspend fun beginMovement(
+        accessToken: String,
+        movementRequest: MovementExtraRequest,
+        typeMovement: String,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): MovementComplete {
+        val response = if (secure) {
+            val secureData = CipherSecure.packAndEncryptData(movementRequest, false, null)
+            val secureResponse = webService.secureBeginMovement(accessToken, secureData, typeMovement, secure)
+            CipherSecure.unpackAndDecryptData<MovementComplete>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.beginMovement(accessToken, movementRequest, typeMovement, secure)
+        }
+
+        return response
+    }
 }

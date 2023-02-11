@@ -62,7 +62,7 @@ data class MovementTypeRequest(
     val idCredit: Int? = null,
     @SerializedName("type_movement")
     val typeMovement: String,
-    val amount: String,
+    val amount: Double,
     @SerializedName("type_submov")
     val typeSubMovement: String,
     @SerializedName("destination_credit")

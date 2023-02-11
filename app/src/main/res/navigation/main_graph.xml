@@ -373,6 +373,9 @@
         <action
             android:id="@+id/action_depositFragment_to_movementSummaryFragment"
             app:destination="@id/movementSummaryFragment" />
+        <action
+            android:id="@+id/action_depositFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/payFragment"
@@ -394,6 +397,9 @@
         <action
             android:id="@+id/action_payFragment_to_movementSummaryFragment"
             app:destination="@id/movementSummaryFragment" />
+        <action
+            android:id="@+id/action_payFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/transferFragment"
@@ -411,6 +417,9 @@
         <action
             android:id="@+id/action_transferFragment_to_movementSummaryFragment"
             app:destination="@id/movementSummaryFragment" />
+        <action
+            android:id="@+id/action_transferFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/withdrawFragment"
@@ -428,6 +437,9 @@
         <action
             android:id="@+id/action_withdrawFragment_to_movementSummaryFragment"
             app:destination="@id/movementSummaryFragment" />
+        <action
+            android:id="@+id/action_withdrawFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/movementSummaryFragment"

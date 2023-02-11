@@ -155,6 +155,39 @@ interface WebService {
         @Path("id_credit") idCredit: Int,
         @Query("secure") secure: Boolean = true
     ): SecureBase
+
+    @POST("/movement/summary")
+    suspend fun generateMovementSummary(
+        @Header("Authorization") auth: String,
+        @Body movementForm: MovementTypeRequest,
+        @Query("type_movement") typeMovement: String,
+        @Query("secure") secure: Boolean = false
+    ): MovementExtraRequest
+
+    @POST("/movement/summary")
+    suspend fun secureGenerateMovementSummary(
+        @Header("Authorization") auth: String,
+        @Body secureMovementForm: SecureBase,
+        @Query("type_movement") typeMovement: String,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @POST("/movement/type/{movement_type}")
+    suspend fun beginMovement(
+        @Header("Authorization") auth: String,
+        @Body movementRequest: MovementExtraRequest,
+        @Path("movement_type") movementType: String,
+        @Query("secure") secure: Boolean = false
+    ): MovementComplete
+
+    @POST("/movement/type/{movement_type}")
+    suspend fun secureBeginMovement(
+        @Header("Authorization") auth: String,
+        @Body secureMovementRequest: SecureBase,
+        @Path("movement_type") movementType: String,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
 }
 
 object RetrofitClient {

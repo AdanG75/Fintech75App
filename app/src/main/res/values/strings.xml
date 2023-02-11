@@ -7,7 +7,7 @@
     <string name="forgot_password">Olvidé mi contraseña</string>
     <string name="logo">Logo</string>
     <string name="calendar">calendario</string>
-    <string name="loading">Cargando...</string>
+    <string name="loading">Cargando…</string>
     <string name="registration">Registro</string>
     <string name="fingerprint_registration">Registrar Huella</string>
     <string name="user_type">Tipo de usuario</string>
@@ -67,7 +67,7 @@
     <string name="hint_web_page">Página Web</string>
     <string name="hint_type_market">Abarrotes</string>
     <string name="hint_rfc">QWER101010PP6</string>
-    <string name="hint_work_hours">09:00-19:00</string>
+    <string name="hint_work_hours">09:00–19:00</string>
     <string name="hint_zip_code">00245</string>
     <string name="hint_state">Estado</string>
     <string name="hint_city">Ciudad</string>
@@ -172,6 +172,12 @@
     <string name="credit_detail">Detalle del crédito</string>
     <string name="without_movements">Sin movimientos registrados</string>
     <string name="close_session">Cerrar sesión</string>
-    <string name="closing_session">Cerrando sesión...</string>
+    <string name="closing_session">Cerrando sesión…</string>
+    <string name="pay_method">Medio de pago</string>
+    <string name="credit">Crédito</string>
+    <string name="paypal">PayPal</string>
+    <string name="hint_credit">Crédito</string>
+    <string name="hint_market_id">MKT-87fd029bc6cc436083b7ba3f9ad4aaaa</string>
+    <string name="amount">Monto</string>
 
 </resources>
