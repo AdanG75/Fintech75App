@@ -8,3 +8,7 @@ data class BasicResponse(
 data class BasicDataResponse(
     val data: String
 )
+
+data class DetailMessage(
+    val detail: String
+)

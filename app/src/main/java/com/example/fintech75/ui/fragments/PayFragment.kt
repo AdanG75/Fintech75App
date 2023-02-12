@@ -412,14 +412,28 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                         showTryAgainPayDialog()
                     }
                     is Resource.Failure -> {
-                        if ((result.exception as HttpException).code() == 409) {
-                            Log.d(fragmentName, "Not enough funds")
-                            screenLoading.visibility = View.GONE
-                            setStatePayButton(true)
-                            showNotEnoughFundsDialog()
-                        } else {
-                            Log.d(fragmentName, "Bad credentials")
-                            showInvalidCredentialsDialog()
+                        when((result.exception as HttpException).code()) {
+                            401 -> {
+                                Log.d(fragmentName, "Bad credentials")
+                                showInvalidCredentialsDialog()
+                            }
+                            409 -> {
+                                Log.d(fragmentName, "Not enough funds")
+                                screenLoading.visibility = View.GONE
+                                setStatePayButton(true)
+                                showNotEnoughFundsDialog()
+                            }
+                            450 -> {
+                                Log.d(fragmentName, "Unauthorized to use this credit")
+                                screenLoading.visibility = View.GONE
+                                setStatePayButton(true)
+                                cleanEditTexts()
+                                showUnauthorizedCreditDialog()
+                            }
+                            else -> {
+                                Log.d(fragmentName, "Bad credentials")
+                                showInvalidCredentialsDialog()
+                            }
                         }
                     }
                 }
@@ -546,6 +560,17 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     private fun showNotEnoughFundsDialog() = showNotificationDialog(
         title = "Error al pagar",
         message = "Fondos insuficientes.",
+        bOkAction = "iKnow",
+        bOkText = getString(R.string.i_know),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = false
+    )
+
+    private fun showUnauthorizedCreditDialog() = showNotificationDialog(
+        title = "Error",
+        message = "Usted no tiene permiso para usar este crédito",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,
