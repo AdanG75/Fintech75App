@@ -9,7 +9,7 @@
     tools:context=".ui.fragments.MovementSummaryFragment">
 
     <RelativeLayout
-        android:id="@+id/rl_pay_loading"
+        android:id="@+id/rl_summary_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.9"
@@ -19,7 +19,7 @@
         android:visibility="gone">
 
         <ProgressBar
-            android:id="@+id/pb_pay_bar"
+            android:id="@+id/pb_summary_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -30,7 +30,7 @@
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/tv_pay_msg"
+            android:id="@+id/tv_summary_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -274,6 +274,7 @@
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
+                android:id="@+id/ll_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/middle_small_margin"

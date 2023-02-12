@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.fintech75.core.Resource
+import com.example.fintech75.data.model.MovementComplete
 import com.example.fintech75.data.model.MovementExtraRequest
 import com.example.fintech75.data.model.MovementTypeRequest
 import com.example.fintech75.repository.MovementRepository
@@ -76,6 +77,28 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
             emit(Resource.TryAgain<Unit>())
         }
 
+    }
+
+    fun beginMovement(
+        token: String, movementRequest: MovementExtraRequest, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<MovementComplete>(
+                repo.beginMovement(token, movementRequest, movementRequest.typeMovement, userPrivateKey)
+            ))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
+                emit(Resource.Failure(e))
+            } else {
+                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
     }
 }
 
