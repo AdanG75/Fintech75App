@@ -183,5 +183,7 @@
     <string name="origin_credit">Crédito origen</string>
     <string name="destination_credit">Crédito destino</string>
     <string name="depositor_name">Nombre del depositante</string>
+    <string name="paypal_required">Este movimiento requiere cuenta de PayPal</string>
+    <string name="depositor_data">Datos del depositante</string>
 
 </resources>

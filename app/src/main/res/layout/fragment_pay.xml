@@ -226,6 +226,7 @@
                         android:layout_marginStart="@dimen/middle_margin"
                         android:layout_marginEnd="@dimen/middle_margin"
                         android:layout_marginBottom="@dimen/small_margin"
+                        android:gravity="center"
                         android:textColor="@color/text_color"
                         android:textSize="@dimen/h3_text"
                         android:textStyle="bold"
