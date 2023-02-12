@@ -449,5 +449,83 @@
         <argument
             android:name="movementSummary"
             app:argType="com.example.fintech75.data.model.MovementExtraRequest" />
+        <action
+            android:id="@+id/action_movementSummaryFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+        <action
+            android:id="@+id/action_movementSummaryFragment_to_authFingerprintFragment"
+            app:destination="@id/authFingerprintFragment" />
+        <action
+            android:id="@+id/action_movementSummaryFragment_to_authPayPalFragment"
+            app:destination="@id/authPayPalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authFingerprintFragment"
+        android:name="com.example.fintech75.ui.fragments.AuthFingerprintFragment"
+        android:label="AuthFingerprintFragment" >
+        <action
+            android:id="@+id/action_authFingerprintFragment_to_authPayPalFragment"
+            app:destination="@id/authPayPalFragment" />
+        <action
+            android:id="@+id/action_authFingerprintFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+        <action
+            android:id="@+id/action_authFingerprintFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+        <argument
+            android:name="idMovement"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="typeMovement"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="amountMovement"
+            app:argType="float"
+            android:defaultValue="-1" />
+        <argument
+            android:name="methodMovement"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="authType"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <action
+            android:id="@+id/action_authFingerprintFragment_to_pairedDevicesFragment"
+            app:destination="@id/pairedDevicesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authPayPalFragment"
+        android:name="com.example.fintech75.ui.fragments.AuthPayPalFragment"
+        android:label="fragment_auth_pay_pal"
+        tools:layout="@layout/fragment_auth_pay_pal" >
+        <action
+            android:id="@+id/action_authPayPalFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+        <action
+            android:id="@+id/action_authPayPalFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+        <argument
+            android:name="idMovement"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="typeMovement"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="amountMovement"
+            app:argType="float"
+            android:defaultValue="-1" />
+        <argument
+            android:name="methodMovement"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="authType"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
     </fragment>
 </navigation>

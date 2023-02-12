@@ -179,5 +179,9 @@
     <string name="hint_credit">Crédito</string>
     <string name="hint_market_id">MKT-87fd029bc6cc436083b7ba3f9ad4aaaa</string>
     <string name="amount">Monto</string>
+    <string name="summary">Resumen</string>
+    <string name="origin_credit">Crédito origen</string>
+    <string name="destination_credit">Crédito destino</string>
+    <string name="depositor_name">Nombre del depositante</string>
 
 </resources>
