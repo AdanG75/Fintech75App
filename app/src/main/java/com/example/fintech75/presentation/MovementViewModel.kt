@@ -27,6 +27,7 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
     private val _validPayForm = MutableLiveData<Boolean>()
     private val _validDepositForm = MutableLiveData<Boolean>()
     private val _validTransferForm = MutableLiveData<Boolean>()
+    private val _validWithdrawForm = MutableLiveData<Boolean>()
 
     fun getValidPaymentForm(): LiveData<Boolean> {
         if (_validPayForm.value == null) {
@@ -52,6 +53,14 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         return _validTransferForm
     }
 
+    fun getValidWithdrawForm(): LiveData<Boolean> {
+        if (_validWithdrawForm.value == null) {
+            _validWithdrawForm.value = false
+        }
+
+        return _validWithdrawForm
+    }
+
     fun validatePayForm(creditValid: Boolean, marketValid: Boolean, amountValid: Boolean) {
         _validPayForm.value = creditValid && marketValid && amountValid
     }
@@ -62,6 +71,10 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
 
     fun validateTransferForm(originCreditValid: Boolean, destinationCreditValid: Boolean, amountValid: Boolean) {
         _validTransferForm.value = originCreditValid && destinationCreditValid && amountValid
+    }
+
+    fun validateWithdrawForm(originCreditValid: Boolean, amountValid: Boolean) {
+        _validWithdrawForm.value = originCreditValid && amountValid
     }
 
     fun generatePaySummary(
@@ -175,6 +188,48 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         try {
             emit(Resource.Success<MovementExtraRequest>(
                 repo.generateMovementSummary(token, movementRequest, AppConstants.TRANSFER_MOVEMENT, privateKey)
+            ))
+        } catch (e: HttpException) {
+            val errorCode = e.code()
+            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
+                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+            } else {
+                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+
+    }
+
+    fun generateWithdrawSummary(
+        token: String,
+        idOriginCredit: Int,
+        amount: Double,
+        privateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+
+        val movementRequest = MovementTypeRequest(
+            idCredit = idOriginCredit,
+            typeMovement = AppConstants.WITHDRAW_MOVEMENT,
+            amount = amount,
+            typeSubMovement = AppConstants.CASH_METHOD,
+            destinationCredit = null,
+            idMarket = null,
+            depositorName = null,
+            depositorEmail = null,
+            typeTransfer = null
+        )
+
+        try {
+            emit(Resource.Success<MovementExtraRequest>(
+                repo.generateMovementSummary(token, movementRequest, AppConstants.WITHDRAW_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
             val errorCode = e.code()

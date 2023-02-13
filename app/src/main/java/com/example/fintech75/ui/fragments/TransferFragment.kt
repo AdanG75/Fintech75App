@@ -165,7 +165,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
                                 screenLoading.visibility = View.GONE
 
                                 cleanEditTexts()
-                                resetDepositValues()
+                                resetTransferValues()
                                 transferDataChange()
 
                                 showNoCreditFoundDialog()
@@ -181,7 +181,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
                                 screenLoading.visibility = View.GONE
 
                                 cleanEditTexts()
-                                resetDepositValues()
+                                resetTransferValues()
                                 transferDataChange()
 
                                 showUnauthorizedCreditDialog()
@@ -231,7 +231,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         binding.etAmount.text.clear()
     }
 
-    private fun resetDepositValues() {
+    private fun resetTransferValues() {
         originCredit = -1
         validOriginCredit = false
 
@@ -261,7 +261,7 @@ class TransferFragment : Fragment(R.layout.fragment_transfer) {
         Log.d(fragmentName, "Go to summary movement...")
 
         cleanEditTexts()
-        resetDepositValues()
+        resetTransferValues()
         transferDataChange()
         val action = TransferFragmentDirections.actionTransferFragmentToMovementSummaryFragment(
             movementSummary = movementSummary
