@@ -83,7 +83,8 @@ class MarketsFragment : Fragment(R.layout.fragment_markets), ItemClickListener {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
         Log.d(fragmentName, "User ID: ${currentUser.userID}")
     }

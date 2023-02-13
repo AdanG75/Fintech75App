@@ -103,7 +103,8 @@ class MovementOptionsFragment : Fragment(R.layout.fragment_movement_options) {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
         Log.d(fragmentName, "User ID: ${currentUser.userID}")
     }

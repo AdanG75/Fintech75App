@@ -458,6 +458,9 @@
         <action
             android:id="@+id/action_movementSummaryFragment_to_authPayPalFragment"
             app:destination="@id/authPayPalFragment" />
+        <action
+            android:id="@+id/action_movementSummaryFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
     </fragment>
     <fragment
         android:id="@+id/authFingerprintFragment"

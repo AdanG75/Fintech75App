@@ -100,7 +100,8 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
     }
 

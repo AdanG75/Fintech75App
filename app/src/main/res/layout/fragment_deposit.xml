@@ -194,7 +194,7 @@
                         android:layout_marginBottom="@dimen/middle_margin"
                         android:autofillHints="name"
                         android:hint="@string/hint_name"
-                        android:inputType="text"
+                        android:inputType="textPersonName"
                         android:paddingStart="@dimen/middle_padding"
                         android:paddingEnd="@dimen/middle_padding"
                         android:textColor="@color/text_color_dark"

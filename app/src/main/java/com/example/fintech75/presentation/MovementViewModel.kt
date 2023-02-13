@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
+import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.DetailMessage
 import com.example.fintech75.data.model.MovementComplete
@@ -24,8 +25,9 @@ import java.security.PrivateKey
 class MovementViewModel(private val repo: MovementRepository): ViewModel() {
 
     private val _validPayForm = MutableLiveData<Boolean>()
+    private val _validDepositForm = MutableLiveData<Boolean>()
 
-    fun getValidForm(): LiveData<Boolean> {
+    fun getValidPaymentForm(): LiveData<Boolean> {
         if (_validPayForm.value == null) {
             _validPayForm.value = false
         }
@@ -33,8 +35,20 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         return _validPayForm
     }
 
+    fun getValidDepositForm(): LiveData<Boolean> {
+        if (_validDepositForm.value == null) {
+            _validDepositForm.value = false
+        }
+
+        return _validDepositForm
+    }
+
     fun validatePayForm(creditValid: Boolean, marketValid: Boolean, amountValid: Boolean) {
         _validPayForm.value = creditValid && marketValid && amountValid
+    }
+
+    fun validateDepositForm(creditValid: Boolean, nameValid: Boolean, emailValid: Boolean, amountValid: Boolean) {
+        _validDepositForm.value = creditValid && nameValid && emailValid && amountValid
     }
 
     fun generatePaySummary(
@@ -42,14 +56,14 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
     ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
         emit(Resource.Loading<Unit>())
         val creditValue: Int = if (payMethod == "paypal") {
-            1
+            AppConstants.DEFAULT_ID_CREDIT
         } else {
             idCredit
         }
 
         val movementRequest = MovementTypeRequest(
             idCredit = creditValue,
-            typeMovement = "payment",
+            typeMovement = AppConstants.PAY_MOVEMENT,
             amount = amount,
             typeSubMovement = payMethod,
             destinationCredit = null,
@@ -61,11 +75,54 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
 
         try {
             emit(Resource.Success<MovementExtraRequest>(
-                repo.generateMovementSummary(token, movementRequest, "payment", privateKey)
+                repo.generateMovementSummary(token, movementRequest, AppConstants.PAY_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
             if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
-                Log.d("HTTP ERROR MESSAGE (Mo Generic)", e.response().toString())
+                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+            } else {
+                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+
+    }
+
+    fun generateDepositSummary(
+        token: String,
+        depositMethod: String,
+        idDestinationCredit: Int,
+        depositorName: String,
+        depositorEmail: String,
+        amount: Double,
+        privateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+
+        val movementRequest = MovementTypeRequest(
+            idCredit = AppConstants.DEFAULT_ID_CREDIT,
+            typeMovement = AppConstants.DEPOSIT_MOVEMENT,
+            amount = amount,
+            typeSubMovement = depositMethod,
+            destinationCredit = idDestinationCredit,
+            idMarket = null,
+            depositorName = depositorName,
+            depositorEmail = depositorEmail,
+            typeTransfer = null
+        )
+
+        try {
+            emit(Resource.Success<MovementExtraRequest>(
+                repo.generateMovementSummary(token, movementRequest, AppConstants.DEPOSIT_MOVEMENT, privateKey)
+            ))
+        } catch (e: HttpException) {
+            if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
+                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
                 emit(Resource.Failure(checkErrorFromDetailMessage(e)))
             } else {
                 Log.d("HTTP ERROR  MESSAGE", e.response().toString())

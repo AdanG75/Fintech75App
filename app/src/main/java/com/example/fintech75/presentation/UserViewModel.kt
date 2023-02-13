@@ -25,7 +25,8 @@ class UserViewModel(private val repo: StartRepository): ViewModel() {
         token = "N/A",
         userID = -1,
         typeUser = "N/A",
-        idType = "N/A"
+        idType = "N/A",
+        email = "N/A"
     )
 
     fun setCurrentUser(loggedUser: UserCredential){

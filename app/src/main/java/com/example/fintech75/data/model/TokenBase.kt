@@ -22,5 +22,6 @@ data class UserCredential(
     val token: String,
     val userID: Int,
     val typeUser: String,
-    val idType: String
+    val idType: String,
+    val email: String = "N/A"
 ): Parcelable

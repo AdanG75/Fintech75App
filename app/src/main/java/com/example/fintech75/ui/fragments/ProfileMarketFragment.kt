@@ -72,7 +72,8 @@ class ProfileMarketFragment : Fragment(R.layout.fragment_profile_market) {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
         Log.d(fragmentName, "User ID: ${currentUser.userID}")
     }

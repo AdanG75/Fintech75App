@@ -195,7 +195,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun login() {
-        loginViewModel.login(editUsername.text.toString(), editPassword.text.toString()).observe(viewLifecycleOwner) { result: Resource<*> ->
+        val emailLogin = editUsername.text.toString()
+        loginViewModel.login(emailLogin, editPassword.text.toString()).observe(viewLifecycleOwner) { result: Resource<*> ->
             when(result) {
                 is Resource.Loading -> {
                     disableItems()
@@ -204,7 +205,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 is Resource.Success -> {
                     if (result.data is TokenBase) {
                         val token = result.data
-                        doLogin(token)
+                        doLogin(token, emailLogin)
                     }
                 }
                 is Resource.TryAgain -> {
@@ -285,7 +286,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun doLogin(token: TokenBase) {
+    private fun doLogin(token: TokenBase, emailLogin: String) {
         clearEditTexts()
 
         val tokenBearer = "${token.tokenType} ${token.accessToken}"
@@ -299,7 +300,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 token = tokenBearer,
                 userID = token.userID,
                 typeUser = token.typeUser,
-                idType = token.idType
+                idType = token.idType,
+                email = emailLogin
             )
             userViewModel.setCurrentUser(userCredential)
 

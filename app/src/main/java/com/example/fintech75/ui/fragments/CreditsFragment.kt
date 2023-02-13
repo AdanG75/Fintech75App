@@ -100,7 +100,8 @@ class CreditsFragment : Fragment(R.layout.fragment_credits), ItemClickListener {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
         checkUserIsLogged(currentUser)
     }

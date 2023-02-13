@@ -70,7 +70,8 @@ class PaymentsFragment : Fragment(R.layout.fragment_payments) {
             token = "N/A",
             userID = -1,
             typeUser = "N/A",
-            idType = "N/A"
+            idType = "N/A",
+            email = "N/A"
         )
         if (currentUser.userID != args.idUser) {
             showInvalidCredentialsDialog()

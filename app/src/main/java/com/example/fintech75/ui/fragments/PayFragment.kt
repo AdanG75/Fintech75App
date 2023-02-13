@@ -55,7 +55,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     private var userPrivateKey: PrivateKey? = null
     private var userGlobalCredit: Int? = null
 
-    private var payMethod: String = "credit"
+    private var payMethod: String = AppConstants.CREDIT_METHOD
     private var payOriginCredit: Int = -1
     private var payMarketId: String = "N/A"
     private var payAmount: Double = -1.0
@@ -95,7 +95,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
         } else {
 
             if (currentUser.typeUser == "market") {
-                payMethod = "credit"
+                payMethod = AppConstants.CREDIT_METHOD
                 binding.cvPayMethod.visibility = View.GONE
                 binding.cvCredit.visibility = View.VISIBLE
             } else {
@@ -142,7 +142,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                     setScreenView(currentUser.typeUser)
                     configCreditView()
                     binding.cvCredit.visibility = View.VISIBLE
-                    "credit"
+                    AppConstants.CREDIT_METHOD
                 }
                 R.id.rb_pay_method_paypal -> {
                     binding.cvCredit.visibility = View.GONE
@@ -151,7 +151,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                     payDataChange()
                     setScreenView(currentUser.typeUser)
                     validOriginCredit = true
-                    "paypal"
+                    AppConstants.PAYPAL_METHOD
                 }
                 else -> {
                     cleanEditTexts()
@@ -160,7 +160,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                     setScreenView(currentUser.typeUser)
                     configCreditView()
                     binding.cvCredit.visibility = View.VISIBLE
-                    "credit"
+                    AppConstants.CREDIT_METHOD
                 }
             }
         }
@@ -343,7 +343,7 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     }
 
     private fun payButtonStatusListener() {
-        movementViewModel.getValidForm().observe(viewLifecycleOwner) { result: Boolean ->
+        movementViewModel.getValidPaymentForm().observe(viewLifecycleOwner) { result: Boolean ->
             setStatePayButton(result)
         }
     }
@@ -454,7 +454,9 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
 
     private fun goToMovementSummary(movementSummary: MovementExtraRequest) {
         Log.d(fragmentName, "Go to summary movement...")
-        Log.d(fragmentName, "Pay method: ${movementSummary.extra.typeSubMovement}")
+
+        cleanEditTexts()
+        resetPayValues()
         val action = PayFragmentDirections.actionPayFragmentToMovementSummaryFragment(
             movementSummary = movementSummary
         )
