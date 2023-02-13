@@ -417,6 +417,16 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                                 Log.d(fragmentName, "Bad credentials")
                                 showInvalidCredentialsDialog()
                             }
+                            404 -> {
+                                Log.d(fragmentName, "Credit not found")
+                                screenLoading.visibility = View.GONE
+
+                                cleanEditTexts()
+                                resetPayValues()
+                                payDataChange()
+
+                                showNoCreditFoundDialog()
+                            }
                             409 -> {
                                 Log.d(fragmentName, "Not enough funds")
                                 screenLoading.visibility = View.GONE
@@ -426,8 +436,11 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
                             450 -> {
                                 Log.d(fragmentName, "Unauthorized to use this credit")
                                 screenLoading.visibility = View.GONE
-                                setStatePayButton(true)
+
                                 cleanEditTexts()
+                                resetPayValues()
+                                payDataChange()
+
                                 showUnauthorizedCreditDialog()
                             }
                             else -> {
@@ -562,6 +575,17 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     private fun showNotEnoughFundsDialog() = showNotificationDialog(
         title = "Error al pagar",
         message = "Fondos insuficientes.",
+        bOkAction = "iKnow",
+        bOkText = getString(R.string.i_know),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = false
+    )
+
+    private fun showNoCreditFoundDialog() = showNotificationDialog(
+        title = "Errorr",
+        message = "Credito no encontrado",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,

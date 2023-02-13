@@ -111,8 +111,11 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
 
     private fun bind(movementSummary: MovementExtraRequest) {
         binding.tvTypeMovement.text = getTypeMovement(movementSummary.typeMovement)
-        binding.tvAmountMovement.text = movementSummary.amount
         binding.tvMethodMovement.text = getMethodMovement(movementSummary.extra.typeSubMovement)
+
+        "$${movementSummary.amount}".also {
+            binding.tvAmountMovement.text = it
+        }
 
         if (movementSummary.idCredit == null) {
             binding.tvOriginCreditMovementText.visibility = View.GONE

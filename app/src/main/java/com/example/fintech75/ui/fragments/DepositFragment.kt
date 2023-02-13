@@ -224,12 +224,24 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
                                 Log.d(fragmentName, "Bad credentials")
                                 showInvalidCredentialsDialog()
                             }
+                            404 -> {
+                                Log.d(fragmentName, "Credit not found")
+                                screenLoading.visibility = View.GONE
+
+                                cleanEditTexts()
+                                resetDepositValues()
+                                depositDataChange()
+
+                                showNoCreditFoundDialog()
+                            }
                             450 -> {
                                 Log.d(fragmentName, "Unauthorized to use this credit")
                                 screenLoading.visibility = View.GONE
-                                setStateDepositButton(true)
+
                                 cleanEditTexts()
                                 resetDepositValues()
+                                depositDataChange()
+
                                 showUnauthorizedCreditDialog()
                             }
                             else -> {
@@ -296,6 +308,7 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
 
         cleanEditTexts()
         resetDepositValues()
+        depositDataChange()
         val action = DepositFragmentDirections.actionDepositFragmentToMovementSummaryFragment(
             movementSummary = movementSummary
         )
@@ -549,6 +562,17 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
     private fun showUnauthorizedCreditDialog() = showNotificationDialog(
         title = "Error",
         message = "Usted no tiene permiso para usar este crédito",
+        bOkAction = "iKnow",
+        bOkText = getString(R.string.i_know),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = false
+    )
+
+    private fun showNoCreditFoundDialog() = showNotificationDialog(
+        title = "Errorr",
+        message = "Credito no encontrado",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,

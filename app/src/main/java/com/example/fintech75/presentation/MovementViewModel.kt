@@ -26,6 +26,7 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
 
     private val _validPayForm = MutableLiveData<Boolean>()
     private val _validDepositForm = MutableLiveData<Boolean>()
+    private val _validTransferForm = MutableLiveData<Boolean>()
 
     fun getValidPaymentForm(): LiveData<Boolean> {
         if (_validPayForm.value == null) {
@@ -43,12 +44,24 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         return _validDepositForm
     }
 
+    fun getValidTransferForm(): LiveData<Boolean> {
+        if (_validTransferForm.value == null) {
+            _validTransferForm.value = false
+        }
+
+        return _validTransferForm
+    }
+
     fun validatePayForm(creditValid: Boolean, marketValid: Boolean, amountValid: Boolean) {
         _validPayForm.value = creditValid && marketValid && amountValid
     }
 
     fun validateDepositForm(creditValid: Boolean, nameValid: Boolean, emailValid: Boolean, amountValid: Boolean) {
         _validDepositForm.value = creditValid && nameValid && emailValid && amountValid
+    }
+
+    fun validateTransferForm(originCreditValid: Boolean, destinationCreditValid: Boolean, amountValid: Boolean) {
+        _validTransferForm.value = originCreditValid && destinationCreditValid && amountValid
     }
 
     fun generatePaySummary(
@@ -78,7 +91,8 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.PAY_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
+            val errorCode = e.code()
+            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
                 Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
                 emit(Resource.Failure(checkErrorFromDetailMessage(e)))
             } else {
@@ -121,11 +135,55 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.DEPOSIT_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
+            val errorCode = e.code()
+            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
                 Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
                 emit(Resource.Failure(checkErrorFromDetailMessage(e)))
             } else {
                 Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                emit(Resource.TryAgain<Unit>())
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+
+    }
+
+    fun generateTransferSummary(
+        token: String,
+        idOriginCredit: Int,
+        idDestinationCredit: Int,
+        amount: Double,
+        privateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+
+        val movementRequest = MovementTypeRequest(
+            idCredit = idOriginCredit,
+            typeMovement = AppConstants.TRANSFER_MOVEMENT,
+            amount = amount,
+            typeSubMovement = AppConstants.CREDIT_METHOD,
+            destinationCredit = idDestinationCredit,
+            idMarket = null,
+            depositorName = null,
+            depositorEmail = null,
+            typeTransfer = AppConstants.PAYPAL_METHOD
+        )
+
+        try {
+            emit(Resource.Success<MovementExtraRequest>(
+                repo.generateMovementSummary(token, movementRequest, AppConstants.TRANSFER_MOVEMENT, privateKey)
+            ))
+        } catch (e: HttpException) {
+            val errorCode = e.code()
+            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
+                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+            } else {
+                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
                 emit(Resource.TryAgain<Unit>())
             }
         } catch (e: Exception) {
@@ -145,7 +203,8 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.beginMovement(token, movementRequest, movementRequest.typeMovement, userPrivateKey)
             ))
         } catch (e: HttpException) {
-            if (e.code() == 401 || e.code() == 403 || e.code() == 409) {
+            val errorCode = e.code()
+            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
                 Log.d("HTTP ERROR MESSAGE (Mo Generic)", e.response().toString())
                 emit(Resource.Failure(e))
             } else {
@@ -193,6 +252,21 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                     )
                     HttpException(Response.error<ResponseBody>(450, bodyResponse))
                 }
+                "Unsupportable user type. It is not compatible with the operation" -> {
+                    val bodyResponse = ResponseBody.create(
+                        MediaType.parse("plain/text"),
+                        "No puedes usar este cŕedito"
+                    )
+                    HttpException(Response.error<ResponseBody>(450, bodyResponse))
+                }
+                "Element not found" -> {
+                    val bodyResponse = ResponseBody.create(
+                        MediaType.parse("plain/text"),
+                        "Objeto no encontrado"
+                    )
+                    HttpException(Response.error<ResponseBody>(404, bodyResponse))
+                }
+
                 else -> {
                     e
                 }
