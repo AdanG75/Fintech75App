@@ -188,6 +188,79 @@ interface WebService {
         @Query("secure") secure: Boolean = true
     ): SecureBase
 
+    @POST("/credit/order")
+    suspend fun createCreditOrder(
+        @Header("Authorization") auth: String,
+        @Body creditRequest: CreateCredit,
+        @Query("secure") secure: Boolean = false
+    ): CreditOrderResponse
+
+    @POST("/credit/order")
+    suspend fun secureCreateCreditOrder(
+        @Header("Authorization") auth: String,
+        @Body secureCreditRequest: SecureBase,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @POST("/credit/order/{id_order}/fingerprint")
+    suspend fun saveCreditFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Body fingerprintSample: FingerprintSample,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @POST("/credit/order/{id_order}/fingerprint")
+    suspend fun secureSaveCreditFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Body secureFingerprintSample: SecureBase,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @GET("/credit/order/{id_order}/match")
+    suspend fun authCreditOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @GET("/credit/order/{id_order}/match")
+    suspend fun secureAuthCreditOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @POST("/credit/order/{id_order}/capture")
+    suspend fun createCredit(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = false
+    ): CreditBase
+
+    @POST("/credit/order/{id_order}/capture")
+    suspend fun secureCreateCredit(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @DELETE("/credit/order/{id_order}")
+    suspend fun deleteCreditOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @DELETE("/credit/order/{id_order}")
+    suspend fun secureDeleteCreditOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_order") idOrder: String,
+        @Query("secure") secure: Boolean = false
+    ): SecureBase
 }
 
 object RetrofitClient {

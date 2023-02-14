@@ -152,4 +152,88 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun createCreditOrder(
+        accessToken: String,
+        creditRequest: CreateCredit,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): CreditOrderResponse {
+        val response = if (secure) {
+            val secureData = CipherSecure.packAndEncryptData(creditRequest, false, null)
+            val secureResponse = webService.secureCreateCreditOrder(accessToken, secureData, secure)
+            CipherSecure.unpackAndDecryptData<CreditOrderResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.createCreditOrder(accessToken, creditRequest, secure)
+        }
+
+        return response
+    }
+
+    suspend fun saveCreditFingerprint(
+        accessToken: String,
+        idOrder: String,
+        fingerprintSample: FingerprintSample,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureData = CipherSecure.packAndEncryptData(fingerprintSample, false, null)
+            val secureResponse = webService.secureSaveCreditFingerprint(accessToken, idOrder, secureData, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.saveCreditFingerprint(accessToken, idOrder, fingerprintSample, secure)
+        }
+
+        return response
+    }
+
+    suspend fun authCreditOrder(
+        accessToken: String,
+        idOrder: String,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureResponse = webService.secureAuthCreditOrder(accessToken, idOrder, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.authCreditOrder(accessToken, idOrder, secure)
+        }
+
+        return response
+    }
+
+    suspend fun createCredit(
+        accessToken: String,
+        idOrder: String,
+        notify: Boolean,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): CreditBase {
+        val response = if (secure) {
+            val secureResponse = webService.secureCreateCredit(accessToken, idOrder, notify, secure)
+            CipherSecure.unpackAndDecryptData<CreditBase>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.createCredit(accessToken, idOrder, notify, secure)
+        }
+
+        return response
+    }
+
+    suspend fun deleteCreditOrder(
+        accessToken: String,
+        idOrder: String,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureResponse = webService.secureDeleteCreditOrder(accessToken, idOrder, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.deleteCreditOrder(accessToken, idOrder, secure)
+        }
+
+        return response
+    }
 }

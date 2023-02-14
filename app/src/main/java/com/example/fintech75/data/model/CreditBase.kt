@@ -57,3 +57,45 @@ data class CreditMarketClient(
     @SerializedName("credit_client")
     val creditClient: CreditClient
 )
+
+data class CreateCredit(
+    @SerializedName("id_market")
+    val idMarket: String,
+    @SerializedName("id_client")
+    val idClient: String? = null,
+    @SerializedName("client_email")
+    val clientEmail: String? = null,
+    @SerializedName("alias_credit")
+    val aliasCredit: String,
+    val amount: String
+)
+
+data class CreditSmallData(
+    @SerializedName("id_client")
+    val idClient: String,
+    @SerializedName("id_market")
+    val idMarket: String,
+    @SerializedName("id_account")
+    val idAccount: Int? = null,
+    @SerializedName("alias_credit")
+    val aliasCredit: String,
+    @SerializedName("type_credit")
+    val typeCredit: String,
+    val amount: String,
+    @SerializedName("is_approved")
+    val isApproved: Boolean
+)
+
+data class CreditOwners(
+    @SerializedName("market_name")
+    val marketName: String,
+    @SerializedName("client_name")
+    val clientName: String
+)
+
+data class CreditOrderResponse(
+    val credit: CreditSmallData,
+    val owners: CreditOwners,
+    @SerializedName("id_pre_credit")
+    val idPreCredit: String
+)
