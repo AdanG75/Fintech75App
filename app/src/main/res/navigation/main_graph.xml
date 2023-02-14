@@ -41,11 +41,14 @@
         android:label="@string/add"
         tools:layout="@layout/fragment_add_element" >
         <action
-            android:id="@+id/action_add_fragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
-        <action
             android:id="@+id/action_add_fragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_add_fragment_to_createCreditFragment"
+            app:destination="@id/createCreditFragment" />
+        <action
+            android:id="@+id/action_add_fragment_to_signUpClientFragment"
+            app:destination="@id/signUpClientFragment" />
     </fragment>
     <fragment
         android:id="@+id/movements_fragment"
@@ -131,11 +134,11 @@
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
-            android:id="@+id/action_signUpFragment_to_fingerprintRegisterFragment"
-            app:destination="@id/fingerprintRegisterFragment" />
+            android:id="@+id/action_signUpFragment_to_signUpMarketFragment"
+            app:destination="@id/signUpMarketFragment" />
         <action
-            android:id="@+id/action_signUpFragment_to_movementFinishedFragment"
-            app:destination="@id/movementFinishedFragment" />
+            android:id="@+id/action_signUpFragment_to_signUpClientFragment"
+            app:destination="@id/signUpClientFragment" />
     </fragment>
     <fragment
         android:id="@+id/fingerprintRegisterFragment"
@@ -152,6 +155,9 @@
             android:name="idClient"
             app:argType="string"
             android:defaultValue='"N/A"' />
+        <action
+            android:id="@+id/action_fingerprintRegisterFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/movementFinishedFragment"
@@ -530,5 +536,56 @@
             android:name="authType"
             app:argType="string"
             android:defaultValue='"N/A"' />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpMarketFragment"
+        android:name="com.example.fintech75.ui.fragments.SignUpMarketFragment"
+        android:label="fragment_sign_up_market"
+        tools:layout="@layout/fragment_sign_up_market" >
+        <action
+            android:id="@+id/action_signUpMarketFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+        <action
+            android:id="@+id/action_signUpMarketFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpClientFragment"
+        android:name="com.example.fintech75.ui.fragments.SignUpClientFragment"
+        android:label="fragment_sign_up_client"
+        tools:layout="@layout/fragment_sign_up_client" >
+        <action
+            android:id="@+id/action_signUpClientFragment_to_fingerprintRegisterFragment"
+            app:destination="@id/fingerprintRegisterFragment" />
+        <action
+            android:id="@+id/action_signUpClientFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createCreditFragment"
+        android:name="com.example.fintech75.ui.fragments.CreateCreditFragment"
+        android:label="fragment_create_credit"
+        tools:layout="@layout/fragment_create_credit" >
+        <action
+            android:id="@+id/action_createCreditFragment_to_authCreditFragment"
+            app:destination="@id/authCreditFragment" />
+        <action
+            android:id="@+id/action_createCreditFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/authCreditFragment"
+        android:name="com.example.fintech75.ui.fragments.AuthCreditFragment"
+        android:label="fragment_auth_credit"
+        tools:layout="@layout/fragment_auth_credit" >
+        <action
+            android:id="@+id/action_authCreditFragment_to_movementFinishedFragment"
+            app:destination="@id/movementFinishedFragment" />
+        <action
+            android:id="@+id/action_authCreditFragment_to_pairedDevicesFragment"
+            app:destination="@id/pairedDevicesFragment" />
+        <action
+            android:id="@+id/action_authCreditFragment_to_notificationDialogFragment"
+            app:destination="@id/notificationDialogFragment" />
     </fragment>
 </navigation>

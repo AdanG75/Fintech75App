@@ -7,8 +7,7 @@ import android.view.View
 import com.example.fintech75.R
 import com.example.fintech75.ui.activities.MainActivity
 
-class AuthFingerprintFragment : Fragment(R.layout.fragment_auth_fingerprint) {
-
+class SignUpClientFragment : Fragment(R.layout.fragment_sign_up_client) {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (activity as MainActivity).hideBottomNavigation()
@@ -17,5 +16,4 @@ class AuthFingerprintFragment : Fragment(R.layout.fragment_auth_fingerprint) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
     }
-
 }

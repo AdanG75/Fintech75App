@@ -185,5 +185,7 @@
     <string name="depositor_name">Nombre del depositante</string>
     <string name="paypal_required">Este movimiento requiere cuenta de PayPal</string>
     <string name="depositor_data">Datos del depositante</string>
+    <string name="new_market">Nueva tienda</string>
+    <string name="sign_up_title">Registrar</string>
 
 </resources>
