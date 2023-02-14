@@ -196,5 +196,7 @@
     <string name="market_name">Nombre de la Tienda</string>
     <string name="movement">Movimiento</string>
     <string name="method">Medio</string>
+    <string name="ok_result_movement">Movimiento realizado exitosamente</string>
+    <string name="bad_result_movement">No se pudo efectuar el movimiento</string>
 
 </resources>

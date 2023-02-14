@@ -1,10 +1,7 @@
 package com.example.fintech75.presentation
 
 import android.util.Log
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.*
@@ -18,6 +15,20 @@ import retrofit2.Response
 import java.security.PrivateKey
 
 class CreditViewModel(private val repo: CreditRepository): ViewModel() {
+
+    private val _validCreditForm = MutableLiveData<Boolean>()
+
+    fun getValidCreditForm(): LiveData<Boolean> {
+        if (_validCreditForm.value == null) {
+            _validCreditForm.value = false
+        }
+
+        return _validCreditForm
+    }
+
+    fun validateCreditForm(validAlias: Boolean, validEmailClient: Boolean, validAmount: Boolean) {
+        _validCreditForm.value = validAlias && validEmailClient && validAmount
+    }
 
     fun fetchCreditDetail(
         accessToken: String, idCredit: Int, privateKey: PrivateKey
@@ -191,6 +202,13 @@ class CreditViewModel(private val repo: CreditRepository): ViewModel() {
                 }
                 418 -> {
                     when(errorParser.detail) {
+                        "Client already has a credit within the market" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "El cliente ya tiene un crédito con el establecimiento"
+                            )
+                            HttpException(Response.error<ResponseBody>(451, bodyResponse))
+                        }
                         "Fingerprint could not be created", "Reconstruction fingerprint failed" -> {
                             val bodyResponse = ResponseBody.create(
                                 MediaType.parse("plain/text"),

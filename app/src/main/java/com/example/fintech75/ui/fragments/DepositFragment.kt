@@ -571,8 +571,8 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
     )
 
     private fun showNoCreditFoundDialog() = showNotificationDialog(
-        title = "Errorr",
-        message = "Credito no encontrado",
+        title = "Error",
+        message = "Crédito no encontrado",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,

@@ -584,8 +584,8 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     )
 
     private fun showNoCreditFoundDialog() = showNotificationDialog(
-        title = "Errorr",
-        message = "Credito no encontrado",
+        title = "Error",
+        message = "Crédito no encontrado",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,
