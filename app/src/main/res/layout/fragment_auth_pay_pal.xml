@@ -1,14 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".ui.fragments.AuthPayPalFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rl_auth_paypal_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:elevation="@dimen/small_elevation"
+        android:gravity="center"
+        android:visibility="gone">
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/pb_auth_paypal_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_auth_paypal_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_auth_paypal_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/auth"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/ll_auth_buttons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_auth_paypal_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/middle_margin"
+                android:elevation="@dimen/middle_elevation"
+                app:cardCornerRadius="@dimen/small_round_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_card"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:text="@string/type_movement"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_type_movement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/movement" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:text="@string/amount"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_amount_movement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/amount_field" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:text="@string/method"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_method_movement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/paypal" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_auth_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/b_cancel_movement"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/middle_height_button"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/middle_small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/middle_small_margin"
+            android:layout_weight="1"
+            android:background="@drawable/shape_close_button"
+            android:text="@string/cancel"
+            android:textColor="@color/red"
+            android:textSize="@dimen/h2_text"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/b_make_movement"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/middle_height_button"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/middle_small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/middle_small_margin"
+            android:layout_weight="1"
+            android:background="@drawable/shape_main_button"
+            android:text="@string/make"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/h2_text"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

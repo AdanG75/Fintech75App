@@ -1,14 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
     tools:context=".ui.fragments.AuthCreditFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rl_auth_credit_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:elevation="@dimen/small_elevation"
+        android:gravity="center"
+        android:visibility="gone">
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/pb_auth_credit_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_auth_credit_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_new_credit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/auth"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/middle_margin"
+                android:elevation="@dimen/middle_elevation"
+                app:cardCornerRadius="@dimen/small_round_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_card"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/tv_alias_credit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="2"
+                        android:textColor="@color/light_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/credit_alias" />
+
+                    <TextView
+                        android:id="@+id/tv_amount_credit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/dark_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/amount_field" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_width"
+                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@color/shiny_blue" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:text="@string/client_name"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_client_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_big_margin"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal"
+                        android:lines="2"
+                        android:textColor="@color/shiny_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/name_field" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:text="@string/market_name"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/h2_text"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_market_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/middle_small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/middle_small_margin"
+                        android:layout_marginBottom="@dimen/middle_big_margin"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal"
+                        android:lines="2"
+                        android:textColor="@color/shiny_blue"
+                        android:textSize="@dimen/small_highlight_text"
+                        android:textStyle="bold"
+                        tools:text="@string/name_field" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_width"
+                        android:layout_marginStart="@dimen/big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@color/shiny_blue" />
+
+                    <Button
+                        android:id="@+id/b_connect"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_height_button"
+                        android:layout_marginStart="@dimen/very_big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/very_big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@drawable/shape_secondary_button"
+                        android:drawableStart="@drawable/ic_bluetooth_32"
+                        android:enabled="false"
+                        android:paddingStart="@dimen/middle_padding"
+                        android:paddingEnd="@dimen/middle_padding"
+                        android:text="@string/connect_sensor"
+                        android:textColor="@color/mate_white"
+                        android:textSize="@dimen/h3_text"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/b__capture"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/small_height_button"
+                        android:layout_marginStart="@dimen/very_big_margin"
+                        android:layout_marginTop="@dimen/middle_margin"
+                        android:layout_marginEnd="@dimen/very_big_margin"
+                        android:layout_marginBottom="@dimen/middle_margin"
+                        android:background="@drawable/shape_secondary_button"
+                        android:drawableStart="@drawable/ic_fingerprint_32"
+                        android:enabled="false"
+                        android:paddingStart="@dimen/middle_padding"
+                        android:paddingEnd="@dimen/middle_padding"
+                        android:text="@string/capture_fingerprint"
+                        android:textColor="@color/mate_white"
+                        android:textSize="@dimen/h3_text"
+                        android:textStyle="bold"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2" >
+
+                <Button
+                    android:id="@+id/b_cancel_credit"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/middle_height_button"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_small_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_close_button"
+                    android:text="@string/cancel"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/b_make_credit"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/middle_height_button"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/middle_small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_small_margin"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_main_button"
+                    android:text="@string/make"
+                    android:textColor="@color/mate_white"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

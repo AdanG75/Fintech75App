@@ -587,5 +587,25 @@
         <action
             android:id="@+id/action_authCreditFragment_to_notificationDialogFragment"
             app:destination="@id/notificationDialogFragment" />
+        <argument
+            android:name="aliasCredit"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="amountCredit"
+            app:argType="string"
+            android:defaultValue='"$0.00"' />
+        <argument
+            android:name="clientName"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="marketName"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
+        <argument
+            android:name="idOrder"
+            app:argType="string"
+            android:defaultValue='"N/A"' />
     </fragment>
 </navigation>

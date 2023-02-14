@@ -187,5 +187,14 @@
     <string name="depositor_data">Datos del depositante</string>
     <string name="new_market">Nueva tienda</string>
     <string name="sign_up_title">Registrar</string>
+    <string name="create">Crear</string>
+    <string name="data_credit">Datos del Crédito</string>
+    <string name="client_email">Email del cliente</string>
+    <string name="credit_alias">Alias del crédito</string>
+    <string name="auth">Autorizar</string>
+    <string name="client_name">Nombre del Cliente</string>
+    <string name="market_name">Nombre de la Tienda</string>
+    <string name="movement">Movimiento</string>
+    <string name="method">Medio</string>
 
 </resources>

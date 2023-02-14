@@ -1,14 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ui.fragments.CreateCreditFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/rl_new_credit_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/new_credit"
+            android:textColor="@color/mate_white"
+            android:textSize="@dimen/big_highlight_text"
+            android:textStyle="bold">
+
+        </TextView>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_new_credit_title">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/middle_margin"
+            android:elevation="@dimen/middle_elevation"
+            app:cardCornerRadius="@dimen/small_round_corner">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_card"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/middle_small_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    android:text="@string/data_credit"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="@dimen/highlight_text"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/middle_small_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:text="@string/client_email"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_email_client"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edit_text"
+                    android:background="@drawable/shape_edit_text"
+                    android:layout_marginStart="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/middle_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    android:autofillHints="emailAddress"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/middle_padding"
+                    android:paddingEnd="@dimen/middle_padding"
+                    android:textColor="@color/text_color_dark"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/edit_text_size"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/middle_small_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:text="@string/credit_alias"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_alias_credit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edit_text"
+                    android:background="@drawable/shape_edit_text"
+                    android:layout_marginStart="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/middle_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    android:autofillHints="username"
+                    android:hint="@string/credit_alias"
+                    android:inputType="textEmailAddress"
+                    android:paddingStart="@dimen/middle_padding"
+                    android:paddingEnd="@dimen/middle_padding"
+                    android:textColor="@color/text_color_dark"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/edit_text_size"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/middle_small_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:text="@string/amount"
+                    android:textColor="@color/text_color"
+                    android:textSize="@dimen/h2_text"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/et_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/height_edit_text"
+                    android:background="@drawable/shape_edit_text"
+                    android:layout_marginStart="@dimen/middle_margin"
+                    android:layout_marginEnd="@dimen/middle_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/middle_margin"
+                    android:autofillHints="postalAddress"
+                    android:hint="@string/amount"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="@dimen/middle_padding"
+                    android:paddingEnd="@dimen/middle_padding"
+                    android:textColor="@color/text_color_dark"
+                    android:textColorHint="@color/text_color"
+                    android:textSize="@dimen/edit_text_size"/>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/b_new_credit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/middle_height_button"
+        android:layout_marginStart="@dimen/very_big_margin"
+        android:layout_marginEnd="@dimen/very_big_margin"
+        android:layout_marginBottom="@dimen/middle_margin"
+        android:layout_marginTop="@dimen/middle_margin"
+        android:background="@drawable/shape_main_button"
+        android:enabled="false"
+        android:text="@string/create"
+        android:textColor="@color/mate_white"
+        android:textSize="@dimen/highlight_text"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <RelativeLayout
+        android:id="@+id/rl_new_credit_loading"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:alpha="0.9"
+        android:background="@drawable/shape_backgroud_progress_bar"
+        android:elevation="@dimen/small_elevation"
+        android:gravity="center"
+        android:visibility="invisible">
 
-</FrameLayout>
+        <ProgressBar
+            android:id="@+id/pb_new_credit_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="64dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/tv_new_credit_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/loading"
+            android:textColor="@color/text_color_dark"
+            android:textSize="@dimen/highlight_text"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
