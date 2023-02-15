@@ -56,9 +56,16 @@ class MovementFinishedFragment : Fragment(R.layout.fragment_movement_finished) {
             MovementFinishedFragmentDirections.actionMovementFinishedFragmentToCreditsFragment()
         }
 
-        binding.bMovementFinishedOk.setOnClickListener {
-            Log.d(fragmentName, "Finish movement's flow")
-            findNavController().navigate(action)
+//        binding.bMovementFinishedOk.setOnClickListener {
+//            Log.d(fragmentName, "Finish movement's flow")
+//            findNavController().navigate(action)
+//        }
+        binding.bMovementFinishedOk .setOnClickListener{
+            if (currentUser.userID == -1) {
+                goToLogin()
+            } else {
+                goToCredits()
+            }
         }
         binding.bMovementFinishedOk.isEnabled = true
 
@@ -90,6 +97,16 @@ class MovementFinishedFragment : Fragment(R.layout.fragment_movement_finished) {
                 findNavController().navigate(action)
             }
         })
+    }
+
+    private fun goToLogin() {
+        Log.d(fragmentName, "Go to Login...")
+        findNavController().popBackStack(R.id.loginFragment, false)
+    }
+
+    private fun goToCredits() {
+        Log.d(fragmentName, "Go to Credits...")
+        findNavController().popBackStack(R.id.creditsFragment, false)
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.fintech75.ui.activities
 
+import android.bluetooth.BluetoothManager
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.data.remote.RetrofitClient
 import com.example.fintech75.databinding.ActivityMainBinding
+import com.example.fintech75.hardware.BtClass
 import com.example.fintech75.presentation.*
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -47,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         setupBottomNav()
         currentUserListener()
         getInputMethodManager()
+        BtClass.bluetoothManager = getBluetoothManage()
     }
 
     private fun currentUserListener() {
@@ -81,6 +84,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun getInputMethodManager() {
         GlobalSettings.inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
+
+    private fun getBluetoothManage(): BluetoothManager? {
+        val bluetoothManager: BluetoothManager =
+            getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
+
+        bluetoothManager.adapter ?: return null
+
+        return bluetoothManager
     }
 
     fun showBottomNavigation() {

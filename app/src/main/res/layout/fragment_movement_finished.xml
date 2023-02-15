@@ -9,9 +9,12 @@
 
     <TextView
         android:id="@+id/tv_movement_finished_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/very_big_margin"
+        android:layout_marginEnd="@dimen/middle_margin"
+        android:layout_marginStart="@dimen/middle_margin"
+        android:gravity="center_horizontal"
         android:text="@string/loading"
         android:textColor="@color/mate_white"
         android:textSize="@dimen/highlight_text"

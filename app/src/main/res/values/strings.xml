@@ -198,5 +198,10 @@
     <string name="method">Medio</string>
     <string name="ok_result_movement">Movimiento realizado exitosamente</string>
     <string name="bad_result_movement">No se pudo efectuar el movimiento</string>
+    <string name="bluetooth_turn_on">Bluetooth prendido</string>
+    <string name="error_bluetooth_not_turn_on">No se pudo encender el bluetooth</string>
+    <string name="bluetooth_already_on">El bluetooth ya estaba prendido</string>
+    <string name="no_devices_paired">Ningun dispositivo emparejado</string>
+    <string name="disconnect">Desconectar</string>
 
 </resources>
