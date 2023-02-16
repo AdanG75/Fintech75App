@@ -240,6 +240,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                     }
                     is Resource.Success -> {
                         Log.d(fragmentName, "Finish auth credit process")
+                        btClass.stopBluetooth()
 
                         goToResultScreen(true)
                     }
@@ -301,6 +302,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                                 Log.d(fragmentName, "Bad credentials")
                                 screenLoading.visibility = View.GONE
                                 setStateButtons(true)
+                                btClass.stopBluetooth()
 
                                 showInvalidCredentialsDialog()
                             }
