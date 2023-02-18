@@ -184,7 +184,7 @@ class BtClass(val handler: Handler) {
                         }
                         ++pos
 
-                        if (pos == 100) {
+                        if (pos == SIZE_BUFFER) {
                             handler.obtainMessage(MESSAGE_READ, pos, -1, mmIntBuffer)
                                 .sendToTarget()
                             pos = 0
@@ -234,7 +234,7 @@ class BtClass(val handler: Handler) {
         private const val HORIZONTAL_TAB: Int = 9
 
         const val SIZE_FINGERPRINT_BUFFER: Int = 36864
-        private const val SIZE_BUFFER: Int = 150
+        private const val SIZE_BUFFER: Int = 100
 
         var bluetoothManager: BluetoothManager? = null
     }
