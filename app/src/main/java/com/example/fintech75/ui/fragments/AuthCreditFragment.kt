@@ -37,10 +37,7 @@ import com.example.fintech75.hardware.BtClass
 import com.example.fintech75.hardware.CONNECTING_STATUS
 import com.example.fintech75.hardware.MESSAGE_READ
 import com.example.fintech75.hardware.MESSAGE_WRITE
-import com.example.fintech75.presentation.CreditViewModel
-import com.example.fintech75.presentation.CreditViewModelFactory
-import com.example.fintech75.presentation.UserViewModel
-import com.example.fintech75.presentation.UserViewModelFactory
+import com.example.fintech75.presentation.*
 import com.example.fintech75.repository.CreditRepositoryImpl
 import com.example.fintech75.repository.StartRepositoryImpl
 import com.example.fintech75.ui.activities.MainActivity
@@ -64,6 +61,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             RemoteDataSource(RetrofitClient.webService)
         ))
     }
+    private val fingerprintViewModel: FingerprintViewModel by viewModels()
 
     private lateinit var binding: FragmentAuthCreditBinding
     private lateinit var screenLoading: RelativeLayout
@@ -73,7 +71,6 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
     private lateinit var btClass: BtClass
     private lateinit var mHandler: Handler
 
-    private var fingerprintSample: String? = null
     private var mFingerprintBuffer: IntArray = IntArray(36864)
 
     private lateinit var currentUser: UserCredential
@@ -82,6 +79,9 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
     private var bluetoothAddress: String? = null
     private var bluetoothName: String? = null
     private var bluetoothUuid: UUID? = null
+
+    private var timerFinished: Boolean = false
+    private var capturedFinished: Boolean = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -177,6 +177,9 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             setStateButtons(false)
             binding.tvAuthCreditMsg.text = getString(R.string.capturing_fingerprint)
             screenLoading.visibility = View.VISIBLE
+            capturedFinished = false
+            timerFinished = false
+            starTimer()
             captureFingerprint()
         }
     }
@@ -223,6 +226,27 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
         } else {
             binding.bConnect.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
             binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
+        }
+    }
+
+    private fun starTimer() {
+        fingerprintViewModel.activateTimer().observe(viewLifecycleOwner) { result: Boolean ->
+            timerFinished = result
+            if (result) {
+                if (!capturedFinished) {
+                    Log.d(fragmentName, "Capturing has been canceled...")
+                    setStateButtons(true)
+                    screenLoading.visibility = View.GONE
+
+                    Toast.makeText(
+                        view?.context,
+                        "Captura cancelada. Trate de nuevo",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Log.d(fragmentName, "Start timer")
+            }
         }
     }
 
@@ -410,14 +434,14 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             Toast.makeText(
                 requireContext(),
                 R.string.bluetooth_turn_on,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
             goToPairedDevices()
         } else {
             Toast.makeText(
                 requireContext(),
                 R.string.error_bluetooth_not_turn_on,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -430,7 +454,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             Toast.makeText(
                 requireContext(),
                 R.string.bluetooth_already_on,
-                Toast.LENGTH_LONG
+                Toast.LENGTH_SHORT
             ).show()
             goToPairedDevices()
         }
@@ -478,14 +502,14 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                 Toast.makeText(
                     requireContext(),
                     "Permiso obtenido",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             } else {
                 // Permission request was denied.
                 Toast.makeText(
                     requireContext(),
                     "Permiso denegado",
-                    Toast.LENGTH_LONG
+                    Toast.LENGTH_SHORT
                 ).show()
             }
         }
@@ -503,7 +527,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         Toast.makeText(
                             view?.context,
                             "$bluetoothName are connected",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                         true
                     }
@@ -516,7 +540,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         Toast.makeText(
                             view?.context,
                             "$bluetoothName are disconnected",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                         true
                     }
@@ -528,7 +552,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         Toast.makeText(
                             view?.context,
                             "Connection failed",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                         false
                     }
@@ -557,26 +581,28 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         setStateButtons(true)
                         screenLoading.visibility = View.GONE
 
-                        Log.d(fragmentName, "Finish capture...")
-                        val mBuffer: ByteArray? = message.obj as ByteArray
-                        mBuffer?.let {
-                            val arduinoMessage: String = String(mBuffer, 0, message.arg1)
-                            if (arduinoMessage.isNotEmpty()) {
-                                if (streamCompleteRegex.containsMatchIn(arduinoMessage)) {
-                                    val fingerByte = ByteArray(BtClass.SIZE_FINGERPRINT_BUFFER)
+                        if (!timerFinished) {
+                            capturedFinished = true
+                            Log.d(fragmentName, "Finish capture...")
+                            val mBuffer: ByteArray? = message.obj as ByteArray
+                            mBuffer?.let {
+                                val arduinoMessage: String = String(mBuffer, 0, message.arg1)
+                                if (arduinoMessage.isNotEmpty()) {
+                                    if (streamCompleteRegex.containsMatchIn(arduinoMessage)) {
+                                        val fingerByte = ByteArray(BtClass.SIZE_FINGERPRINT_BUFFER)
 
-                                    // Log.d(fragmentName, "Sample size: ${mFingerprintBuffer.size}")
-                                    for (i in mFingerprintBuffer.indices) {
-                                        fingerByte[i] = mFingerprintBuffer[i].toByte()
+                                        // Log.d(fragmentName, "Sample size: ${mFingerprintBuffer.size}")
+                                        for (i in mFingerprintBuffer.indices) {
+                                            fingerByte[i] = mFingerprintBuffer[i].toByte()
+                                        }
+
+                                        val fingerprintSample: String? = Base64.getEncoder().encodeToString(fingerByte)
+
+                                        fingerprintSample?.let { fSample ->
+                                            authCredit(fSample)
+                                        }
+                                        // Log.d(fragmentName, "Sample:$fingerprintSample")
                                     }
-
-                                    fingerprintSample = Base64.getEncoder().encodeToString(fingerByte)
-
-                                    fingerprintSample?.let { fSample ->
-                                        authCredit(fSample)
-                                    }
-                                    fingerprintSample = null
-                                    // Log.d(fragmentName, "Sample:$fingerprintSample")
                                 }
                             }
                         }
@@ -597,7 +623,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         Toast.makeText(
                             view?.context,
                             "Connection lost",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                         false
                     }
