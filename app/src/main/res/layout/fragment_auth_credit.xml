@@ -206,25 +206,6 @@
                         android:textSize="@dimen/h3_text"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/b__capture"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/small_height_button"
-                        android:layout_marginStart="@dimen/very_big_margin"
-                        android:layout_marginTop="@dimen/middle_margin"
-                        android:layout_marginEnd="@dimen/very_big_margin"
-                        android:layout_marginBottom="@dimen/middle_margin"
-                        android:background="@drawable/shape_secondary_button"
-                        android:drawableStart="@drawable/ic_fingerprint_32"
-                        android:enabled="false"
-                        android:paddingStart="@dimen/middle_padding"
-                        android:paddingEnd="@dimen/middle_padding"
-                        android:text="@string/capture_fingerprint"
-                        android:textColor="@color/mate_white"
-                        android:textSize="@dimen/h3_text"
-                        android:textStyle="bold"
-                        tools:ignore="DuplicateSpeakableTextCheck" />
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -252,7 +233,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/b_make_credit"
+                    android:id="@+id/b__capture"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/middle_height_button"
@@ -261,11 +242,17 @@
                     android:layout_marginEnd="@dimen/small_margin"
                     android:layout_marginBottom="@dimen/middle_small_margin"
                     android:layout_weight="1"
-                    android:background="@drawable/shape_main_button"
-                    android:text="@string/make"
-                    android:textColor="@color/mate_white"
+                    android:background="@drawable/shape_ok_button"
+                    android:drawableStart="@drawable/ic_fingerprint_32"
+                    android:drawableTint="@color/light_blue"
+                    android:enabled="false"
+                    android:paddingStart="@dimen/middle_padding"
+                    android:paddingEnd="@dimen/middle_padding"
+                    android:text="@string/verify"
+                    android:textColor="@color/light_blue"
                     android:textSize="@dimen/h2_text"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
 
             </LinearLayout>
 

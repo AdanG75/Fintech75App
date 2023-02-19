@@ -207,6 +207,7 @@
     <string name="bluetooth_already_on">El bluetooth ya estaba prendido</string>
     <string name="no_devices_paired">Ningun dispositivo emparejado</string>
     <string name="disconnect">Desconectar</string>
+    <string name="verify">Verificar</string>
 
 
 </resources>

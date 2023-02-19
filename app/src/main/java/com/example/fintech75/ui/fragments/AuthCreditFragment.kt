@@ -67,7 +67,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
 
     private lateinit var binding: FragmentAuthCreditBinding
     private lateinit var screenLoading: RelativeLayout
-    private lateinit var createCreditButton: Button
+
     private lateinit var cancelCreditButton: Button
 
     private lateinit var btClass: BtClass
@@ -100,7 +100,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
 
         binding = FragmentAuthCreditBinding.bind(view)
         screenLoading = binding.rlAuthCreditLoading
-        createCreditButton = binding.bMakeCredit
+
         cancelCreditButton = binding.bCancelCredit
 
         setup()
@@ -121,13 +121,13 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             showInvalidCredentialsDialog()
         } else {
             bind()
-            binding.bCapture.visibility = View.GONE
 
-            setStateButtons(true)
             configConnectButton()
             configCaptureButton()
-            configAuthButton()
             configCancelButton()
+
+            setStateButtons(true)
+            setStateCaptureButton(false)
 
             screenLoading.visibility = View.GONE
         }
@@ -167,7 +167,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                 }
             } else {
                 btClass.stopBluetooth()
-                binding.bCapture.visibility = View.GONE
+                setStateCaptureButton(false)
             }
         }
     }
@@ -181,12 +181,13 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
         }
     }
 
-    private fun configAuthButton() {
-        createCreditButton.setOnClickListener {
-            fingerprintSample?.let { fSample ->
-                authCredit(fSample)
-            }
-            fingerprintSample = null
+    private fun setStateCaptureButton(isEnable: Boolean) {
+        binding.bCapture.isEnabled = isEnable
+
+        if (isEnable) {
+            binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_ok_button, context?.theme)
+        } else {
+            binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
         }
     }
 
@@ -212,17 +213,14 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
     }
 
     private fun setStateButtons(isEnable: Boolean) {
-        createCreditButton.isEnabled = isEnable
         cancelCreditButton.isEnabled = isEnable
         binding.bConnect.isEnabled = isEnable
         binding.bCapture.isEnabled = isEnable
 
         if (isEnable) {
-            createCreditButton.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_main_button, context?.theme)
             binding.bConnect.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_secondary_button, context?.theme)
-            binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_secondary_button, context?.theme)
+            binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_ok_button, context?.theme)
         } else {
-            createCreditButton.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
             binding.bConnect.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
             binding.bCapture.background = ResourcesCompat.getDrawable(resources, R.drawable.shape_disable_button, context?.theme)
         }
@@ -499,7 +497,6 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                 when(message.arg1) {
                     1 -> {
                         // Connect with device
-                        binding.bCapture.visibility = View.VISIBLE
                         binding.bConnect.text = getString(R.string.disconnect)
                         screenLoading.visibility = View.GONE
                         setStateButtons(true)
@@ -512,9 +509,9 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                     }
                     2 -> {
                         // Disconnect with device
-                        binding.bCapture.visibility = View.GONE
                         binding.bConnect.text = getString(R.string.connect_sensor)
                         setStateButtons(true)
+                        setStateCaptureButton(false)
                         screenLoading.visibility = View.GONE
                         Toast.makeText(
                             view?.context,
@@ -525,8 +522,8 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                     }
                     -1 -> {
                         // Error when try to connect
-                        binding.bCapture.visibility = View.GONE
                         setStateButtons(true)
+                        setStateCaptureButton(false)
                         screenLoading.visibility = View.GONE
                         Toast.makeText(
                             view?.context,
