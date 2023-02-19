@@ -108,6 +108,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
 
     private fun setup() {
         screenLoading.visibility = View.VISIBLE
+        binding.tvAuthCreditMsg.text = getString(R.string.loading)
 
         currentUserListener()
         userPrivateKeyListener()
@@ -174,6 +175,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
     private fun configCaptureButton() {
         binding.bCapture.setOnClickListener {
             setStateButtons(false)
+            binding.tvAuthCreditMsg.text = getString(R.string.capturing_fingerprint)
             screenLoading.visibility = View.VISIBLE
             captureFingerprint()
         }
@@ -235,6 +237,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                 when(result) {
                     is Resource.Loading -> {
                         Log.d(fragmentName, "Beginning auth credit process")
+                        binding.tvAuthCreditMsg.text = getString(R.string.verifying_fingerprint)
                         screenLoading.visibility = View.VISIBLE
                         setStateButtons(false)
                     }
@@ -322,11 +325,14 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                 when(result) {
                     is Resource.Loading -> {
                         Log.d(fragmentName, "Beginning cancel credit process")
+                        binding.tvAuthCreditMsg.text = getString(R.string.canceling)
                         screenLoading.visibility = View.VISIBLE
+
                         setStateButtons(false)
                     }
                     is Resource.Success -> {
                         Log.d(fragmentName, "Finish cancel credit process")
+                        btClass.stopBluetooth()
 
                         goToResultScreen(false)
                     }
@@ -541,6 +547,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                     -1 -> {
                         // First message when connect
                         Log.d(fragmentName, "Beginning capture...")
+                        binding.tvAuthCreditMsg.text = getString(R.string.capturing_fingerprint)
                         screenLoading.visibility = View.VISIBLE
                     }
                     1 -> {
@@ -567,6 +574,11 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                                     }
 
                                     fingerprintSample = Base64.getEncoder().encodeToString(fingerByte)
+
+                                    fingerprintSample?.let { fSample ->
+                                        authCredit(fSample)
+                                    }
+                                    fingerprintSample = null
                                     // Log.d(fragmentName, "Sample:$fingerprintSample")
                                 }
                             }
@@ -646,8 +658,8 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
         activity?.onBackPressedDispatcher?.addCallback(viewLifecycleOwner, object: OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 Log.d(fragmentName, "Cancel auth of credit")
-                btClass.stopBluetooth()
-                goToCredits()
+                cancelCredit()
+                // goToCredits()
             }
         })
     }
@@ -682,6 +694,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
             ?.savedStateHandle
             ?.getLiveData<Bundle>("btDevice")
             ?.observe(viewLifecycleOwner) { bundle ->
+                binding.tvAuthCreditMsg.text = getString(R.string.setting_bluetooth)
                 screenLoading.visibility = View.VISIBLE
 
                 bluetoothAddress = bundle.getString("btAddressKey")

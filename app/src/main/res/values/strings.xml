@@ -8,6 +8,10 @@
     <string name="logo">Logo</string>
     <string name="calendar">calendario</string>
     <string name="loading">Cargando…</string>
+    <string name="canceling">Cancelando…</string>
+    <string name="setting_bluetooth">Configurando Bluetooth…</string>
+    <string name="capturing_fingerprint">Capturando huella…</string>
+    <string name="verifying_fingerprint">Verificando huella…</string>
     <string name="registration">Registro</string>
     <string name="fingerprint_registration">Registrar Huella</string>
     <string name="user_type">Tipo de usuario</string>
@@ -203,5 +207,6 @@
     <string name="bluetooth_already_on">El bluetooth ya estaba prendido</string>
     <string name="no_devices_paired">Ningun dispositivo emparejado</string>
     <string name="disconnect">Desconectar</string>
+
 
 </resources>

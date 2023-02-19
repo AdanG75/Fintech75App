@@ -71,6 +71,7 @@ class PairedDevicesFragment : Fragment(R.layout.fragment_paired_devices) {
 
     private val mDeviceClickListener =
         AdapterView.OnItemClickListener { _, v, _, _ -> // Cancel discovery because it's costly and we're about to connect
+            binding.tvPairedMsg.text = getString(R.string.setting_bluetooth)
             binding.rlPairedLoading.visibility = View.VISIBLE
             binding.cvPairedDevices.visibility = View.GONE
 
