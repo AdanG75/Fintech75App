@@ -180,6 +180,8 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
                         val movement: MovementComplete = result.data as MovementComplete
 
                         Log.d(fragmentName, "Type sub movement: ${movement.extra.typeSubMovement}")
+
+                        // We need to finish this fragment
                         // goToAuth(movement)
 
                         screenLoading.visibility = View.GONE
