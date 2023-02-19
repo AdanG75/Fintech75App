@@ -188,6 +188,98 @@ interface WebService {
         @Query("secure") secure: Boolean = true
     ): SecureBase
 
+    // Movements
+    @PATCH("/movement/{id_movement}/exec")
+    suspend fun executeMovement(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = false
+    ): MovementComplete
+
+    @PATCH("/movement/{id_movement}/exec")
+    suspend fun secureExecuteMovement(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @DELETE("/movement/{id_movement}")
+    suspend fun cancelMovement(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @DELETE("/movement/{id_movement}")
+    suspend fun secureCancelMovement(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("notify") notify: Boolean = true,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @POST("/movement/{id_movement}/auth/fingerprint")
+    suspend fun saveMovementFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Body fingerprintSample: FingerprintSample,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @POST("/movement/{id_movement}/auth/fingerprint")
+    suspend fun secureSaveMovementFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Body secureFingerprintSample: SecureBase,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @GET("/movement/{id_movement}/auth/match")
+    suspend fun authMovementFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = false
+    ): BasicResponse
+
+    @GET("/movement/{id_movement}/auth/match")
+    suspend fun secureAuthMovementFingerprint(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @PUT("/movement/{id_movement}/auth/paypal")
+    suspend fun generatePayPalOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = false
+    ): PayPalOrder
+
+    @PUT("/movement/{id_movement}/auth/paypal")
+    suspend fun secureGeneratePayPalOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    @GET("/movement/{id_movement}/auth/capture")
+    suspend fun capturePayPalOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = false
+    ): PayPalCaptureOrder
+
+    @GET("/movement/{id_movement}/auth/capture")
+    suspend fun secureCapturePayPalOrder(
+        @Header("Authorization") auth: String,
+        @Path("id_movement") idMovement: Int,
+        @Query("secure") secure: Boolean = true
+    ): SecureBase
+
+    // Credits
     @POST("/credit/order")
     suspend fun createCreditOrder(
         @Header("Authorization") auth: String,

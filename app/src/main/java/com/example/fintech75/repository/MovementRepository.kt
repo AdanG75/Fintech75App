@@ -1,8 +1,6 @@
 package com.example.fintech75.repository
 
-import com.example.fintech75.data.model.MovementComplete
-import com.example.fintech75.data.model.MovementExtraRequest
-import com.example.fintech75.data.model.MovementTypeRequest
+import com.example.fintech75.data.model.*
 import java.security.PrivateKey
 
 interface MovementRepository {
@@ -17,6 +15,41 @@ interface MovementRepository {
         accessToken: String,
         movementRequest: MovementExtraRequest,
         typeMovement: String,
+        userPrivateKey: PrivateKey
+    ): MovementComplete
+
+    suspend fun executeMovement(
+        accessToken: String,
+        idMovement: Int,
+        notify: Boolean,
+        userPrivateKey: PrivateKey
+    ): MovementComplete
+
+    suspend fun cancelMovement(
+        accessToken: String,
+        idMovement: Int,
+        notify: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse
+
+    suspend fun generatePayPalOrder(
+        accessToken: String,
+        idMovement: Int,
+        userPrivateKey: PrivateKey
+    ): PayPalOrder
+
+    suspend fun finishPayPalMovement(
+        accessToken: String,
+        idMovement: Int,
+        notify: Boolean,
+        userPrivateKey: PrivateKey
+    ): MovementComplete
+
+    suspend fun performAuthFingerprintMovement(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        notify: Boolean,
         userPrivateKey: PrivateKey
     ): MovementComplete
 }

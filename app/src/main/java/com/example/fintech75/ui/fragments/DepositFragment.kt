@@ -244,6 +244,16 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
 
                                 showUnauthorizedCreditDialog()
                             }
+                            460 -> {
+                                Log.d(fragmentName, "Conflict to process the movement")
+                                screenLoading.visibility = View.GONE
+
+                                cleanEditTexts()
+                                resetDepositValues()
+                                depositDataChange()
+
+                                showMovementConflictDialog()
+                            }
                             else -> {
                                 Log.d(fragmentName, "Bad credentials")
                                 showInvalidCredentialsDialog()
@@ -573,6 +583,17 @@ class DepositFragment : Fragment(R.layout.fragment_deposit) {
     private fun showNoCreditFoundDialog() = showNotificationDialog(
         title = "Error",
         message = "Crédito no encontrado",
+        bOkAction = "iKnow",
+        bOkText = getString(R.string.i_know),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = false
+    )
+
+    private fun showMovementConflictDialog() = showNotificationDialog(
+        title = "Conflicto al procesar movimiento",
+        message = "Revise que los datos sean correctos",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,

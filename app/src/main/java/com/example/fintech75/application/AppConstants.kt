@@ -29,4 +29,9 @@ object AppConstants {
     const val CASH_METHOD = "cash"
     const val CREDIT_METHOD = "credit"
     const val PAYPAL_METHOD = "paypal"
+
+    const val AUTH_PAYPAL = "p"
+    const val AUTH_FINGERPRINT = "f"
+    const val AUTH_NONE = "n"
+    const val AUTH_BOTH = "b"
 }

@@ -417,6 +417,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                                 screenLoading.visibility = View.GONE
                                 setStateButtons(true)
 
+                                btClass.stopBluetooth()
                                 showInvalidCredentialsDialog()
                             }
                         }

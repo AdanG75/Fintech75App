@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Button
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,23 +34,26 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
     private val fragmentName = this::class.java.toString()
     private val args: MovementSummaryFragmentArgs by navArgs()
     private val userViewModel: UserViewModel by activityViewModels {
-        UserViewModelFactory( StartRepositoryImpl(
-            RemoteDataSource(RetrofitClient.webService)
-        ))
+        UserViewModelFactory(
+            StartRepositoryImpl(
+                RemoteDataSource(RetrofitClient.webService)
+            )
+        )
     }
     private val movementViewModel: MovementViewModel by viewModels {
-        MovementViewModelFactory( MovementRepositoryImpl(
-            RemoteDataSource(RetrofitClient.webService)
-        ))
+        MovementViewModelFactory(
+            MovementRepositoryImpl(
+                RemoteDataSource(RetrofitClient.webService)
+            )
+        )
     }
 
     private lateinit var binding: FragmentMovementSummaryBinding
     private lateinit var screenLoading: RelativeLayout
-    private lateinit var makeButton: Button
-    private lateinit var cancelButton: Button
 
     private lateinit var currentUser: UserCredential
     private var userPrivateKey: PrivateKey? = null
+    private var currentMovement: Int = 0
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -62,8 +65,6 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
 
         binding = FragmentMovementSummaryBinding.bind(view)
         screenLoading = binding.rlSummaryLoading
-        makeButton = binding.bMakeMovement
-        cancelButton = binding.bCancelMovement
 
         setup()
     }
@@ -128,7 +129,8 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
             binding.tvDestinationCreditMovementText.visibility = View.GONE
             binding.tvDestinationCreditMovement.visibility = View.GONE
         } else {
-            binding.tvDestinationCreditMovement.text = movementSummary.extra.destinationCredit.toString()
+            binding.tvDestinationCreditMovement.text =
+                movementSummary.extra.destinationCredit.toString()
         }
 
         if (movementSummary.extra.idMarket == null) {
@@ -147,7 +149,7 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
     }
 
     private fun getTypeMovement(typeMovement: String): String {
-        return when(typeMovement.lowercase()) {
+        return when (typeMovement.lowercase()) {
             "payment" -> "Pago"
             "deposit" -> "Depósito"
             "transfer" -> "Transferencia"
@@ -157,11 +159,20 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
     }
 
     private fun getMethodMovement(method: String): String {
-        return when(method.lowercase()) {
+        return when (method.lowercase()) {
             "paypal" -> "PayPal"
             "cash" -> "Efectivo"
             else -> "Crédito"
         }
+    }
+
+    private fun getAmountFloatFromMovementComplete(amountString: String): Float {
+        val cleanAmountString = amountString
+            .replace("$", "")
+            .replace(",", "")
+            .replace("""\s""".toRegex(), "")
+
+        return cleanAmountString.toFloat()
     }
 
     private fun beginMovement() {
@@ -169,7 +180,7 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
             movementViewModel.beginMovement(
                 currentUser.token, args.movementSummary, privateKey
             ).observe(viewLifecycleOwner) { result: Resource<*> ->
-                when(result) {
+                when (result) {
                     is Resource.Loading -> {
                         Log.d(fragmentName, "Creating movement...")
                         screenLoading.visibility = View.VISIBLE
@@ -179,10 +190,9 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
                         Log.d(fragmentName, "Movement has been created")
                         val movement: MovementComplete = result.data as MovementComplete
 
-                        Log.d(fragmentName, "Type sub movement: ${movement.extra.typeSubMovement}")
-
-                        // We need to finish this fragment
-                        // goToAuth(movement)
+                        Log.d(fragmentName, "ID movement: ${movement.idMovement} Type sub movement: ${movement.extra.typeSubMovement}")
+                        currentMovement = movement.idMovement
+                        goToAuth(movement)
 
                         screenLoading.visibility = View.GONE
                         binding.llButtons.visibility = View.VISIBLE
@@ -195,15 +205,145 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
                         showTryAgainBeginMovementDialog()
                     }
                     is Resource.Failure -> {
-                        if ((result.exception as HttpException).code() == 409) {
-                            Log.d(fragmentName, "Not enough funds")
-                            screenLoading.visibility = View.GONE
-                            binding.llButtons.visibility = View.VISIBLE
+                        Log.d(fragmentName, "Fail to begin movement")
+                        val exception = (result.exception as HttpException)
+                        when (exception.code()) {
+                            401 -> {
+                                Log.d(fragmentName, "Bad credentials")
+                                showInvalidCredentialsDialog()
+                            }
+                            403, 404, 409, 450, 451, 460 -> {
+                                Log.d(fragmentName, "Error message: ${exception.message()}")
+                                goToScreenResult(false)
+                            }
+                            else -> {
+                                Log.d(fragmentName, "An error occurs when generating movement")
+                                screenLoading.visibility = View.GONE
+                                binding.llButtons.visibility = View.VISIBLE
 
-                            showNotEnoughFundsDialog()
-                        } else {
-                            Log.d(fragmentName, "Bad credentials")
-                            showInvalidCredentialsDialog()
+                                showTryAgainBeginMovementDialog()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun goToAuth(movement: MovementComplete) {
+        val authType = when (movement.typeMovement.lowercase()) {
+            AppConstants.DEPOSIT_MOVEMENT -> {
+                if (movement.extra.typeSubMovement.lowercase() == "paypal") {
+                    AppConstants.AUTH_PAYPAL
+                } else {
+                    AppConstants.AUTH_NONE
+                }
+            }
+            AppConstants.PAY_MOVEMENT -> {
+                if (movement.extra.typeSubMovement.lowercase() == "paypal") {
+                    AppConstants.AUTH_PAYPAL
+                } else {
+                    AppConstants.AUTH_FINGERPRINT
+                }
+            }
+            AppConstants.TRANSFER_MOVEMENT -> {
+                if (movement.extra.typeSubMovement == "localG") {
+                    AppConstants.AUTH_BOTH
+                } else {
+                    AppConstants.AUTH_FINGERPRINT
+                }
+            }
+            AppConstants.WITHDRAW_MOVEMENT -> {
+                AppConstants.AUTH_FINGERPRINT
+            }
+            else -> {
+                AppConstants.AUTH_FINGERPRINT
+            }
+        }
+        when(authType) {
+            AppConstants.AUTH_FINGERPRINT, AppConstants.AUTH_BOTH -> {
+                goToAuthFingerprint(
+                    idMovement = movement.idMovement,
+                    typeMovement = getTypeMovement(movement.typeMovement),
+                    amountMovement = getAmountFloatFromMovementComplete(movement.amount),
+                    methodMovement = getMethodMovement(movement.extra.typeSubMovement),
+                    authType = authType
+                )
+            }
+            AppConstants.AUTH_PAYPAL -> {
+                goToAuthPayPal(
+                    idMovement = movement.idMovement,
+                    typeMovement = getTypeMovement(movement.typeMovement),
+                    amountMovement = getAmountFloatFromMovementComplete(movement.amount),
+                    methodMovement = getMethodMovement(movement.extra.typeSubMovement),
+                    authType = authType
+                )
+            }
+            AppConstants.AUTH_NONE -> {
+                executeMovement()
+                goToScreenResult(true)
+            }
+            else -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Tipo de autorización no valido",
+                    Toast.LENGTH_SHORT
+                ).show()
+                goToCredits()
+            }
+
+        }
+    }
+
+    private fun executeMovement() {
+        userPrivateKey?.let { privateKey ->
+            movementViewModel.executeMovement(
+                currentUser.token, currentMovement, privateKey
+            ).observe(viewLifecycleOwner) { result: Resource<*> ->
+                when(result) {
+                    is Resource.Loading -> {
+                        Log.d(fragmentName, "Executing movement...")
+                        screenLoading.visibility = View.VISIBLE
+                        binding.tvSummaryMsg.text = getString(R.string.executing_movement)
+                        binding.llButtons.visibility = View.GONE
+                    }
+                    is Resource.Success -> {
+                        Log.d(fragmentName, "Movement has been executed")
+                        val movement: MovementComplete = result.data as MovementComplete
+
+                        Log.d(fragmentName, "ID movement: ${movement.idMovement} Type sub movement: ${movement.extra.typeSubMovement}")
+
+                        goToScreenResult(true)
+
+                        screenLoading.visibility = View.GONE
+                        binding.llButtons.visibility = View.VISIBLE
+                    }
+                    is Resource.TryAgain -> {
+                        Log.d(fragmentName, "An error occurs when executing movement")
+                        screenLoading.visibility = View.GONE
+                        binding.llButtons.visibility = View.VISIBLE
+
+                        showTryAgainExecuteMovementDialog()
+                    }
+                    is Resource.Failure -> {
+                        Log.d(fragmentName, "Fail to execute movement")
+                        val exception = (result.exception as HttpException)
+                        when (exception.code()) {
+                            401 -> {
+                                Log.d(fragmentName, "Bad credentials")
+                                showInvalidCredentialsDialog()
+                            }
+                            403, 404, 409, 450, 451, 460 -> {
+                                Log.d(fragmentName, "Error message: ${exception.message()}")
+                                goToScreenResult(false)
+                            }
+                            else -> {
+                                Log.d(fragmentName, "An error occurs when executing movement")
+                                screenLoading.visibility = View.GONE
+                                binding.llButtons.visibility = View.VISIBLE
+
+                                showTryAgainExecuteMovementDialog()
+                            }
                         }
                     }
                 }
@@ -219,6 +359,53 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
     private fun goToCredits() {
         Log.d(fragmentName, "Go to Credits...")
         findNavController().popBackStack(R.id.creditsFragment, false)
+    }
+
+    private fun goToAuthFingerprint(
+        idMovement: Int,
+        typeMovement: String,
+        amountMovement: Float,
+        methodMovement: String,
+        authType: String
+    ) {
+        Log.d(fragmentName, "Go to Auth Fingerprint...")
+        val action =
+            MovementSummaryFragmentDirections.actionMovementSummaryFragmentToAuthFingerprintFragment(
+                idMovement = idMovement,
+                typeMovement = typeMovement,
+                amountMovement = amountMovement,
+                methodMovement = methodMovement,
+                authType = authType
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun goToAuthPayPal(
+        idMovement: Int,
+        typeMovement: String,
+        amountMovement: Float,
+        methodMovement: String,
+        authType: String
+    ) {
+        Log.d(fragmentName, "Go to Auth PayPal...")
+        val action =
+            MovementSummaryFragmentDirections.actionMovementSummaryFragmentToAuthPayPalFragment(
+                idMovement = idMovement,
+                typeMovement = typeMovement,
+                amountMovement = amountMovement,
+                methodMovement = methodMovement,
+                authType = authType
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun goToScreenResult(isSuccessful: Boolean) {
+        Log.d(fragmentName, "Go to Result...")
+        val action =
+            MovementSummaryFragmentDirections.actionMovementSummaryFragmentToMovementFinishedFragment(
+                isSuccessful = isSuccessful
+            )
+        findNavController().navigate(action)
     }
 
     private fun logout() {
@@ -254,6 +441,7 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
                 when(action) {
                     "finishSession" -> goToLogin()
                     "begin" -> beginMovement()
+                    "execute" -> executeMovement()
                     "logout" -> logout()
                     "return" -> goToCredits()
                     AppConstants.ACTION_CLOSE_APP -> activity?.finish()
@@ -311,15 +499,15 @@ class MovementSummaryFragment : Fragment(R.layout.fragment_movement_summary) {
         bCancelAvailable = true
     )
 
-    private fun showNotEnoughFundsDialog() = showNotificationDialog(
-        title = "Error al iniciar movimiento",
-        message = "Fondos insuficientes.",
-        bOkAction = "iKnow",
-        bOkText = getString(R.string.i_know),
+    private fun showTryAgainExecuteMovementDialog() = showNotificationDialog(
+        title = "Error al ejecutar movimiento",
+        message = "Un error inesperado ocurrió. Favor de intertarlo de nuevo.",
+        bOkAction = "execute",
+        bOkText = getString(R.string.try_again),
         bOkAvailable = true,
         bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
         bCancelText = getString(R.string.close_session),
-        bCancelAvailable = false
+        bCancelAvailable = true
     )
 
     private fun showNotificationDialog(

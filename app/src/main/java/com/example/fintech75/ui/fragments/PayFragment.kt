@@ -443,6 +443,16 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
 
                                 showUnauthorizedCreditDialog()
                             }
+                            460 -> {
+                                Log.d(fragmentName, "Conflict to process the movement")
+                                screenLoading.visibility = View.GONE
+
+                                cleanEditTexts()
+                                resetPayValues()
+                                payDataChange()
+
+                                showMovementConflictDialog()
+                            }
                             else -> {
                                 Log.d(fragmentName, "Bad credentials")
                                 showInvalidCredentialsDialog()
@@ -597,6 +607,17 @@ class PayFragment : Fragment(R.layout.fragment_pay), AdapterView.OnItemSelectedL
     private fun showUnauthorizedCreditDialog() = showNotificationDialog(
         title = "Error",
         message = "Usted no tiene permiso para usar este crédito",
+        bOkAction = "iKnow",
+        bOkText = getString(R.string.i_know),
+        bOkAvailable = true,
+        bCancelAction = AppConstants.ACTION_CLOSE_SESSION,
+        bCancelText = getString(R.string.close_session),
+        bCancelAvailable = false
+    )
+
+    private fun showMovementConflictDialog() = showNotificationDialog(
+        title = "Conflicto al procesar movimiento",
+        message = "Revise que los datos sean correctos",
         bOkAction = "iKnow",
         bOkText = getString(R.string.i_know),
         bOkAvailable = true,

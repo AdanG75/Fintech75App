@@ -236,4 +236,104 @@ class RemoteDataSource(private val webService: WebService) {
 
         return response
     }
+
+    suspend fun executeMovement(
+        accessToken: String,
+        idMovement: Int,
+        notify: Boolean,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): MovementComplete {
+        val response = if (secure) {
+            val secureResponse = webService.secureExecuteMovement(accessToken, idMovement, notify, secure)
+            CipherSecure.unpackAndDecryptData<MovementComplete>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.executeMovement(accessToken, idMovement, notify, secure)
+        }
+
+        return response
+    }
+
+    suspend fun cancelMovement(
+        accessToken: String,
+        idMovement: Int,
+        notify: Boolean,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureResponse = webService.secureCancelMovement(accessToken, idMovement, notify, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.cancelMovement(accessToken, idMovement, notify, secure)
+        }
+
+        return response
+    }
+
+    suspend fun saveMovementFingerprint(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureData = CipherSecure.packAndEncryptData(fingerprintSample, false, null)
+            val secureResponse = webService.secureSaveMovementFingerprint(accessToken, idMovement, secureData, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.saveMovementFingerprint(accessToken, idMovement, fingerprintSample, secure)
+        }
+
+        return response
+    }
+
+    suspend fun authMovementFingerprint(
+        accessToken: String,
+        idMovement: Int,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        val response = if (secure) {
+            val secureResponse = webService.secureAuthMovementFingerprint(accessToken, idMovement, secure)
+            CipherSecure.unpackAndDecryptData<BasicResponse>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.authMovementFingerprint(accessToken, idMovement, secure)
+        }
+
+        return response
+    }
+
+    suspend fun generatePayPalOrder(
+        accessToken: String,
+        idMovement: Int,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): PayPalOrder {
+        val response = if (secure) {
+            val secureResponse = webService.secureGeneratePayPalOrder(accessToken, idMovement, secure)
+            CipherSecure.unpackAndDecryptData<PayPalOrder>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.generatePayPalOrder(accessToken, idMovement, secure)
+        }
+
+        return response
+    }
+
+    suspend fun capturePayPalOrder(
+        accessToken: String,
+        idMovement: Int,
+        secure: Boolean,
+        userPrivateKey: PrivateKey
+    ): PayPalCaptureOrder {
+        val response = if (secure) {
+            val secureResponse = webService.secureCapturePayPalOrder(accessToken, idMovement, secure)
+            CipherSecure.unpackAndDecryptData<PayPalCaptureOrder>(secureResponse, userPrivateKey, null)
+        } else {
+            webService.capturePayPalOrder(accessToken, idMovement, secure)
+        }
+
+        return response
+    }
 }

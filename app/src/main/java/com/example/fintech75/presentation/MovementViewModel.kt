@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.example.fintech75.application.AppConstants
+import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.Resource
 import com.example.fintech75.data.model.DetailMessage
 import com.example.fintech75.data.model.MovementComplete
@@ -104,13 +105,20 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.PAY_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            val errorCode = e.code()
-            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
-                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
-                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
-            } else {
-                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
-                emit(Resource.TryAgain<Unit>())
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
             }
         } catch (e: Exception) {
             Log.d("GENERAL ERROR MESSAGE", e.message.toString())
@@ -148,13 +156,20 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.DEPOSIT_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            val errorCode = e.code()
-            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
-                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
-                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
-            } else {
-                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
-                emit(Resource.TryAgain<Unit>())
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
             }
         } catch (e: Exception) {
             Log.d("GENERAL ERROR MESSAGE", e.message.toString())
@@ -190,14 +205,20 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.TRANSFER_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            val errorCode = e.code()
-            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
-                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
-                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
-            } else {
-                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
-                Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
-                emit(Resource.TryAgain<Unit>())
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
             }
         } catch (e: Exception) {
             Log.d("GENERAL ERROR MESSAGE", e.message.toString())
@@ -232,14 +253,20 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.generateMovementSummary(token, movementRequest, AppConstants.WITHDRAW_MOVEMENT, privateKey)
             ))
         } catch (e: HttpException) {
-            val errorCode = e.code()
-            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
-                Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
-                emit(Resource.Failure(checkErrorFromDetailMessage(e)))
-            } else {
-                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
-                Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
-                emit(Resource.TryAgain<Unit>())
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
             }
         } catch (e: Exception) {
             Log.d("GENERAL ERROR MESSAGE", e.message.toString())
@@ -258,13 +285,51 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 repo.beginMovement(token, movementRequest, movementRequest.typeMovement, userPrivateKey)
             ))
         } catch (e: HttpException) {
-            val errorCode = e.code()
-            if (errorCode == 401 || errorCode == 403 || errorCode == 409 || errorCode == 400 || errorCode == 404) {
-                Log.d("HTTP ERROR MESSAGE (Mo Generic)", e.response().toString())
-                emit(Resource.Failure(e))
-            } else {
-                Log.d("HTTP ERROR  MESSAGE", e.response().toString())
-                emit(Resource.TryAgain<Unit>())
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
+    fun executeMovement(
+        accessToken: String, idMovement: Int, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<MovementComplete>(repo.executeMovement(
+                accessToken, idMovement, GlobalSettings.notify, userPrivateKey
+            )))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
             }
         } catch (e: Exception) {
             Log.d("GENERAL ERROR MESSAGE", e.message.toString())
@@ -278,53 +343,139 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
 
         return try {
             val errorParser = adapter.fromJson(body)
-            when(errorParser.detail) {
-                "Couldn't validate credentials" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "Han caducado las credenciales"
-                    )
-                    HttpException(Response.error<ResponseBody>(401, bodyResponse))
+
+            when(e.code()) {
+                400 -> {
+                    when(errorParser.detail) {
+                        "Unsupportable user type. It is not compatible with the operation" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "No puedes usar este cŕedito"
+                            )
+                            HttpException(Response.error<ResponseBody>(450, bodyResponse))
+                        }
+                        else -> {
+                            e
+                        }
+                    }
                 }
-                "Session has been finished" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "La sesión ha finalizado"
-                    )
-                    HttpException(Response.error<ResponseBody>(401, bodyResponse))
+                401 -> {
+                    when(errorParser.detail) {
+                        "Couldn't validate credentials" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Han caducado las credenciales"
+                            )
+                            HttpException(Response.error<ResponseBody>(401, bodyResponse))
+                        }
+                        "Session has been finished" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "La sesión ha finalizado"
+                            )
+                            HttpException(Response.error<ResponseBody>(401, bodyResponse))
+                        }
+                        "You do not have authorization to enter to this entry point" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "No puedes usar este cŕedito"
+                            )
+                            HttpException(Response.error<ResponseBody>(450, bodyResponse))
+                        }
+                        else -> {
+                            e
+                        }
+                    }
                 }
-                "Insufficient funds" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "Fondos insuficientes"
-                    )
-                    HttpException(Response.error<ResponseBody>(409, bodyResponse))
+                403 -> {
+                    when(errorParser.detail) {
+                        "Operation expired. Please generate a new one" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Objeto no encontrado"
+                            )
+                            HttpException(Response.error<ResponseBody>(403, bodyResponse))
+                        }
+                        else -> {
+                            e
+                        }
+                    }
                 }
-                "You do not have authorization to enter to this entry point" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "No puedes usar este cŕedito"
-                    )
-                    HttpException(Response.error<ResponseBody>(450, bodyResponse))
+                404 -> {
+                    when(errorParser.detail) {
+                        "Element not found" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Objeto no encontrado"
+                            )
+                            HttpException(Response.error<ResponseBody>(404, bodyResponse))
+                        }
+                        else -> {
+                            e
+                        }
+                    }
                 }
-                "Unsupportable user type. It is not compatible with the operation" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "No puedes usar este cŕedito"
-                    )
-                    HttpException(Response.error<ResponseBody>(450, bodyResponse))
+                409 -> {
+                    when(errorParser.detail) {
+                        "Insufficient funds" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Fondos insuficientes"
+                            )
+                            HttpException(Response.error<ResponseBody>(409, bodyResponse))
+                        }
+                        else -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Error al procesar el movimiento"
+                            )
+                            HttpException(Response.error<ResponseBody>(460, bodyResponse))
+                        }
+                    }
                 }
-                "Element not found" -> {
-                    val bodyResponse = ResponseBody.create(
-                        MediaType.parse("plain/text"),
-                        "Objeto no encontrado"
-                    )
-                    HttpException(Response.error<ResponseBody>(404, bodyResponse))
+                418 -> {
+                    when(errorParser.detail) {
+                        "Client already has a credit within the market" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "El cliente ya tiene un crédito con el establecimiento"
+                            )
+                            HttpException(Response.error<ResponseBody>(451, bodyResponse))
+                        }
+                        "Fingerprint could not be created", "Reconstruction fingerprint failed" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "No se pudo reconstruir la huella"
+                            )
+                            HttpException(Response.error<ResponseBody>(480, bodyResponse))
+                        }
+                        "All fingerprint samples are of low quality. Please capture new samples" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Ninguna huella fue aceptada para el registro"
+                            )
+                            HttpException(Response.error<ResponseBody>(481, bodyResponse))
+                        }
+                        "Poor quality fingerprint", "Few minutiae have been finding" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Mala calidad de la huella"
+                            )
+                            HttpException(Response.error<ResponseBody>(482, bodyResponse))
+                        }
+                        "Fingerprints do not match" -> {
+                            val bodyResponse = ResponseBody.create(
+                                MediaType.parse("plain/text"),
+                                "Huella no emparejada"
+                            )
+                            HttpException(Response.error<ResponseBody>(483, bodyResponse))
+                        }
+
+                        else -> e
+                    }
                 }
 
-                else -> {
-                    e
-                }
+                else -> e
             }
         } catch (exception: Exception) {
             e

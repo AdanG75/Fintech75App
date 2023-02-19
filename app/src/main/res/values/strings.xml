@@ -208,6 +208,7 @@
     <string name="no_devices_paired">Ningun dispositivo emparejado</string>
     <string name="disconnect">Desconectar</string>
     <string name="verify">Verificar</string>
+    <string name="executing_movement">Ejecutando movimiento…</string>
 
 
 </resources>
