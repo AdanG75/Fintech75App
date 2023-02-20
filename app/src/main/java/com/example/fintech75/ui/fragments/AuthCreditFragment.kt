@@ -239,7 +239,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                     screenLoading.visibility = View.GONE
 
                     Toast.makeText(
-                        view?.context,
+                        requireContext(),
                         "Captura cancelada. Trate de nuevo",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -526,7 +526,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         screenLoading.visibility = View.GONE
                         setStateButtons(true)
                         Toast.makeText(
-                            view?.context,
+                            requireContext(),
                             "$bluetoothName are connected",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -539,7 +539,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         setStateCaptureButton(false)
                         screenLoading.visibility = View.GONE
                         Toast.makeText(
-                            view?.context,
+                            requireContext(),
                             "$bluetoothName are disconnected",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -551,7 +551,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         setStateCaptureButton(false)
                         screenLoading.visibility = View.GONE
                         Toast.makeText(
-                            view?.context,
+                            requireContext(),
                             "Connection failed",
                             Toast.LENGTH_SHORT
                         ).show()
@@ -622,7 +622,7 @@ class AuthCreditFragment : Fragment(R.layout.fragment_auth_credit) {
                         // Connection lost
                         Log.println(Log.INFO, "CONNECTION_LOST", "Device connection was lost")
                         Toast.makeText(
-                            view?.context,
+                            requireContext(),
                             "Connection lost",
                             Toast.LENGTH_SHORT
                         ).show()

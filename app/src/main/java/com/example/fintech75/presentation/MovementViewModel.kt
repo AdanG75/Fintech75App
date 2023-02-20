@@ -10,10 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fintech75.application.AppConstants
 import com.example.fintech75.core.GlobalSettings
 import com.example.fintech75.core.Resource
-import com.example.fintech75.data.model.DetailMessage
-import com.example.fintech75.data.model.MovementComplete
-import com.example.fintech75.data.model.MovementExtraRequest
-import com.example.fintech75.data.model.MovementTypeRequest
+import com.example.fintech75.data.model.*
 import com.example.fintech75.repository.MovementRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
@@ -337,6 +334,71 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         }
     }
 
+    fun cancelMovement(
+        accessToken: String, idMovement: Int, userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<BasicResponse>(repo.cancelMovement(
+                accessToken, idMovement, GlobalSettings.notify, userPrivateKey
+            )))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
+    fun performAuthMovement(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        privateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<MovementComplete>(repo.performAuthFingerprintMovement(
+                accessToken, idMovement, fingerprintSample, GlobalSettings.notify, privateKey
+            )))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
     private fun checkErrorFromDetailMessage(e: HttpException): HttpException {
         val body = e.response()?.errorBody()?.string() ?: "None"
         val adapter = Gson().getAdapter(DetailMessage::class.java)
@@ -392,7 +454,7 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                         "Operation expired. Please generate a new one" -> {
                             val bodyResponse = ResponseBody.create(
                                 MediaType.parse("plain/text"),
-                                "Objeto no encontrado"
+                                "La operación ha finalizado"
                             )
                             HttpException(Response.error<ResponseBody>(403, bodyResponse))
                         }

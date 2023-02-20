@@ -45,7 +45,23 @@ class CreditViewModel(private val repo: CreditRepository): ViewModel() {
             } else {
                 emit(Resource.TryAgain<Unit>())
             }
+        } catch (e: HttpException) {
+            when (e.code()) {
+                401, 400, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 409, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
         } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
             emit(Resource.TryAgain<Unit>())
         }
     }
