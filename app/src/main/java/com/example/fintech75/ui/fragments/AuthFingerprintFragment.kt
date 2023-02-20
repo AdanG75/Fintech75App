@@ -254,6 +254,118 @@ class AuthFingerprintFragment : Fragment(R.layout.fragment_auth_fingerprint) {
         }
     }
 
+    private fun authFingerprint(fingerprintB64: String) {
+        userPrivateKey?.let { privateKey ->
+            val fsObject = FingerprintSample(fingerprintB64)
+            movementViewModel.authFingerprintMovement(
+                currentUser.token, args.idMovement, fsObject, privateKey
+            ).observe(viewLifecycleOwner) { result: Resource<*> ->
+                when(result) {
+                    is Resource.Loading -> {
+                        Log.d(fragmentName, "Beginning auth movement process")
+                        binding.tvAuthFingerprintMsg.text = getString(R.string.verifying_fingerprint)
+                        screenLoading.visibility = View.VISIBLE
+
+                        binding.bConnect.isEnabled = false
+                        setStateMovementButtons(false, false)
+                    }
+                    is Resource.Success -> {
+                        Log.d(fragmentName, "Finish auth movement process")
+                        routeMovement()
+                    }
+                    is Resource.TryAgain -> {
+                        Log.d(fragmentName, "Try auth movement again")
+                        binding.bConnect.isEnabled = true
+                        val capturedButtonAvailable = btClass.mState != BtClass.STATE_NONE
+                        setStateMovementButtons(true, capturedButtonAvailable)
+                        screenLoading.visibility = View.GONE
+
+                        showTryAgainAuthMovementDialog()
+                    }
+                    is Resource.Failure -> {
+                        Log.d(fragmentName, "Fail movement credit")
+                        when((result.exception as HttpException).code()) {
+                            401 -> {
+                                Log.d(fragmentName, "Bad credentials")
+                                btClass.stopBluetooth()
+                                showInvalidCredentialsDialog()
+                            }
+                            403 -> {
+                                Log.d(fragmentName, "Expired movement")
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            404 -> {
+                                Log.d(fragmentName, "Client not found")
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            409 -> {
+                                Log.d(fragmentName, "No enough founds")
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            450 -> {
+                                Log.d(fragmentName, "Unauthorized to use this credit")
+                                screenLoading.visibility = View.GONE
+
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            460 -> {
+                                Log.d(fragmentName, "Movement conflict")
+                                screenLoading.visibility = View.GONE
+
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            451 -> {
+                                Log.d(fragmentName, "Client have already credit with the market")
+                                screenLoading.visibility = View.GONE
+
+                                btClass.stopBluetooth()
+                                goToResultScreen(false)
+                            }
+                            480, 482 -> {
+                                val actualCode = result.exception.code()
+                                Log.d(fragmentName, "Could not reconstruction fingerprint: $actualCode")
+                                screenLoading.visibility = View.GONE
+
+                                binding.bConnect.isEnabled = true
+                                val capturedButtonAvailable = btClass.mState != BtClass.STATE_NONE
+                                setStateMovementButtons(true, capturedButtonAvailable)
+
+                                showBadFingerprintDialog()
+                            }
+                            483 -> {
+                                Log.d(fragmentName, "Could not match fingerprints")
+                                screenLoading.visibility = View.GONE
+
+                                binding.bConnect.isEnabled = true
+                                val capturedButtonAvailable = btClass.mState != BtClass.STATE_NONE
+                                setStateMovementButtons(true, capturedButtonAvailable)
+
+                                showNoMatchFingerprintDialog()
+                            }
+
+                            else -> {
+                                Log.d(fragmentName, "Generic error")
+                                screenLoading.visibility = View.GONE
+
+                                binding.bConnect.isEnabled = true
+                                val capturedButtonAvailable = btClass.mState != BtClass.STATE_NONE
+                                setStateMovementButtons(true, capturedButtonAvailable)
+                                btClass.stopBluetooth()
+
+                                showTryAgainAuthMovementDialog()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun authMovement(fingerprintB64: String) {
         userPrivateKey?.let { privateKey ->
             val fsObject = FingerprintSample(fingerprintB64)
@@ -668,7 +780,12 @@ class AuthFingerprintFragment : Fragment(R.layout.fragment_auth_fingerprint) {
 
                                         fingerprintSample?.let { fSample ->
                                             Log.d(fragmentName, "Longitud de la muestra: ${fSample.length}")
-                                            authMovement(fSample)
+
+                                            if (args.authType == AppConstants.AUTH_FINGERPRINT) {
+                                                authMovement(fSample)
+                                            } else {
+                                                authFingerprint(fSample)
+                                            }
                                         }
                                         // Log.d(fragmentName, "Sample:$fingerprintSample")
                                     }

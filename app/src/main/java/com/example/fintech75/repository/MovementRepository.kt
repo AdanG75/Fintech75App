@@ -52,4 +52,11 @@ interface MovementRepository {
         notify: Boolean,
         userPrivateKey: PrivateKey
     ): MovementComplete
+
+    suspend fun authFingerprintMovement(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        userPrivateKey: PrivateKey
+    ): BasicResponse
 }

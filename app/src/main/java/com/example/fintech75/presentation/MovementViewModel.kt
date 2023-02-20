@@ -366,6 +366,40 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
         }
     }
 
+    fun authFingerprintMovement(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<BasicResponse>(
+                repo.authFingerprintMovement(accessToken, idMovement, fingerprintSample, userPrivateKey)
+            ))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
     fun performAuthMovement(
         accessToken: String,
         idMovement: Int,
@@ -378,6 +412,72 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
             emit(Resource.Success<MovementComplete>(repo.performAuthFingerprintMovement(
                 accessToken, idMovement, fingerprintSample, GlobalSettings.notify, privateKey
             )))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
+    fun generatePayPalOrder(
+        accessToken: String,
+        idMovement: Int,
+        privateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<PayPalOrder>(repo.generatePayPalOrder(
+                accessToken, idMovement, privateKey
+            )))
+        } catch (e: HttpException) {
+            when (e.code()) {
+                400, 401, 409, 418 -> {
+                    Log.d("HTTP ERROR MESSAGE (No Generic)", e.response().toString())
+                    emit(Resource.Failure(checkErrorFromDetailMessage(e)))
+                }
+                403, 404 -> {
+                    Log.d("HTTP ERROR MESSAGE (Specific codes)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.Failure(e))
+                }
+                else -> {
+                    Log.d("HTTP ERROR  MESSAGE", e.response().toString())
+                    Log.d("HTTP ERROR  MESSAGE (body)", e.response()?.errorBody()?.string() ?: "None")
+                    emit(Resource.TryAgain<Unit>())
+                }
+            }
+        } catch (e: Exception) {
+            Log.d("GENERAL ERROR MESSAGE", e.message.toString())
+            emit(Resource.TryAgain<Unit>())
+        }
+    }
+
+    fun finishPayPalMovement(
+        accessToken: String,
+        idMovement: Int,
+        userPrivateKey: PrivateKey
+    ) = liveData<Resource<*>>(viewModelScope.coroutineContext + Dispatchers.Main) {
+        emit(Resource.Loading<Unit>())
+
+        try {
+            emit(Resource.Success<MovementComplete>(
+                repo.finishPayPalMovement(accessToken, idMovement, GlobalSettings.notify, userPrivateKey)
+            ))
         } catch (e: HttpException) {
             when (e.code()) {
                 400, 401, 409, 418 -> {
@@ -421,6 +521,7 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                     }
                 }
                 401 -> {
+                    Log.d("UNAUTHORIZED ERROR:", errorParser.detail)
                     when(errorParser.detail) {
                         "Couldn't validate credentials" -> {
                             val bodyResponse = "Han caducado las credenciales"

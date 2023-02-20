@@ -209,6 +209,8 @@
     <string name="disconnect">Desconectar</string>
     <string name="verify">Verificar</string>
     <string name="executing_movement">Ejecutando movimiento…</string>
+    <string name="connecting_paypal">Conectando con PayPal…</string>
+    <string name="finishing_movement">Finalizando movimiento…</string>
 
 
 </resources>

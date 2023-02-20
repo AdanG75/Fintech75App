@@ -279,6 +279,69 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
         }
     }
 
+    override suspend fun authFingerprintMovement(
+        accessToken: String,
+        idMovement: Int,
+        fingerprintSample: FingerprintSample,
+        userPrivateKey: PrivateKey
+    ): BasicResponse {
+        lateinit var processException: HttpException
+        var occursError = false
+
+        val response: BasicResponse = withContext(Dispatchers.IO) {
+            val thereIsInternetConnection: Boolean = withContext(Dispatchers.Default){
+                InternetCheck.isNetworkAvailable()
+            }
+
+            if (thereIsInternetConnection) {
+                // Save movement fingerprint
+                withContext(Dispatchers.Default) {
+                    try {
+                        remoteDataSource.saveMovementFingerprint(
+                            accessToken, idMovement, fingerprintSample, GlobalSettings.secure, userPrivateKey
+                        )
+                    } catch (e: HttpException) {
+                        processException = e
+                        occursError = true
+                        throw e
+                    }
+                }
+
+                // Authorize movement if fingerprint sample has been accepted
+                val authResponse = withContext(Dispatchers.Default) {
+                    if (occursError) {
+                        BasicResponse(
+                            operation = "Auth fingerprint",
+                            successful = false
+                        )
+                    } else {
+                        try {
+                            remoteDataSource.authMovementFingerprint(
+                                accessToken, idMovement, GlobalSettings.secure, userPrivateKey
+                            )
+                        } catch (e: HttpException) {
+                            processException = e
+                            occursError = true
+                            throw e
+                        }
+                    }
+                }
+                authResponse
+
+            } else {
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
+                throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
+            }
+        }
+
+        if (occursError) {
+            throw processException
+        } else {
+            return response
+        }
+    }
+
     private fun generateEmptyMovementComplete(): MovementComplete = MovementComplete(
         idCredit = AppConstants.DEFAULT_ID_CREDIT,
         idPerformer = AppConstants.DEFAULT_ID_USER,
