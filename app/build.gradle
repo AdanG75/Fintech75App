@@ -71,6 +71,9 @@ dependencies {
     //RecyclerView
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 
+    // PayPal
+    implementation 'com.paypal.checkout:android-sdk:0.8.6'
+
     // Allows use more recent features of Android in previous versions of Android
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.2.2"
 
