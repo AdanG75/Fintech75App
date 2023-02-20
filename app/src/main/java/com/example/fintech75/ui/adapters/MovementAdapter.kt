@@ -1,5 +1,6 @@
 package com.example.fintech75.ui.adapters
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -44,6 +45,11 @@ class MovementAdapter(
             "$movNature ($subType)".also {
                 binding.tvItemMovementExtra.text = it
             }
+
+            binding.tvItemMovementState.text = getTextState(movement.successful)
+            binding.tvItemMovementState.setTextColor(
+                Color.parseColor(getColorState(movement.successful))
+            )
         }
 
         private fun getTypeMovement(typeMovement: String): String {
@@ -53,6 +59,22 @@ class MovementAdapter(
                 "transfer" -> "Transferencia"
                 "withdraw" -> "Retiro"
                 else -> "Transacción"
+            }
+        }
+        
+        private fun getTextState(isSuccessful: Boolean?): String {
+            return when(isSuccessful) {
+                null -> "En proceso"
+                true -> "Finalizado"
+                false -> "Cancelado"
+            }
+        }
+
+        private fun getColorState(isSuccessful: Boolean?): String {
+            return when(isSuccessful) {
+                null -> "#FF707070"   // gray
+                true -> "#FF48C250"   // green
+                false -> "#FFCE3645"  // red
             }
         }
     }
