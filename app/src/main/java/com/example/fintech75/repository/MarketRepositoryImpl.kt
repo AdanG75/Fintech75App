@@ -7,8 +7,9 @@ import com.example.fintech75.data.model.MarketsList
 import com.example.fintech75.data.remote.RemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.security.PrivateKey
@@ -27,7 +28,8 @@ class MarketRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mark
             if(thereIsInternetConnection){
                 remoteDataSource.fetchAllMarkets(accessToken, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -49,7 +51,8 @@ class MarketRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mark
             if(thereIsInternetConnection){
                 remoteDataSource.fetchMarketDetail(accessToken, idMarket, idUser, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }

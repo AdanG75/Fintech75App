@@ -7,8 +7,9 @@ import com.example.fintech75.data.remote.RemoteDataSource
 import com.example.fintech75.secure.RSASecure
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.security.PrivateKey
@@ -24,7 +25,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if (thereIsInternetConnection) {
                 remoteDataSource.getPublicKeyServer()
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -54,7 +56,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
                     remoteDataSource.login(username, password, false)
                 }
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -71,7 +74,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.logout(accessToken)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -96,7 +100,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
 
                 remoteDataSource.sendUserPublicKey(accessToken, userId, GlobalSettings.secure, publicPEM, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -125,7 +130,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.haveUserRegisteredFingerprint(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -146,7 +152,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.fetchCreditsUser(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -167,7 +174,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.fetchClientProfile(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -188,7 +196,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.fetchMarketProfile(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -209,7 +218,8 @@ class StartRepositoryImpl (private val remoteDataSource: RemoteDataSource): Star
             if(thereIsInternetConnection){
                 remoteDataSource.fetchUserPayments(accessToken, userId, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }

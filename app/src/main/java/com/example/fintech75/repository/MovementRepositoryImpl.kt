@@ -7,8 +7,9 @@ import com.example.fintech75.data.model.*
 import com.example.fintech75.data.remote.RemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.security.PrivateKey
@@ -36,7 +37,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 )
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -65,7 +67,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 )
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -88,7 +91,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 remoteDataSource.executeMovement(accessToken, idMovement, notify, GlobalSettings.secure, userPrivateKey)
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -111,7 +115,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 remoteDataSource.cancelMovement(accessToken, idMovement, notify, GlobalSettings.secure, userPrivateKey)
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -133,7 +138,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 remoteDataSource.generatePayPalOrder(accessToken, idMovement, GlobalSettings.secure, userPrivateKey)
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -184,7 +190,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 createdMovement
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -259,7 +266,8 @@ class MovementRepositoryImpl(private val remoteDataSource: RemoteDataSource): Mo
                 createdMovement
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }

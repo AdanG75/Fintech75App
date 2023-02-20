@@ -14,8 +14,9 @@ import com.example.fintech75.data.model.*
 import com.example.fintech75.repository.MovementRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.security.PrivateKey
@@ -410,10 +411,8 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 400 -> {
                     when(errorParser.detail) {
                         "Unsupportable user type. It is not compatible with the operation" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "No puedes usar este cŕedito"
-                            )
+                            val bodyResponse = "No puedes usar este cŕedito"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(450, bodyResponse))
                         }
                         else -> {
@@ -424,24 +423,18 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 401 -> {
                     when(errorParser.detail) {
                         "Couldn't validate credentials" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Han caducado las credenciales"
-                            )
+                            val bodyResponse = "Han caducado las credenciales"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(401, bodyResponse))
                         }
                         "Session has been finished" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "La sesión ha finalizado"
-                            )
+                            val bodyResponse = "La sesión ha finalizado"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(401, bodyResponse))
                         }
                         "You do not have authorization to enter to this entry point" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "No puedes usar este cŕedito"
-                            )
+                            val bodyResponse = "No puedes usar este cŕedito"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(450, bodyResponse))
                         }
                         else -> {
@@ -452,10 +445,8 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 403 -> {
                     when(errorParser.detail) {
                         "Operation expired. Please generate a new one" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "La operación ha finalizado"
-                            )
+                            val bodyResponse = "La operación ha finalizado"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(403, bodyResponse))
                         }
                         else -> {
@@ -466,10 +457,8 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 404 -> {
                     when(errorParser.detail) {
                         "Element not found" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Objeto no encontrado"
-                            )
+                            val bodyResponse = "Objeto no encontrado"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(404, bodyResponse))
                         }
                         else -> {
@@ -480,17 +469,13 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 409 -> {
                     when(errorParser.detail) {
                         "Insufficient funds" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Fondos insuficientes"
-                            )
+                            val bodyResponse = "Fondos insuficientes"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(409, bodyResponse))
                         }
                         else -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Error al procesar el movimiento"
-                            )
+                            val bodyResponse = "Error al procesar el movimiento"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(460, bodyResponse))
                         }
                     }
@@ -498,38 +483,28 @@ class MovementViewModel(private val repo: MovementRepository): ViewModel() {
                 418 -> {
                     when(errorParser.detail) {
                         "Client already has a credit within the market" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "El cliente ya tiene un crédito con el establecimiento"
-                            )
+                            val bodyResponse = "El cliente ya tiene un crédito con el establecimiento"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(451, bodyResponse))
                         }
                         "Fingerprint could not be created", "Reconstruction fingerprint failed" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "No se pudo reconstruir la huella"
-                            )
+                            val bodyResponse = "No se pudo reconstruir la huella"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(480, bodyResponse))
                         }
                         "All fingerprint samples are of low quality. Please capture new samples" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Ninguna huella fue aceptada para el registro"
-                            )
+                            val bodyResponse = "Ninguna huella fue aceptada para el registro"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(481, bodyResponse))
                         }
                         "Poor quality fingerprint", "Few minutiae have been finding" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Mala calidad de la huella"
-                            )
+                            val bodyResponse = "Mala calidad de la huella"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(482, bodyResponse))
                         }
                         "Fingerprints do not match" -> {
-                            val bodyResponse = ResponseBody.create(
-                                MediaType.parse("plain/text"),
-                                "Huella no emparejada"
-                            )
+                            val bodyResponse = "Huella no emparejada"
+                                .toResponseBody("plain/text".toMediaTypeOrNull())
                             HttpException(Response.error<ResponseBody>(483, bodyResponse))
                         }
 

@@ -6,8 +6,9 @@ import com.example.fintech75.data.model.*
 import com.example.fintech75.data.remote.RemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import java.security.PrivateKey
@@ -26,7 +27,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.fetchCreditDetail(accessToken, idCredit, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -47,7 +49,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.createCreditOrder(accessToken, creditRequest, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -69,7 +72,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.saveCreditFingerprint(accessToken, idOrder, fingerprintSample, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -90,7 +94,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.authCreditOrder(accessToken, idOrder, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -112,7 +117,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.createCredit(accessToken, idOrder, notify, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -133,7 +139,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
             if(thereIsInternetConnection){
                 remoteDataSource.deleteCreditOrder(accessToken, idOrder, GlobalSettings.secure, userPrivateKey)
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
@@ -202,7 +209,8 @@ class CreditRepositoryImpl(private val remoteDataSource: RemoteDataSource): Cred
                 createdCreditResponse
 
             } else {
-                val bodyResponse = ResponseBody.create(MediaType.parse("plain/text"), "No Internet connection available")
+                val bodyResponse =
+                    "No Internet connection available".toResponseBody("plain/text".toMediaTypeOrNull())
                 throw HttpException(Response.error<ResponseBody>(400, bodyResponse))
             }
         }
